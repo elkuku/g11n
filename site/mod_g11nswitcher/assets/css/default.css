@@ -1,0 +1,35 @@
+/**
+ * @version SVN: $Id$
+ * @package    g11n
+ * @subpackage CSS
+ * @author     Nikolai Plath (elkuku) {@link http://www.nik-it.de NiK-IT.de}
+ * @author     Created on 29-Nov-2010
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+@CHARSET "UTF-8";
+
+div.g11nSwitcher ul {
+	margin-left: 0;
+	padding-left: 0;
+	display: inline;
+}
+
+div.g11nSwitcher ul li {
+	margin-left: 0;
+	margin-bottom: 0;
+	padding: 2px 5px 5px;
+	list-style: none;
+	display: inline;
+	list-style: none;
+}
+
+div.g11nSwitcher a {
+	text-decoration: none;
+}
+
+div.g11nSwitcher a.selected {
+	/*background-color: #0a5e69;
+	color: white*/;
+	padding: 0.2em;
+}

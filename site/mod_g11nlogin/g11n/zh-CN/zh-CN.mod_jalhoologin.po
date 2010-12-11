@@ -1,0 +1,23 @@
+#
+
+msgid "Login"
+msgstr "登录"
+
+msgid "Log in"
+msgstr "登录"
+
+msgid "Log out"
+msgstr "登出"
+
+msgid "哈洛%s的"
+msgstr "Hallo %s"
+
+msgid "User Name"
+msgstr "用户名"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Create an account"
+msgstr "创建一个帐户"
+

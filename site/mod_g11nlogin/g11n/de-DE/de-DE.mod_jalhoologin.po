@@ -1,0 +1,57 @@
+# @version SVN $Id$
+#: modules/mod_g11nlogin/./tmpl/default.php:16
+msgid "Login"
+msgstr "Anmeldung"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:27
+#: modules/mod_g11nlogin/./tmpl/default.php:29
+#, php-format
+msgid "Hello %s"
+msgstr "Hallo %s"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:34
+msgid "Log out"
+msgstr "Abmelden"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:50
+msgid "User Name"
+msgstr "Benutzername"
+
+
+
+#: modules/mod_g11nlogin/./tmpl/default.php:54
+msgid "Password"
+msgstr "Passwort"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:59
+msgid "Remember Me"
+msgstr ""
+
+#: modules/mod_g11nlogin/./tmpl/default.php:63
+msgid "Log in"
+msgstr "Anmelden"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:72
+msgid "Forgot your password ?"
+msgstr "Passwort vergessen ?"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:76
+msgid "Forgot your username ?"
+msgstr "Benutzername vergessen ?"
+
+#: modules/mod_g11nlogin/./tmpl/default.php:83
+msgid "Create an account"
+msgstr "Erstellen Sie ein Konto"
+
+msgid "COM_USERS_REGISTRATION_DEFAULT_LABEL"
+msgstr "Benutzerregistrierung"
+
+msgid "Password:"
+msgstr "Passwort:"
+
+msgid "Username:"
+msgstr "Benutzername:"
+
+msgid "Register"
+msgstr "Anmelden"
+

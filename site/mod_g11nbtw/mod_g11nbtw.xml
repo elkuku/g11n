@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>mod_g11nbtw</name>
+	<author>Nikolai Plath</author>
+	<creationDate>Dec 2010</creationDate>
+	<copyright>Copyright (C) 2010 Nikolai Plath. All rights reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
+	<authorEmail>info@nik-it.de</authorEmail>
+	<authorUrl>http://nik-it.de</authorUrl>
+	<version>1.6.0</version>
+	<description>Shows the meaning of g11n</description>
+	<files>
+		<filename module="mod_g11nbtw">mod_g11nbtw.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_g11nbtw.xml</filename>
+	</files>
+	<config />
+</extension>

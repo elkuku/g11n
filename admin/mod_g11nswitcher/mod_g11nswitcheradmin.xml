@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5" client="administrator">
+  <name>G11nSwitcherAdmin</name>
+  <creationDate>07-Dec-2010</creationDate>
+  <author>Nikolai Plath</author>
+  <authorEmail>info@nik-it.de</authorEmail>
+  <authorUrl>http://nik-it.de</authorUrl>
+  <copyright>Copyright (C) Nikolai Plath. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <version>1.0</version>
+  <description>Switches languages in the administrator area</description>
+  <files folder="admin">
+    <filename>CHANGELOG.php</filename>
+    <filename module="mod_g11nswitcheradmin">mod_g11nswitcheradmin.php</filename>
+  </files>
+</install>

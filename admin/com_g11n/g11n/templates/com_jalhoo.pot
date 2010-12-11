@@ -1,0 +1,195 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-05 01:05-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: administrator/components/com_g11n/controller.php:43
+msgid "Invalid file"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:46
+msgid "Can not delete the file"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:48
+msgid "The file has been deleted"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:102
+msgid "Can not create the language template folder"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:108
+msgid "No files found"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:129
+msgid "Your template has been created"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:191
+msgid "The language file has been created<br />"
+msgstr ""
+
+#: administrator/components/com_g11n/controller.php:197
+msgid "Updating language file..."
+msgstr ""
+
+#: administrator/components/com_g11n/controllers/g11n.php:63
+msgid "Record saved"
+msgstr ""
+
+#: administrator/components/com_g11n/helpers/g11n.php:26
+msgid "Projects"
+msgstr ""
+
+#: administrator/components/com_g11n/helpers/g11n.php:31
+msgid "Cache"
+msgstr ""
+
+#: administrator/components/com_g11n/helpers/g11n.php:36
+msgid "g11n"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/tmpl/default.php:16
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:16
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:16
+msgid "Please create a new project"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/tmpl/default.php:25
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:26
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:26
+msgid "ID"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/tmpl/default.php:32
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:29
+#: administrator/components/com_g11n/views/g11n/tmpl/form.php:25
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:33
+msgid "Extension"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/tmpl/default.php:35
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:32
+#: administrator/components/com_g11n/views/g11n/tmpl/form.php:36
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:36
+msgid "Scope"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/tmpl/default.php:72
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:72
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:82
+msgid "Invalid extension"
+msgstr ""
+
+#. parent::display();
+#. return;
+#: administrator/components/com_g11n/views/cache/view.html.php:40
+msgid "Cache Manager"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/view.html.php:41
+#: administrator/components/com_g11n/views/cache/view.html.php:125
+msgid "Clean cache"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/view.html.php:71
+#: administrator/components/com_g11n/views/cache/view.html.php:112
+#: administrator/components/com_g11n/views/cache/view.html.php:116
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:129
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:68
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:103
+msgid "Not cached"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/view.html.php:82
+#: administrator/components/com_g11n/views/cache/view.html.php:106
+#: administrator/components/com_g11n/views/g11n/view.html.php:67
+#: administrator/components/com_g11n/views/g11n/view.html.php:91
+msgid "Update"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/view.html.php:83
+#: administrator/components/com_g11n/views/cache/view.html.php:107
+#: administrator/components/com_g11n/views/g11n/view.html.php:68
+#: administrator/components/com_g11n/views/g11n/view.html.php:92
+msgid "Create"
+msgstr ""
+
+#: administrator/components/com_g11n/views/cache/view.html.php:124
+#, php-format
+msgid "Clean cached file: %s"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/tmpl/default.php:36
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:39
+msgid "Template"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/view.html.php:33
+msgid "g11n Manager"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/tmpl/form.php:19
+msgid "Details"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/view.html.php:37
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:34
+msgid "New"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/view.html.php:37
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:35
+msgid "Edit"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/view.html.php:39
+msgid "Save"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11n/view.html.php:43
+msgid "Cancel"
+msgstr ""
+
+#. -- For existing items the button is renamed `close`
+#: administrator/components/com_g11n/views/g11n/view.html.php:48
+msgid "Close"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:93
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:119
+msgid "Found"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:98
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:137
+msgid "Not found"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11nlist/tmpl/default.php:125
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:110
+msgid "Cached"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:33
+msgid "Projects Manager"
+msgstr ""
+
+#: administrator/components/com_g11n/views/g11nlist/view.html.php:36
+msgid "Delete"
+msgstr ""
