@@ -1,7 +1,7 @@
 <?php
 /**
  * @version SVN: $Id$
- * @package    G11nSwitcherAdmin
+ * @package    G11nSwitcher
  * @subpackage Base
  * @author     Nikolai Plath {@link http://nik-it.de}
  * @author     Created on 07-Dec-2010
@@ -17,13 +17,14 @@ try
     throw new Exception('g11n language library is required :(');
 
  #   g11n::cleanStorage();
-    g11n::loadLanguage('mod_g11nswitcheradmin');
+    g11n::loadLanguage('mod_g11nswitcher');
 
  #   g11n::printEvents();
 }
 catch(Exception $e)
 {
     JError::raiseWarning(0, $e->getMessage());
+    echo $e->getMessage();
 
     return;
 }//try
@@ -38,4 +39,4 @@ catch(Exception $e)
 #$items = Modg11nSwitcherHelper::getItems($userCount);
 
 //-- Include the template for display
-require JModuleHelper::getLayoutPath('mod_g11nswitcheradmin');
+require JModuleHelper::getLayoutPath('mod_g11nswitcher');

@@ -27,7 +27,7 @@ if(strpos($baseLink, 'lang='))
     $baseLink = substr($baseLink, 0, strpos($baseLink, 'lang='));
 }
 
-JHtml::_('stylesheet', 'administrator/modules/mod_g11nswitcheradmin/assets/css/default.css');
+JHtml::_('stylesheet', 'administrator/modules/mod_g11nswitcher/assets/css/default.css');
 ?>
 
 <span class="g11nSwitcher">

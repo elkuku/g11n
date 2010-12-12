@@ -2,11 +2,11 @@
 /**
  * CHANGELOG
  *
- * This is the changelog for G11nSwitcherAdmin.<br>
+ * This is the changelog for g11nSwitcher.<br>
  * <b>Please</b> be patient =;)
  *
  * @version    $Id$
- * @package    G11nSwitcherAdmin
+ * @package    G11nSwitcher
  * @subpackage Documentation
  * @author     Nikolai Plath {@link http://nik-it.de}
  * @author     Created on 07-Dec-2010
@@ -26,7 +26,7 @@ function CHANGELOG()
 _______________________________________________
 _______________________________________________
 
-This is the changelog for G11nSwitcherAdmin
+This is the changelog for G11nSwitcher
 
 Please be patient =;)
 _______________________________________________
