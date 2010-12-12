@@ -1,0 +1,16 @@
+# @version SVN $Id$
+# This file contains the paths to project g11n
+
+basePath=/home/elkuku/eclipse/workspace/eclipse_helios/elkuku_g11n
+
+library/g11n libraries/g11n
+library/g11n/lib_g11n.xml administrator/manifests/libraries/lib_g11n.xml
+
+admin/mod_g11nswitcher administrator/modules/mod_g11nswitcher
+
+site/com_g11n components/com_g11n
+
+site/mod_g11nbreadcrumbs modules/mod_g11nbreadcrumbs
+site/mod_g11nbtw modules/mod_g11nbtw
+site/mod_g11nlogin modules/mod_g11nlogin
+site/mod_g11nswitcher modules/mod_g11nswitcher

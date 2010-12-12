@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5">
+<extension type="module" version="1.5">
   <name>g11nSwitcher</name>
   <creationDate>14-Nov-2010</creationDate>
   <author>Nikolai Plath</author>
@@ -15,4 +15,4 @@
     <filename>helper.php</filename>
     <filename module="mod_g11nswitcher">mod_g11nswitcher.php</filename>
   </files>
-</install>
+</extension>
