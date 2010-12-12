@@ -9,7 +9,7 @@
  * @version    $Id$
  * @package    g11n
  * @subpackage Documentation
- * @author     Nikolai Plath {@link http://easy-joomla.org}
+ * @author     Nikolai Plath {@link http://nik-it.de}
  * @author     Created on 22-Sep-2010
  */
 

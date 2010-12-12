@@ -3,8 +3,7 @@
  * @version SVN: $Id$
  * @package    g11n
  * @subpackage Views
- * @author     EasyJoomla {@link http://www.easy-joomla.org Easy-Joomla.org}
- * @author     Nikolai Plath {@link http://www.easy-joomla.org}
+ * @author     Nikolai Plath {@link http://nik-it.de}
  * @author     Created on 23-Nov-2010
  * @license    GNU/GPL
  */
