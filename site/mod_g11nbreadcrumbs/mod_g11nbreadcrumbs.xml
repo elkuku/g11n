@@ -4,7 +4,7 @@
 	version="1.6.0"
 	client="site"
 	method="upgrade">
-	<name>mod_g11nbreadcrumbs</name>
+	<name>g11nBreadcrumbs</name>
 	<author>Joomla! Project + Nikolai Plath</author>
 	<creationDate>July 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

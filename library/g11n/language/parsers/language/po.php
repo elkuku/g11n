@@ -90,6 +90,9 @@ class g11nParserLanguagePo
         {
             $line = trim($line);
 
+            if(0 === strpos($line, '#~'))
+            continue;
+
             $match = array();
 
             switch($state)

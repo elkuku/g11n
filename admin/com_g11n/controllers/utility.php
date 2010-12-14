@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package    g11n
  * @subpackage Controllers
  */
-class g11nListControllerG11n extends JController
+class g11nListControllerUtility extends JController
 {
     private $g11nView = null;
 
@@ -29,7 +29,7 @@ class g11nListControllerG11n extends JController
 
         $model = $this->getModel('g11nList', 'g11nListModel');
 
-        $this->g11nView = $this->getView('G11n', 'html', 'g11nListView');
+        $this->g11nView = $this->getView('Utility', 'html', 'g11nListView');
         $this->g11nView->setModel($model, true);
     }//function
     public function display($cachable = null, $urlparams = null)
@@ -37,7 +37,7 @@ class g11nListControllerG11n extends JController
         $this->g11nView->display($cachable, $urlparams);
 
         //-- this one is only for the submenu :|
-        JRequest::setVar('view', 'g11n');
+        JRequest::setVar('view', 'utility');
     }//function
 
     public function updateLanguage()
@@ -124,7 +124,7 @@ class g11nListControllerG11n extends JController
         $this->g11nView->display();
 
         //-- this one is only for the submenu :|
-        JRequest::setVar('view', 'g11n');
+        JRequest::setVar('view', 'utility');
         #   parent::display();
     }//function
 
@@ -335,7 +335,7 @@ class g11nListControllerG11n extends JController
         $this->g11nView->display();
 
         //-- this one is only for the submenu :|
-        JRequest::setVar('view', 'g11n');
+        JRequest::setVar('view', 'utility');
 //        parent::display();
     }//function
 }//class

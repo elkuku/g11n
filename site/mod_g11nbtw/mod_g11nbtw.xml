@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>mod_g11nbtw</name>
+	<name>g11nBTW</name>
 	<author>Nikolai Plath</author>
 	<creationDate>Dec 2010</creationDate>
 	<copyright>Copyright (C) 2010 Nikolai Plath. All rights reserved.

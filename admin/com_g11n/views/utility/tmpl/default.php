@@ -50,7 +50,7 @@ endif;
     $k = 0;
     for($i = 0, $n = count($this->items); $i < $n; $i ++):
         $item = $this->items[$i];
-
+#var_dump($item);
         $checkDrawn = false;
 
         foreach(array_keys($this->languages) as $scope)
@@ -89,12 +89,12 @@ endif;
                     if($item->scope != '' && $item->scope != $scope || ! $item->exists) :
                     else :
                         if($item->templateLink) :
-                            if($item->templateExists) :
-                                $class = 'action create';
-                                $s = jgettext('Create');
-                            else :
+                            if($item->templateExists[$scope]) :
                                 $class = 'action update';
                                 $s = jgettext('Update');
+                            else :
+                                $class = 'action create';
+                                $s = jgettext('Create');
                             endif;
 
                             echo '<a class="'.$class.'" href="'.$item->templateLink.'&scope='.$scope.'">';

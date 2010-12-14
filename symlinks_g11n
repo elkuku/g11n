@@ -8,6 +8,7 @@ library/g11n/lib_g11n.xml administrator/manifests/libraries/lib_g11n.xml
 
 admin/mod_g11nswitcher administrator/modules/mod_g11nswitcher
 
+admin/com_g11n administrator/components/com_g11n
 site/com_g11n components/com_g11n
 
 site/mod_g11nbreadcrumbs modules/mod_g11nbreadcrumbs

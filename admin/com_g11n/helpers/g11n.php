@@ -36,9 +36,9 @@ class g11nHelper
         $vName == 'cache'
         );
 
-        JSubMenuHelper::addEntry(jgettext('g11n')
-        , 'index.php?option=com_g11n&task=g11n.display',
-        $vName == 'g11n'
+        JSubMenuHelper::addEntry(jgettext('Utility')
+        , 'index.php?option=com_g11n&task=utility.display',
+        $vName == 'utility'
         );
 
         //        if ($vName=='categories') {

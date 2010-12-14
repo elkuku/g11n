@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5" client="administrator">
-  <name>G11nSwitcher</name>
+  <name>g11nSwitcher</name>
   <creationDate>07-Dec-2010</creationDate>
   <author>Nikolai Plath</author>
   <authorEmail>info@nik-it.de</authorEmail>

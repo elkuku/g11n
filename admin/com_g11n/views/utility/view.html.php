@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package    g11n
  * @subpackage Views
  */
-class g11nListViewG11n extends JView
+class g11nListViewUtility extends JView
 {
     protected $languages = array();
     /**
@@ -46,10 +46,10 @@ class g11nListViewG11n extends JView
             $scope =($items[$i]->scope) ? $items[$i]->scope : 'admin';
 
             $items[$i]->exists = g11nExtensionHelper::isExtension($item->extension, $scope);
-            $items[$i]->editLink = $baseLink.'&task=g11n.edit&cid[]='.$item->id;
+            $items[$i]->editLink = $baseLink.'&task=utility.edit&cid[]='.$item->id;
 
             $items[$i]->templateLink =($items[$i]->exists)
-            ? $baseLink.'&task=g11n.createTemplate&extension='.$item->extension
+            ? $baseLink.'&task=utility.createTemplate&extension='.$item->extension
             : '';
 
             $items[$i]->templateCommands = array();
@@ -58,9 +58,19 @@ class g11nListViewG11n extends JView
 
             foreach($this->scopes as $scope => $path)
             {
+//                try//
+//                {
+//                    $items[$i]->templateStatus[$scope] = g11nStorage::templateExists($item->extension, $scope);
+//                }
+//                catch(Exception $e)
+//                {
+//                    $items[$i]->templateStatus[$scope] = $e->getMessage();
+//                    echo '';
+//                }//try
+
                 try//
                 {
-                    $items[$i]->templateExists = g11nStorage::templateExists($item->extension, $scope);
+                    $items[$i]->templateExists[$scope] = g11nStorage::templateExists($item->extension, $scope);
                 }
                 catch(Exception $e)
                 {
@@ -77,16 +87,16 @@ class g11nListViewG11n extends JView
                     $exists = g11nExtensionHelper::findLanguageFile($lang['tag']
                     , $item->extension, $scope);
 
-                    $link = $baseLink.'&task=g11n.updateLanguage';
+                    $link = $baseLink.'&task=utility.updateLanguage';
                     $link .= '&extension='.$items[$i]->extension.'&scope='.$scope;
                     $link .= '&langTag='.$lang['tag'];
 
                     $items[$i]->lngExists[$scope][$lang['tag']] = $exists;
 
-                  $items[$i]->updateLinks[$scope][$lang['tag']] = $link;
-//                    $items[$i]->updateCommands[$scope][$lang['tag']] =($exists)
-//                    ? jgettext('Update')
-//                    : jgettext('Create');
+                    $items[$i]->updateLinks[$scope][$lang['tag']] = $link;
+                    //                    $items[$i]->updateCommands[$scope][$lang['tag']] =($exists)
+                    //                    ? jgettext('Update')
+                    //                    : jgettext('Create');
                 }//foreach
             }//foreach
         }//foreach

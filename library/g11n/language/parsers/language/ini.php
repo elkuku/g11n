@@ -140,14 +140,14 @@ class g11nParserLanguageIni
     {
         $out = array();
 
-       # $fileInfo = $checker->fileInfo;
+        # $fileInfo = $checker->fileInfo;
         #$head = $checker->getHead();
         $head = $fileInfo->head;
 
         if($head)
         {
             $out[] = $head;
-//            $out[] = '';
+            //            $out[] = '';
         }
         else
         {
@@ -155,15 +155,15 @@ class g11nParserLanguageIni
             $out[] = '';
         }
 
-#        $translations = $checker->getTranslations();
+        #        $translations = $checker->getTranslations();
         $translations = $fileInfo->strings;
 
         #foreach($checker->getStrings() as $key => $string)
         foreach($translations as $key => $string)
         {
-//            if($string->isTranslatedInCore
-//            && $this->includeCoreLanguage)
-//            continue;
+            //            if($string->isTranslatedInCore
+            //            && $this->includeCoreLanguage)
+            //            continue;
 
             if($string->info)
             {
@@ -208,8 +208,14 @@ class g11nParserLanguageIni
                 }
             }
 
-        #    $out[] = htmlspecialchars($key).' = "'.htmlspecialchars($value).'"';
-            $out[] = htmlspecialchars($key).'='.htmlspecialchars($value);
+            if('1.6' == $options->get('langFileVersion'))
+            {
+                $out[] = htmlspecialchars($key).' = "'.htmlspecialchars($value).'"';
+            }
+            else//
+            {
+                $out[] = htmlspecialchars($key).'='.htmlspecialchars($value);
+            }
         }//foreach
 
         return implode("\n", $out);

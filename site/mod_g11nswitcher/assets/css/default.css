@@ -1,3 +1,5 @@
+@CHARSET "UTF-8";
+
 /**
  * @version SVN: $Id$
  * @package    g11n
@@ -6,9 +8,6 @@
  * @author     Created on 29-Nov-2010
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-@CHARSET "UTF-8";
-
 div.g11nSwitcher ul {
 	margin-left: 0;
 	padding-left: 0;
@@ -28,8 +27,7 @@ div.g11nSwitcher a {
 	text-decoration: none;
 }
 
-div.g11nSwitcher a.selected {
-	/*background-color: #0a5e69;
+div.g11nSwitcher a.selected { /*background-color: #0a5e69;
 	color: white*/;
 	padding: 0.2em;
 }
