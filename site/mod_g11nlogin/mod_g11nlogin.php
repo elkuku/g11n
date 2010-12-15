@@ -15,7 +15,7 @@ try
     if( ! jimport('g11n.language'))
     throw new Exception('g11n language library is required :(');
 
- #   g11n::cleanStorage('mod_g11nlogin');
+    #   g11n::cleanStorage('mod_g11nlogin');
     g11n::loadLanguage('mod_g11nlogin');
 }
 catch(Exception $e)
@@ -50,12 +50,23 @@ if( ! $user->guest)
 
 require JModuleHelper::getLayoutPath('mod_g11nlogin', $params->get('layout', 'default'));
 
+if(0)
+{
 
-/* Definitions for JCore com_users */
-jgettext('COM_USERS_REGISTRATION_DEFAULT_LABEL');
-jgettext('Password:');
-# helloxx
+    /* g11n: Definitions for JCore com_users */
+    jgettext('COM_USERS_REGISTRATION_DEFAULT_LABEL');
 
-jgettext('Username:');
-//@todo missing..
-jgettext('Register');
+    jgettext('Password:');
+
+    # helloxx
+    jgettext('Name:');
+
+    //--fooo
+    jgettext('Confirm Password:');
+
+    jgettext('Enter your full name');
+
+    jgettext('Username:');
+    //@todo missing..
+    jgettext('Register');
+}

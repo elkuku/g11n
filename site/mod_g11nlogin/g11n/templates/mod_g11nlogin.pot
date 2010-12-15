@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) YEAR NiK(C)
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-08 03:30-0500\n"
+"Project-Id-Version: mod_g11nlogin - site 123.456\n"
+"Report-Msgid-Bugs-To: info@nik.it.de\n"
+"POT-Creation-Date: 2010-12-14 17:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,32 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Definitions for JCore com_users
-#: modules/mod_g11nlogin/mod_g11nlogin.php:55
+#. g11n: Definitions for JCore com_users
+#: modules/mod_g11nlogin/mod_g11nlogin.php:57
 msgid "COM_USERS_REGISTRATION_DEFAULT_LABEL"
 msgstr ""
 
-#: modules/mod_g11nlogin/mod_g11nlogin.php:56
+#: modules/mod_g11nlogin/mod_g11nlogin.php:59
 msgid "Password:"
 msgstr ""
 
-#. helloxx
-#: modules/mod_g11nlogin/mod_g11nlogin.php:59
+#: modules/mod_g11nlogin/mod_g11nlogin.php:62
+msgid "Name:"
+msgstr ""
+
+#: modules/mod_g11nlogin/mod_g11nlogin.php:65
+msgid "Confirm Password"
+msgstr ""
+
+#: modules/mod_g11nlogin/mod_g11nlogin.php:67
+msgid "Enter your full name"
+msgstr ""
+
+#: modules/mod_g11nlogin/mod_g11nlogin.php:69
 msgid "Username:"
 msgstr ""
 
-#. @todo missing..
-#: modules/mod_g11nlogin/mod_g11nlogin.php:61
+#: modules/mod_g11nlogin/mod_g11nlogin.php:71
 msgid "Register"
 msgstr ""
 
