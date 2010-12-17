@@ -10,15 +10,20 @@
 // no direct access
 defined('_JEXEC') || die('=;)');
 
-try {
+try
+{
     if( ! jimport('g11n.language'))
     throw new Exception('g11n language library is required');
 
     #g11n::cleanStorage('mod_g11nbreadcrumbs');
     g11n::loadLanguage('mod_g11nbreadcrumbs');
-
-} catch (Exception $e) {
 }
+catch(Exception $e)
+{
+    echo $e->getMessage();
+
+    return;
+}//try
 
 // Include the syndicate functions only once
 require_once dirname(__FILE__).DS.'helper.php';

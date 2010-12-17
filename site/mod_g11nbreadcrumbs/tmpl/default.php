@@ -20,9 +20,8 @@ if($params->get('showHere', 1))
 
 for($i = 0; $i < $count; $i ++)
 {
-
     // If not the last item in the breadcrumbs add the separator
-    if($i < $count -1)
+    if($i < $count - 1)
     {
         if( ! empty($list[$i]->link))
         {
@@ -35,14 +34,15 @@ for($i = 0; $i < $count; $i ++)
             echo '</span>';
         }
 
-        if($i < $count -2)
+        if($i < $count - 2)
         {
             echo ' '.$separator.' ';
         }
     }
     else if
     ($params->get('showLast', 1))
-    { // when $i == $count -1 and 'showLast' is true
+    {
+        // when $i == $count -1 and 'showLast' is true
         if($i > 0)
         {
             echo ' '.$separator.' ';

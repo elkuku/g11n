@@ -14,7 +14,7 @@ defined('_JEXEC') || die('=;)');
 jimport('joomla.application.component.controller');
 
 /**
- * g11n default Controller.
+ * The g11n default Controller.
  *
  * @package    g11n
  * @subpackage Controllers

@@ -11,12 +11,13 @@
 //-- No direct access
 defined('_JEXEC') || die('=;)');
 
+jimport('g11n.exception');//@@DEBUG
+jimport('g11n.language.debug');//@@DEBUG
+
 jimport('g11n.language.methods');
 jimport('g11n.language.storage');
 
 jimport('g11n.extensionhelper');
-
-jimport('g11n.language.debug');//@@DEBUG
 
 /**
  * The g11n - "globalization" class.
@@ -129,7 +130,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     {
         if( ! $extension
         && ! $extension = JRequest::getCmd('option'))
-        throw new Exception('Invalid extension');
+        throw new g11nException('Invalid extension');
 
         if(empty($scope))
         $scope = JFactory::getApplication()->isAdmin()
@@ -271,7 +272,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         if( ! $extension
         && !  $extension = JRequest::getCmd('option'))
-        throw new Exception('Invalid extension');
+        throw new g11nException('Invalid extension');
 
         if($JAdmin == '')
         $JAdmin = JFactory::getApplication()->isAdmin()
@@ -336,12 +337,12 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function getParser($type, $name)
     {
         if( ! jimport('g11n.language.parsers.'.$type.'.'.$name))
-        throw new Exception('Can not get the parser '.$type.'.'.$name);//@Do_NOT_Translate
+        throw new g11nException('Can not get the parser '.$type.'.'.$name);//@Do_NOT_Translate
 
         $parserName = 'g11nParser'.ucfirst($type).ucfirst($name);
 
         if( ! class_exists($parserName))
-        throw new Exception('Required class not found: '.$parserName);//@Do_NOT_Translate
+        throw new g11nException('Required class not found: '.$parserName);//@Do_NOT_Translate
 
         return new $parserName;
     }//function
@@ -440,28 +441,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         //-- To be called only once
         if( ! $hasBeenAdded)
         {
-//            if(strpos(dirname(__FILE__), JPATH_ROOT) !== 0)
-//            {
-//                echo dirname(__FILE__).BR. JPATH_ROOT.BR.JURI::root(true);
-//                //-- We are somewhere in "outer space".. symlinked ?
-//                if(strpos(dirname(__FILE__), DS.'libraries'.DS) === false)
-//                {
-//                    throw new Exception('Unknown path');
-//                }
-
-                $path = 'libraries/g11n/language/javascript';
-//            }
-//            else
-//            {
-//                //-- Try to find a relative path
-//
-//                $a = dirname(__FILE__);
-//                $b = JPATH_ROOT;
-//                $path = str_replace(JPATH_ROOT.DS, '', dirname(__FILE__));
-//                $path .= DS.'language'.DS.'javascript';
-//                $path = str_replace(DS, '/', $path);
-//            }
-
+            $path = 'libraries/g11n/language/javascript';
             $document = JFactory::getDocument();
 
             $document->addScript(JURI::root(true).'/'.$path.'/methods.js');
@@ -473,8 +453,6 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
             $hasBeenAdded = true;
         }
 
-        //        #if( ! $strings) return;//phew..
-
         //-- Add the strings to the page <head> section
         $js = array();
         $js[] = '<!--';
@@ -485,6 +463,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         if(self::$pluralFunctionJsStr)
         {
             $js[] = 'g11n.loadPluralStrings('.json_encode($stringsPlural).');';
+
+            if( ! $hasBeenAdded)
             $js[] = 'g11n.setPluralFunction('.self::$pluralFunctionJsStr.')';
         }
 
@@ -551,7 +531,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         //that should be enough..
 
         if( ! self::$lang)
-        throw new Exception('Something wrong with JLanguage :(');
+        throw new g11nException('Something wrong with JLanguage :(');
     }//function
 
     /**
@@ -567,7 +547,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::$docType = JFactory::getDocument()->getType();
 
         if( ! self::$docType)
-        throw new Exception('Unable to detect the document type :(');
+        throw new g11nException('Unable to detect the document type :(');
     }//function
 
     /**

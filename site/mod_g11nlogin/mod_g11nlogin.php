@@ -52,7 +52,6 @@ require JModuleHelper::getLayoutPath('mod_g11nlogin', $params->get('layout', 'de
 
 if(0)
 {
-
     /* g11n: Definitions for JCore com_users */
     jgettext('COM_USERS_REGISTRATION_DEFAULT_LABEL');
 

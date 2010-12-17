@@ -60,7 +60,7 @@ class g11nExtensionHelper
         }
 
         if( ! array_key_exists($prefix, self::$extensionTypes))
-        throw new Exception(sprintf('Undefined extension type: %s', $prefix));
+        throw new g11nException(sprintf('Undefined extension type: %s', $prefix));
 
         if('tpl' == $prefix)
         {
@@ -103,7 +103,7 @@ class g11nExtensionHelper
     {
         if($scope != 'admin'
         && $scope != 'site')
-        throw new Exception('Scope must be "admin" or "site"');
+        throw new g11nException('Scope must be "admin" or "site"');
 
         return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
     }//function
@@ -208,7 +208,7 @@ else//
 
         if(count($parts) < 1
         || count($parts) > 2)
-        throw new Exception('Invalid type - must be xx'.$delimiter.'[xx]: '.$string);
+        throw new g11nException('Invalid type - must be xx'.$delimiter.'[xx]: '.$string);
 
         return $parts;
     }//function

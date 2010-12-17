@@ -12,7 +12,7 @@
 defined('_JEXEC') || die('=;)');
 
 /**
- * g11n storage base class.
+ * The g11n storage base class.
  *
  * @package g11n
  */
@@ -42,13 +42,13 @@ class g11nStorage
     public static function getHandler($inputType, $storageType)
     {
         if( ! jimport('g11n.language.storages.'.$storageType))
-        throw new Exception('Can not get the storage handler '.$storageType);//@Do_NOT_Translate
+        throw new g11nException('Can not get the storage handler '.$storageType);//@Do_NOT_Translate
 
         $parts = g11nExtensionHelper::split($storageType, '_');
         $storageName = 'g11nStorage'.ucfirst($parts[0]).ucfirst($parts[1]);
 
         if( ! class_exists($storageName))
-        throw new Exception('Required class not found: '.$storageName);//@Do_NOT_Translate
+        throw new g11nException('Required class not found: '.$storageName);//@Do_NOT_Translate
 
         return new $storageName($inputType);
     }//function
@@ -80,7 +80,6 @@ class g11nStorage
         }
 
         $parts = g11nExtensionHelper::split($extension, '.');
-
 
         $dirName = $extension;
 
@@ -132,8 +131,8 @@ class g11nStorage
 
         $extensionDir = g11nExtensionHelper::getExtensionPath($extension);
 
-
-        return JPath::clean("$base/$extensionDir/".g11nExtensionHelper::langDirName."/templates/$fileName");
+        return JPath::clean("$base/$extensionDir/"
+        .g11nExtensionHelper::langDirName."/templates/$fileName");
     }//function
 
     /**
@@ -178,7 +177,7 @@ class g11nStorage
 }//class
 
 /**
- * g11n store description class.
+ * The g11n store description class.
  *
  * @package g11n
  */

@@ -34,12 +34,12 @@ class g11nStorageFilePHP extends g11nStorage
         jimport('joomla.filesystem.file');
 
         if( ! jimport('g11n.language.parsers.language.'.$inputType))
-        throw new Exception('Can not get the parser '.$inputType);//@Do_NOT_Translate
+        throw new g11nException('Can not get the parser '.$inputType);//@Do_NOT_Translate
 
         $parserName = 'g11nParserLanguage'.ucfirst($inputType);
 
         if( ! class_exists($parserName))
-        throw new Exception('Required parser class not found: '.$parserName);//@Do_NOT_Translate
+        throw new g11nException('Required parser class not found: '.$parserName);//@Do_NOT_Translate
 
         //@todo not sure of lsb - let's create a new() one
         //        #$this->parserName = $parserName;
@@ -168,7 +168,7 @@ class g11nStorageFilePHP extends g11nStorage
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
         if( ! JFile::write($storePath, $resultString))
-        throw new Exception('Unable to write language storage file to '.$storePath);//@Do_NOT_Translate
+        throw new g11nException('Unable to write language storage file to '.$storePath);//@Do_NOT_Translate
     }//function
 
     /**
@@ -188,10 +188,10 @@ class g11nStorageFilePHP extends g11nStorage
 
         if('joomla' != $prefix)
         {
-            $extensionName = $parts[1];
-
             if( ! array_key_exists($prefix, g11nExtensionHelper::getExtensionTypes()))
-            throw new Exception('Unknown extension type: '.$prefix);//@Do_NOT_Translate
+            throw new g11nException('Unknown extension type: '.$prefix);//@Do_NOT_Translate
+
+            $extensionName = $parts[1];
         }
 
        # $parts = $this->split($extensionName, '.');
@@ -207,7 +207,7 @@ class g11nStorageFilePHP extends g11nStorage
 
             //-- Failed ?
             if( ! file_exists($path))
-            throw new Exception('Unable to retrieve the strings');//@Do_NOT_Translate
+            throw new g11nException('Unable to retrieve the strings');//@Do_NOT_Translate
         }
 
         /*
@@ -264,9 +264,8 @@ class g11nStorageFilePHP extends g11nStorage
 
         if( ! JFile::exists($storePath))
         return;//-- Storage file does not exist
-        //        # throw new Exception('Unknown storage: '.$storePath);//@Do_NOT_Translate
 
         if( ! JFile::delete($storePath))
-        throw new Exception('Unable to clean storage in: '.$storePath);//@Do_NOT_Translate
+        throw new g11nException('Unable to clean storage in: '.$storePath);//@Do_NOT_Translate
     }//function
 }//class

@@ -34,7 +34,7 @@ try
     $args = $builder->getArgs();
 
     if($args->help)//-- Display help only
-    throw new Exception($builder->printInfo());
+    throw new g11nException($builder->printInfo());
 
     $builder->build();
 

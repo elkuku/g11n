@@ -50,10 +50,6 @@ class g11nParserLanguagePot
      */
     public function parse($fileName)
     {
-//        throw new Exception('Parsing of pot files is not nesecary =;)');
-//    public function parse($fileName)
-//    {
-        //    ###public static function parse($fileName)
         $fileInfo = new g11nFileInfo;
 
         $fileName = JPath::clean($fileName);

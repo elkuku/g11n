@@ -18,9 +18,8 @@ try
     #g11n::setDebug(true);
     #g11n::cleanStorage('mod_g11nbtw');
     g11n::loadLanguage('mod_g11nbtw');
-
 }
-catch (Exception $e)
+catch(Exception $e)
 {
     JError::raiseWarning(0, $e->getMessage());
 

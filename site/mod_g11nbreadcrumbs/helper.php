@@ -10,6 +10,9 @@
 // no direct access
 defined('_JEXEC') || die('=;)');
 
+/**
+ * Helper class for mod_breadcrumbs.
+ */
 class modg11nBreadCrumbsHelper
 {
     public static function getList(&$params)
@@ -20,13 +23,14 @@ class modg11nBreadCrumbsHelper
         $items		= $pathway->getPathWay();
 
         $count = count($items);
-        for ($i = 0; $i < $count; $i ++)
+
+        for($i = 0; $i < $count; $i ++)
         {
             $items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
             $items[$i]->link = JRoute::_($items[$i]->link);
-        }
+        }//for
 
-        if ($params->get('showHome', 1))
+        if($params->get('showHome', 1))
         {
             $item = new stdClass();
             $item->name = $params->get('homeText', jgettext('Home'));
@@ -36,7 +40,7 @@ class modg11nBreadCrumbsHelper
         }
 
         return $items;
-    }
+    }//function
 
     /**
      * Set the breadcrumbs separator for the breadcrumbs display.
@@ -52,12 +56,13 @@ class modg11nBreadCrumbsHelper
         // specific one first, and if that is not present we load the default separator
         if($custom == null)
         {
-            if (JFactory::getLanguage()->isRTL()){
-                $_separator = JHTML::_('image','system/arrow_rtl.png', null, null, true);
+            if(JFactory::getLanguage()->isRTL())
+            {
+                $_separator = JHTML::_('image', 'system/arrow_rtl.png', null, null, true);
             }
             else
             {
-                $_separator = JHTML::_('image','system/arrow.png', null, null, true);
+                $_separator = JHTML::_('image', 'system/arrow.png', null, null, true);
             }
         }
         else
