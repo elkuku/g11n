@@ -106,7 +106,7 @@ class g11nParserCodeJS
          ."|".$cmds['js']."\(\s*\'(.*)\'\s*\)|".$cmds['js']."\(\s*\"(.*)\"\s*\)/iU";
     }//function
 
-        /**
+    /**
      * Parse a file.
      *
      * @param string $fileName File to parse
@@ -194,7 +194,7 @@ class g11nParserCodeJS
 
             foreach($matches as $match)
             {
-//                var_dump($matches);
+                //                var_dump($matches);
 
                 foreach($match as $i=> $string)
                 {
@@ -215,11 +215,11 @@ class g11nParserCodeJS
                         continue;
                     }
 
-//                    $this->addPluralString($s1, $string, $fileName, $lineNo + 1);
+                    //                    $this->addPluralString($s1, $string, $fileName, $lineNo + 1);
                     if(array_key_exists($match[1], $fileInfo->stringsPlural))
                     {
                         echo sprintf('###### Key %s aready defined in file %s on line %s'
-                            , $match[1], $fileName, $lineNo);
+                        , $match[1], $fileName, $lineNo);
 
                         continue;
                     }
@@ -227,10 +227,8 @@ class g11nParserCodeJS
                     $fileInfo->stringsPlural[$lineNo + 1][$match[1]] = $match[2];
                 }//foreach
             }//foreach
-    }//foreach
+        }//foreach
 
-    //var_dump($fileInfo);
-    return $fileInfo;
-}//function
-
+        return $fileInfo;
+    }//function
 }//class

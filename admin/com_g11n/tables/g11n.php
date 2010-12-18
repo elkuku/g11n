@@ -12,7 +12,7 @@
 defined('_JEXEC') || die('=;)');
 
 /**
- * g11n Table class.
+ * The g11n Table class.
  *
  * @package    g11n
  * @subpackage Tables

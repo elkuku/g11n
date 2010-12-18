@@ -198,7 +198,6 @@ class g11nParserLanguagePo
      * @return void
      */
     public function generate(g11nFileInfo $fileInfo, JObject $options)
-    #public function generate(LanguageCheckerHelper $checker, JObject $options)
     {
         $content = array();
         #var_dump($fileInfo);
@@ -223,6 +222,7 @@ class g11nParserLanguagePo
         $lang =($x) ?  $fileInfo->langTag : $checker->getLang();
 
         $pluralStrings =($x) ? $fileInfo->stringsPlural : $checker->getStringsPlural();
+
         foreach($pluralStrings as $key => $string)
         {
             $value = '';//$key;//@TODO
@@ -312,6 +312,7 @@ class g11nParserLanguagePo
             {
                 $value = $string->string;//...right..
             }
+
             #$info = '';
             $info = trim($string->info);
             //            if(array_key_exists($key, $translations))
@@ -350,7 +351,7 @@ class g11nParserLanguagePo
             }
 
             if( ! $value
-            && $options->get('markFuzzy')
+           && $options->get('markFuzzy')
             && $lang != 'en-GB')
             {
                 $content[] = '#, fuzzy';
@@ -371,8 +372,8 @@ class g11nParserLanguagePo
             }
 
             $content[] = '';
-    }//foreach
+        }//foreach
 
-    return implode(NL, $content);
-}//function
+        return implode(NL, $content);
+    }//function
 }//class

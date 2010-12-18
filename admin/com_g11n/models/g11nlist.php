@@ -14,7 +14,7 @@ defined('_JEXEC') || die('=;)');
 jimport('joomla.application.component.model');
 
 /**
- * g11nList Model.
+ * The g11nList Model.
  *
  * @package    g11n
  * @subpackage Models

@@ -264,7 +264,9 @@ class g11nFileInfo
     public function get($property)
     {
         if(isset($this->$property))
-        return $this->$property;
+        {
+            return $this->$property;
+        }
 
         JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
     }//function
