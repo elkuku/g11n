@@ -21,7 +21,9 @@ class g11nExtensionHelper
     protected static $extensionTypes = array(
     'com' => 'component'
     , 'mod' => 'module'
-    , 'tpl' => 'template');
+    , 'tpl' => 'template'
+    , 'plg' => 'plugin'
+    , 'lib' => 'library');
 
     const langDirName = 'g11n';
 
@@ -195,7 +197,9 @@ else//
     {
         $parts = explode($delimiter, $string);
 
-        if('mod' == $parts[0])
+        if('mod' == $parts[0]
+        || 'plg' == $parts[0]
+        || 'tpl' == $parts[0])
         {
             $parts = array();
 

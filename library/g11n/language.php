@@ -159,8 +159,6 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         self::addJavaScript($store->get('stringsJs'), $store->get('stringsJsPlural'));
 
-//        self::$flexibility = $handler->fileInfo->mode;//@todo remove
-
         $dbgMsg = '';
 
         if(self::$debug)

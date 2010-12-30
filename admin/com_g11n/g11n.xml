@@ -31,7 +31,7 @@
     <filename>g11n.php</filename>
   </files>
   <administration>
-    <menu img="components/com_g11n/assets/images/locale16.png">g11n</menu>
+    <menu img="components/com_g11n/assets/images/icon-16-locale.png">g11n</menu>
     <files folder="admin">
       <folder>assets</folder>
       <folder>controllers</folder>
