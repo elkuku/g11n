@@ -55,7 +55,7 @@ endif;
     $k = 0;
     for($i = 0, $n = count($this->items); $i < $n; $i ++):
         $item = $this->items[$i];
- #       var_dump($item);
+
         $checked = JHTML::_('grid.id', $i, $item->id);
         $checkDrawn = false;
 

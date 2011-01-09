@@ -98,7 +98,7 @@ class g11nListControllerUtility extends JController
 
                 $update = '--update';
                 $backup = '--backup=numbered';
-                $noFuzzy = '';//--no-fuzzy-matching';
+                $noFuzzy = '--no-fuzzy-matching';
                 $verbose = '--verbose';
                 $noWrap = '--no-wrap';
 

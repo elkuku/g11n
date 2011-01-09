@@ -69,6 +69,15 @@ class g11nExtensionHelper
             //-- Templates reside in a directory *without* the prefix 'tpl'
             $extensionDir = self::$extensionTypes[$prefix].'s/'.$extensionName;
         }
+        else if('plg' == $prefix)
+        {
+            $parts = explode('_', $extensionName);
+
+            if( ! isset($parts[1]))
+            throw new g11nException('Unable to parse plugin name');
+
+            $extensionDir = self::$extensionTypes[$prefix].'s/'.$parts[0].'/'.$parts[1];
+        }
         else//
         {
             $extensionDir = self::$extensionTypes[$prefix].'s/'.$prfx_extension;
