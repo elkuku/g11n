@@ -95,7 +95,7 @@
 		 * 
 		 */
 		debugTranslate : function(string) {
-			//test = selfhtml.MD5(string);
+			test = selfhtml.MD5(string);
 			// console.log(test);
 			// console.log(phpjs.md5(string));
 
