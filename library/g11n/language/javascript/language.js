@@ -27,7 +27,7 @@
 		 * 
 		 */
 		loadLanguageStrings : function(object) {
-			for ( var key in object) {
+			for(var key in object) {
 				this.strings[key] = object[key];
 			}
 		},
@@ -36,7 +36,7 @@
 		 * 
 		 */
 		loadPluralStrings : function(object) {
-			for ( var key in object) {
+			for(var key in object) {
 				this.stringsPlural[key] = object[key];
 			}
 		},
