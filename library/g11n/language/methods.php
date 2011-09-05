@@ -16,7 +16,7 @@ defined('_JEXEC') || die('=;)');
  *
  * Also includes sprintf() functionality if more parameters are supplied.
  *
- * Additional @param $n
+ * Additional @param $n @deprecated use printf, sprintf or vprintf for this purpose !
  * If additional paramaters are supplied, the function behaves like sprintf.
  *
  * @param string $original Text to translate.
@@ -28,6 +28,7 @@ function jgettext($original)
     $translation = g11n::translate($original);
 
     //-- Do we have additional arguments ?
+    //-- @deprecated and marked for removal !
     if(func_num_args() > 1)
     {
         JError::raiseNotice(0, 'jgettext() has been called with more then ONE arguments..');

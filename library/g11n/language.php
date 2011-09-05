@@ -241,14 +241,32 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         $index = (int)call_user_func(self::$pluralFunction, $count);
 
+        $format = '%s';
+
         if(array_key_exists($key, self::$stringsPlural)
         && array_key_exists($index, self::$stringsPlural[$key]))
         {
+            if(self::$debug)
+            {
+                self::recordTranslated($singular.' / '.$plural, '+', 2);
+
+                return sprintf('+-%s-+', self::process(self::$stringsPlural[$key][$index]));
+            }
+
             return self::process(self::$stringsPlural[$key][$index]);
         }
 
         //-- Fallback - english: singular == 1
-        return ($count == 1) ? $singular : $plural;
+        $retVal =($count == 1) ? $singular : $plural;
+
+        if(self::$debug)
+        {
+            self::recordTranslated($singular.' / '.$plural, '-', 2);
+
+            return sprintf('¿-%s-¿', $retVal);
+        }
+
+        return $retVal;
     }//function
 
     /**
@@ -356,17 +374,13 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     {
         $key = md5($original);
 
-        $addOK       = '+-%s-+';
-        $addMissing  = '¿-%s-¿';
-        $addLegacy   = 'L-%s-L';
-
         if(isset(self::$strings[$key])
         && self::$strings[$key])
         {
             //-- Translation found
             self::recordTranslated($original, '+');
 
-            return sprintf($addOK, self::process(self::$strings[$key]));
+            return sprintf('+-%s-+', self::process(self::$strings[$key]));
         }
         else if(self::$flexibility == 'mixed'
         || ( ! self::$flexibility))
@@ -379,7 +393,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
                 //-- Translation found - key is upper cased, value is not..
                 self::recordTranslated($original, 'L');
 
-                return sprintf($addLegacy, self::process(self::$strings[$key]));
+                return sprintf('L-%s-L', self::process(self::$strings[$key]));
             }
         }
 
@@ -387,7 +401,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         self::recordTranslated($original, '-');
 
-        return sprintf($addMissing, str_replace(array("\n", "\\n"), '<br />', $original));
+        return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
     }//function
 
     /**
@@ -556,12 +570,10 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
      *
      * @return void
      */
-    private static function recordTranslated($string, $mode)
+    private static function recordTranslated($string, $mode, $level = 3)
     {
         if(array_key_exists($string, self::$processedItems))
-        {
-            return;//-- Already recorded
-        }
+        return;//-- Already recorded
 
         $info = new stdClass();
         $info->status = $mode;
@@ -574,8 +586,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         {
             $trace = debug_backtrace();
 
-            //-- Element no. 3 must be our jgettext() caller
-            $trace = $trace[3];
+            //-- Element no. 3 must be our jgettext() caller - s/be/not be...
+            $trace = $trace[$level];
 
             $info->file = $trace['file'];
             $info->line = $trace['line'];
