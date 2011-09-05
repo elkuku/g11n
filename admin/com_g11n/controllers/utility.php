@@ -171,7 +171,7 @@ class g11nListControllerUtility extends JController
             $base = g11nExtensionHelper::getScopePath($scope);
             $templatePath = g11nStorage::getTemplatePath($extension, $scope);
 
-            $comments = ' --add-comments=g11n';
+            $comments = ' --add-comments=TRANSLATORS:';
 
             $keywords = ' -k --keyword=jgettext --keyword=jngettext:1,2';
             $forcePo = ' --force-po --no-wrap';
