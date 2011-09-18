@@ -1,0 +1,27 @@
+# Language de-DE translations for mod_g11nsearch - site package.
+# Copyright (C) 2011 NiK(C)
+# This file is distributed under the same license as the mod_g11nsearch - site package.
+# Nikolai Plath <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mod_g11nsearch - site 123.456\n"
+"Report-Msgid-Bugs-To: info@nik.it.de\n"
+"POT-Creation-Date: 2011-09-18 00:27-0500\n"
+"PO-Revision-Date: 2011-09-18 00:27-0500\n"
+"Last-Translator: Nikolai Plath <EMAIL@ADDRESS>\n"
+"Language-Team: Language de-DE\n"
+"Language: de-DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: modules/mod_g11nsearch/mod_g11nsearch.php:21
+#: modules/mod_g11nsearch/mod_g11nsearch.php:37
+#: modules/mod_g11nsearch/mod_g11nsearch.php:38
+msgid "Search..."
+msgstr "Suchen..."
+
+#: modules/mod_g11nsearch/mod_g11nsearch.php:34
+msgid "Search"
+msgstr "Suchen"
