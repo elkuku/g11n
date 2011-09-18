@@ -72,7 +72,7 @@ msgstr "Passwort"
 
 #: modules/mod_g11nlogin/tmpl/default.php:59
 msgid "Remember Me"
-msgstr "Vergiss mich nicht"
+msgstr "Vergissmeinnicht"
 
 #: modules/mod_g11nlogin/tmpl/default.php:63
 msgid "Log in"
