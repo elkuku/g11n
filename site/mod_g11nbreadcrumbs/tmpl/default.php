@@ -12,11 +12,10 @@ defined('_JEXEC') || die('=;)');
 ?>
 
 <div class="breadcrumbs<?php echo $params->get('moduleclass_sfx'); ?>">
+
 <?php
 if($params->get('showHere', 1))
-{
-    echo jgettext('You are here: ');
-}
+echo jgettext('You are here: ');
 
 for($i = 0; $i < $count; $i ++)
 {
@@ -35,22 +34,18 @@ for($i = 0; $i < $count; $i ++)
         }
 
         if($i < $count - 2)
-        {
-            echo ' '.$separator.' ';
-        }
+        echo ' '.$separator.' ';
     }
-    else if
-    ($params->get('showLast', 1))
+    else if($params->get('showLast', 1))
     {
-        // when $i == $count -1 and 'showLast' is true
         if($i > 0)
-        {
-            echo ' '.$separator.' ';
-        }
+        echo ' '.$separator.' ';
 
         echo '<span>';
         echo jgettext($list[$i]->name);
         echo '</span>';
     }
 }//for
-?></div>
+?>
+
+</div>
