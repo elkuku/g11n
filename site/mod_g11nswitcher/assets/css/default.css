@@ -27,7 +27,6 @@ div.g11nSwitcher a {
 	text-decoration: none;
 }
 
-div.g11nSwitcher a.selected { /*background-color: #0a5e69;
-	color: white*/;
-	padding: 0.2em;
+div.g11nSwitcher a.selected {
+	font-weight: bold;
 }
