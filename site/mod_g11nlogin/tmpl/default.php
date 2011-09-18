@@ -41,7 +41,7 @@ JHtml::_('behavior.keepalive');
 </form>
 <?php else : ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>"
-method="post" name="form-login" id="login-form" >
+ method="post" name="form-login" id="login-form" >
 	<div>
 	<div class="pretext">
 	<?php echo $params->get('pretext'); ?>

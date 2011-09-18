@@ -37,14 +37,14 @@ $avatar = '';
 
 if( ! $user->guest)
 {
-    $pAvatar = new TalkPHP_Gravatar();
+    $pAvatar = new TalkPHP_Gravatar;
 
     $pAvatar->setEmail($user->email)
     ->setSize(80)
     ->setRatingAsPG()
     ->setDefaultImageAsIdentIcon();
 
-    $avatar = '<img src="'.$pAvatar.'" />';
+    $avatar = '<img src="'.$pAvatar.'" alt="'.jgettext('Avatar').'" />';
 }
 
 require JModuleHelper::getLayoutPath('mod_g11nlogin', $params->get('layout', 'default'));

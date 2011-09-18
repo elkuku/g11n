@@ -72,7 +72,7 @@ class TalkPHP_Gravatar
 
     private $m_szDefaultImage;
 
-    const GRAVATAR_SITE_URL = 'http://www.gravatar.com/avatar/%s.jpg?s=%s&r=%s&d=%s';
+    const GRAVATAR_SITE_URL = 'http://www.gravatar.com/avatar/%s.jpg?s=%s&amp;r=%s&amp;d=%s';
 
     public function __construct()
     {
