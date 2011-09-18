@@ -23,9 +23,6 @@ msgstr "登录"
 msgid "Log out"
 msgstr "登出"
 
-msgid "哈洛%s的"
-msgstr "Hallo %s"
-
 msgid "User Name"
 msgstr "用户名"
 
@@ -35,3 +32,20 @@ msgstr "密码"
 msgid "Create an account"
 msgstr "创建一个帐户"
 
+#: modules/mod_g11nlogin/tmpl/default.php:59
+msgid "Remember Me"
+msgstr "记住"
+
+#: modules/mod_g11nlogin/tmpl/default.php:72
+msgid "Forgot your password ?"
+msgstr "忘记密码？"
+
+#: modules/mod_g11nlogin/tmpl/default.php:76
+msgid "Forgot your username ?"
+msgstr "忘记用户名？"
+
+#: modules/mod_g11nlogin/tmpl/default.php:27
+#: modules/mod_g11nlogin/tmpl/default.php:29
+#, php-format
+msgid "Hello %s"
+msgstr "您好 %s"
