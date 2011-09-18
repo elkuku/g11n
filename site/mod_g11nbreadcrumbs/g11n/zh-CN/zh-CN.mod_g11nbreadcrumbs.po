@@ -18,7 +18,7 @@ msgstr ""
 
 #: modules/mod_g11nbreadcrumbs/helper.php:32
 msgid "Home"
-msgstr ""
+msgstr "首页"
 
 #: modules/mod_g11nbreadcrumbs/tmpl/default.php:18
 msgid "You are here: "
