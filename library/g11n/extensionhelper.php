@@ -31,7 +31,7 @@ class g11nExtensionHelper
     {
         static $dirs = array();
 
-        if(in_array($extension, $dirs))
+        if(array_key_exists($extension, $dirs))
         return $dirs[$extension];
 
         if('joomla' == $extension)
@@ -43,7 +43,7 @@ class g11nExtensionHelper
 
         $subType = '';
 
-        if(count($parts) == 1)
+        if(count($parts) === 1)
         {
             $parts = self::split($extension, '_');
             $prefix = $parts[0];
@@ -112,9 +112,9 @@ class g11nExtensionHelper
 
     public static function getScopePath($scope)
     {
-        if($scope != 'admin'
-        && $scope != 'site')
-        throw new g11nException('Scope must be "admin" or "site"');
+//         if($scope != 'admin'
+//         && $scope != 'site')
+//         throw new g11nException('Scope must be "admin" or "site"');
 
         return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
     }//function
