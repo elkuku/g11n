@@ -24,7 +24,9 @@ for($i = 0; $i < $count; $i ++)
     {
         if( ! empty($list[$i]->link))
         {
-            echo '<a href="'.$list[$i]->link.'" class="pathway">'.jgettext($list[$i]->name).'</a>';
+            $class =(isset($list[$i]->class) && $list[$i]->class) ? ' '.$list[$i]->class : '';
+
+            echo '<a href="'.$list[$i]->link.'" class="pathway'.$class.'">'.jgettext($list[$i]->name).'</a>';
         }
         else
         {
