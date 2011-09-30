@@ -9,26 +9,28 @@
 
 // no direct access
 defined('_JEXEC') || die('=;)');
+
+defined('NL') || define('NL', "\n");
 ?>
 <form action="<?php echo JRoute::_('index.php');?>" method="post">
 	<div class="search<?php echo $moduleclass_sfx ?>">
 		<?php
-			$output = '<label for="mod-search-searchword">'.$label.'</label>'
+			$output = '<label for="mod-search-searchword">'.$label.'</label>'.NL
 			.'<input name="searchword" id="mod-search-searchword" maxlength="'.$maxlength.'"'
 			.'  class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'"'
-			.' value="'.$text.'"'
+			.' value="'.$text.'"'.NL
 			.'  onblur="if (this.value==\'\') this.value=\''.$text.'\';"'
-			.' onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
+			.' onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />'.NL;
 
 			if ($button) :
 				if ($imagebutton) :
 					$button = '<input type="image" value="'.$button_text.'"'
 					.' class="button'.$moduleclass_sfx.'" src="'.$img.'"'
-					.' onclick="this.form.searchword.focus();"/>';
+					.' onclick="this.form.searchword.focus();"/>'.NL;
 				else :
 					$button = '<input type="submit" value="'.$button_text.'"'
 					.' class="button'.$moduleclass_sfx.'"'
-					.' onclick="this.form.searchword.focus();"/>';
+					.' onclick="this.form.searchword.focus();"/>'.NL;
 				endif;
 			endif;
 

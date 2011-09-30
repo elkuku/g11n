@@ -61,4 +61,4 @@ if($imagebutton)
 
 $mitemid =($set_Itemid > 0) ? $set_Itemid : JRequest::getInt('Itemid');
 
-require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath('mod_g11nsearch', $params->get('layout', 'default'));
