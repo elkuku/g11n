@@ -47,6 +47,11 @@
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 				</field>
+				<field name="usegravatar" type="radio" default="0"
+					label="Use Gravatar avatars" description="Display an avatar from Gravatar.">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"

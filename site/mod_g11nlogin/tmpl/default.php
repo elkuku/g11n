@@ -16,9 +16,11 @@ JHtml::_('behavior.keepalive');
 <h3><?php echo jgettext('Login'); ?></h3>
 <div class="g11nLogin">
 <?php if ($type == 'logout') : ?>
-<div class="avatar">
-    <?php echo $avatar; ?>
-</div>
+    <?php if ($params->get('usegravatar')) : ?>
+    <div class="avatar">
+        <?php echo $avatar; ?>
+    </div>
+    <?php endif; ?>
 <form action="index.php" method="post" name="form-login" id="login-form">
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
