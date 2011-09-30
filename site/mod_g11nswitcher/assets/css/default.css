@@ -17,13 +17,13 @@ div.g11nSwitcher ul {
 div.g11nSwitcher ul li {
 	margin-left: 0;
 	margin-bottom: 0;
-	padding: 2px 5px 5px;
 	list-style: none;
 	display: inline;
 	list-style: none;
 }
 
 div.g11nSwitcher a {
+	padding: 2px 5px 5px;
 	text-decoration: none;
 }
 
