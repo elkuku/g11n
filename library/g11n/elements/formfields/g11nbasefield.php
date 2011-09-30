@@ -59,6 +59,7 @@ class g11nBaseFormField extends JFormField
 
         // Add the label text and closing tag.
         $label .= '>'.$text;
+
         if($this->required)
         $label .= '<span class="star">&#160;*</span>';
 
