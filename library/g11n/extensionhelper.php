@@ -25,7 +25,12 @@ class g11nExtensionHelper
     , 'plg' => 'plugin'
     , 'lib' => 'library');
 
-    const langDirName = 'g11n';
+    protected static $langDirName = 'g11n';
+
+    public static function setDirName($name)
+    {
+        self::$langDirName = $name;
+    }
 
     public static function getExtensionPath($extension)
     {
@@ -92,7 +97,7 @@ class g11nExtensionHelper
     {
         $path = self::getExtensionPath($extension);
 
-        return $path.'/'.self::langDirName;
+        return $path.'/'.self::$langDirName;
     }//function
 
     public static function isExtension($extension, $scope = 'admin')
