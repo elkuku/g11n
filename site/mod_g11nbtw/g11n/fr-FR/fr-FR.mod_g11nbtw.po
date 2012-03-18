@@ -2,7 +2,6 @@
 # Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # root <EMAIL@ADDRESS>, 2010.
-# @version SVN $Id$
 #
 msgid ""
 msgstr ""

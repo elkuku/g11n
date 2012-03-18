@@ -1,6 +1,5 @@
 <?php
 /**
- * @version SVN: $Id$
  * @package    g11n
  * @subpackage Exceptions
  * @author     Nikolai Plath (elkuku) {@link http://www.nik-it.de NiK-IT.de}

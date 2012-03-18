@@ -1,6 +1,5 @@
 <?php
 /**
- * @version SVN: $Id$
  * @package    g11n
  * @subpackage Install
  * @author     Nikolai Plath {@link http://nik-it.de}

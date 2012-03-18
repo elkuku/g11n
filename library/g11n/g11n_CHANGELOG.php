@@ -6,7 +6,6 @@
  * This is the changelog for g11n.<br>
  * <b>Please</b> be patient =;)
  *
- * @version    $Id$
  * @package    g11n
  * @subpackage Documentation
  * @author     Nikolai Plath {@link http://nik-it.de}

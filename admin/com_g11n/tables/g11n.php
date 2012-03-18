@@ -1,6 +1,5 @@
 <?php
 /**
- * @version SVN: $Id$
  * @package    g11n
  * @subpackage Tables
  * @author     Nikolai Plath {@link http://nik-it.de}

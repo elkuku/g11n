@@ -1,4 +1,3 @@
-# @version SVN: $Id$
 # Nikolai Plath <info@nik-it.de>, 2010.
 msgid ""
 msgstr ""
@@ -47,7 +46,6 @@ msgstr "Benutzername"
 msgid "Register"
 msgstr "Anmelden"
 
-# @version SVN $Id$
 #: modules/mod_g11nlogin/tmpl/default.php:16
 msgid "Login"
 msgstr "Anmeldung"

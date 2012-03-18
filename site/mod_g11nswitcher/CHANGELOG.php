@@ -5,7 +5,6 @@
  * This is the changelog for g11nSwitcher.<br>
  * <b>Please</b> be patient =;)
  *
- * @version    $Id$
  * @package    g11nSwitcher
  * @subpackage Documentation
  * @author     Nikolai Plath {@link http://nik-it.de}
