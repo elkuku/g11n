@@ -13,6 +13,7 @@ defined('_JEXEC') || die('=;)');
 
 /**
  * g11n Main installer
+ * @return bool
  */
 function com_install()
 {

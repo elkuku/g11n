@@ -25,7 +25,6 @@ class modg11nLoginHelper
         if($itemid = $params->get($type))
         {
             $db		= JFactory::getDbo();
-            $app	= JFactory::getApplication();
             $query	= $db->getQuery(true);
 
             $query->select($db->nameQuote('link'));

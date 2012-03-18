@@ -196,12 +196,12 @@ else//
      *
      * Expects exactly two parts. Otherwise it will fail.
      *
-     * @param string $string The string to split
+     * @param string $string    The string to split
      * @param string $delimiter The delimiter character
      *
+     * @throws g11nException
      * @return array
      *
-     * @throws Exception
      */
     public static function split($string, $delimiter = '.')
     {

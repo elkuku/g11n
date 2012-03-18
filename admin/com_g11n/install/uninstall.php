@@ -13,6 +13,7 @@ defined('_JEXEC') || die('=;)');
 
 /**
  * The main uninstaller function
+ * @return bool
  */
 function com_uninstall()
 {

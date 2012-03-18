@@ -255,6 +255,7 @@ class g11nCodeScanner
 
     /**
      *
+     * @return string
      */
     public function printInfo()
     {
@@ -365,6 +366,7 @@ class g11nCodeScanner
 
     /**
      *
+     * @return bool
      */
     public function getArgs()
     {
@@ -373,6 +375,7 @@ class g11nCodeScanner
 
     /**
      *
+     * @return string
      */
     public function getInterface()
     {
@@ -382,6 +385,7 @@ class g11nCodeScanner
     /**
      * Get the current Joomla! version
      *
+     * @throws Exception
      * @return object JVersion
      */
     private function getJoomlaVersion()

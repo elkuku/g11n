@@ -23,9 +23,8 @@ span.status.notfound {
 }
 
 .action {
-	background-repeat: no-repeat;
-	padding-left: 18px;
-	background-position: center left;
+    background: no-repeat center left;
+    padding-left: 18px;
 }
 
 .action.create {
