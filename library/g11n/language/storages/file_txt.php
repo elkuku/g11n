@@ -93,8 +93,6 @@ class g11nStorageFileTxt extends g11nStorage
         $profiler->mark('<span style="color: blue;">wrote file</span>: '
         .str_replace(JPATH_ROOT, 'J', $path));//@@debug
 
-        break;
-
         $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
 
         return true;

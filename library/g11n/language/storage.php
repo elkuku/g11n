@@ -1,6 +1,6 @@
 <?php
 /**
- * @version SVN: $Id$
+ * @version    SVN: $Id$
  * @package    g11n
  * @subpackage Storage
  * @author     Nikolai Plath {@link http://nik-it.de}
@@ -28,12 +28,12 @@ class g11nStorage
     protected function __construct()
     {
         self::$cacheDir = 'cache/'.g11nExtensionHelper::langDirName;
-    }//function
+    }
 
     /**
      * Get a storage handler.
      *
-     * @param string $inputType A valid input type
+     * @param string $inputType   A valid input type
      * @param string $storageType A valid storage type
      *
      * @return object Class extending g11nStorage
@@ -41,29 +41,33 @@ class g11nStorage
      */
     public static function getHandler($inputType, $storageType)
     {
-        if( ! jimport('g11n.language.storages.'.$storageType))
-        throw new g11nException('Can not get the storage handler '.$storageType);//@Do_NOT_Translate
+        $fileName = __DIR__.'/storages/'.$storageType.'.php';
+
+        if(! file_exists($fileName))
+            throw new g11nException('Can not get the storage handler '.$storageType.' - '.$fileName);
+
+        require_once $fileName;
 
         $parts = g11nExtensionHelper::split($storageType, '_');
         $storageName = 'g11nStorage'.ucfirst($parts[0]).ucfirst($parts[1]);
 
-        if( ! class_exists($storageName))
-        throw new g11nException('Required class not found: '.$storageName);//@Do_NOT_Translate
+        if(! class_exists($storageName))
+            throw new g11nException('Required class not found: '.$storageName);
 
         return new $storageName($inputType);
-    }//function
+    }
 
     public static function getCacheDir()
     {
         return self::$cacheDir;
-    }//function
+    }
 
     /**
      * Get the path of a storage file.
      *
-     * @param string $lang Language tag e.g. en-GB.
+     * @param string $lang      Language tag e.g. en-GB.
      * @param string $extension Extension name e.g. com_component.
-     * @param string $scope Must be 'admin' or 'site' / blank to use actual.
+     * @param string $scope     Must be 'admin' or 'site' / blank to use actual.
      *
      * @return string
      */
@@ -71,12 +75,12 @@ class g11nStorage
     {
         if(empty($scope))
         {
-            $path =(JFactory::getApplication()->isAdmin())
-            ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $path = (JFactory::getApplication()->isAdmin())
+                ? JPATH_ADMINISTRATOR : JPATH_SITE;
         }
-        else//
+        else //
         {
-            $path =('admin' == $scope) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $path = ('admin' == $scope) ? JPATH_ADMINISTRATOR : JPATH_SITE;
         }
 
         $parts = g11nExtensionHelper::split($extension, '.');
@@ -92,20 +96,21 @@ class g11nStorage
         $path .= '/'.$lang.'.'.$extension;
 
         return $path;
-    }//function
+    }
 
     public static function templateExists($extension, $scope)
     {
         return (file_exists(self::getTemplatePath($extension, $scope))) ? true : false;
-    }//function
+    }
 
     public static function getTemplatePath($extension, $scope)
     {
         static $templates = array();
 
         if(array_key_exists($extension, $templates)
-        && array_key_exists($scope, $templates[$extension]))
-        return $templates[$extension][$scope];
+            && array_key_exists($scope, $templates[$extension])
+        )
+            return $templates[$extension][$scope];
 
         $base = g11nExtensionHelper::getScopePath($scope);
 
@@ -118,7 +123,7 @@ class g11nStorage
             $parts = g11nExtensionHelper::split($extension, '_');
             $prefix = $parts[0];
         }
-        else//
+        else //
         {
             //-- We have a subType
             $subType = $parts[1];
@@ -132,8 +137,8 @@ class g11nStorage
         $extensionDir = g11nExtensionHelper::getExtensionPath($extension);
 
         return JPath::clean("$base/$extensionDir/"
-        .g11nExtensionHelper::langDirName."/templates/$fileName");
-    }//function
+            .g11nExtensionHelper::langDirName."/templates/$fileName");
+    }
 
     /**
      * Translate a gettext PluralForms string to pcre.
@@ -169,12 +174,12 @@ class g11nStorage
                     break;
                 default:
                     $res .= $ch;
-            }//switch
-        }//for
+            }
+        }
 
         return $res;
-    }//function
-}//class
+    }
+}
 
 /**
  * The g11n store description class.
@@ -203,22 +208,22 @@ class g11nStore
     public function get($property)
     {
         if(isset($this->$property))
-        return $this->$property;
+            return $this->$property;
 
         JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
-    }//function
+    }
 
     /**
      * Set a property.
      *
      * @param string $property Property name
-     * @param mixed $value The value to set
+     * @param mixed  $value    The value to set
      *
      * @return void
      */
     public function set($property, $value)
     {
-        if( ! isset($this->$property))
+        if(! isset($this->$property))
         {
             JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
 
@@ -226,8 +231,8 @@ class g11nStore
         }
 
         $this->$property = $value;
-    }//function
-}//class
+    }
+}
 
 /**
  * FileInfo description class.
@@ -269,8 +274,8 @@ class g11nFileInfo
         }
 
         JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
-    }//function
-}//class
+    }
+}
 
 /**
  * File info class.

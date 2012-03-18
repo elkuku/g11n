@@ -11,13 +11,9 @@
 //-- No direct access
 defined('_JEXEC') || die('=;)');
 
-jimport('g11n.exception');//@@DEBUG
-jimport('g11n.language.debug');//@@DEBUG
+spl_autoload_register('g11n::loader');
 
-jimport('g11n.language.methods');
-jimport('g11n.language.storage');
-
-jimport('g11n.extensionhelper');
+require __DIR__.'/language/methods.php';
 
 /**
  * The g11n - "globalization" class.
@@ -618,4 +614,49 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         self::$events[] = $e;
     }//function
+
+	public static function loader($className)
+	{
+		if(0 !== strpos($className, 'g11n'))
+			return;
+
+//		echo 'Trying to load ', $className, ' via ', __METHOD__, "()\n";
+
+		$file = strtolower(substr($className, 4)).'.php';
+
+		$path = __DIR__.'/'.$file;
+
+		if(file_exists($path))
+		{
+			include $path;
+
+			return;
+		}
+
+		$path = __DIR__.'/language/'.$file;
+
+		if(file_exists($path))
+		{
+			include $path;
+
+			return;
+		}
+
+		$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($className, 4));
+
+		$path = __DIR__.'/language/'.strtolower(implode('/', $parts)).'.php';
+
+		//-- @TODO change
+		$path = str_replace('parser', 'parsers', $path);
+
+//		$path = __DIR__.'/language/'.$file;
+
+		if(file_exists($path))
+		{
+			include $path;
+
+			return;
+		}
+
+	}
 }//class

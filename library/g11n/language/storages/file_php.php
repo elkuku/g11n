@@ -1,6 +1,5 @@
 <?php
 /**
- * @version SVN: $Id$
  * @package    g11n
  * @subpackage Storage handler
  * @author     Nikolai Plath {@link http://nik-it.de}
@@ -12,7 +11,8 @@
 defined('_JEXEC') || die('=;)');
 
 /**
- * Storage handler @todo desc...
+ * Storage handler
+ * @todo    desc...
  *
  * @package g11n
  */
@@ -31,31 +31,20 @@ class g11nStorageFilePHP extends g11nStorage
      */
     public function __construct($inputType)
     {
-        jimport('joomla.filesystem.file');
-
-        if( ! jimport('g11n.language.parsers.language.'.$inputType))
-        throw new g11nException('Can not get the parser '.$inputType);//@Do_NOT_Translate
-
         $parserName = 'g11nParserLanguage'.ucfirst($inputType);
 
-        if( ! class_exists($parserName))
-        throw new g11nException('Required parser class not found: '.$parserName);//@Do_NOT_Translate
+        if(! class_exists($parserName))
+            throw new g11nException('Required parser class not found: '.$parserName);
 
-        //@todo not sure of lsb - let's create a new() one
-        //        #$this->parserName = $parserName;
         $this->parser = new $parserName;
-
-        //        #JProfiler::getInstance('Application')->mark('loaded '.$parserName);
-
-        //        #    parent::__construct();
-    }//function
+    }
 
     /**
      * Stores the strings into a storage.
      *
-     * @param string $lang E.g. de-DE, es-ES etc.
+     * @param string $lang      E.g. de-DE, es-ES etc.
      * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope Must be 'admin' or 'site'.
+     * @param string $scope     Must be 'admin' or 'site'.
      *
      * @return void
      * @throws Exception
@@ -84,7 +73,7 @@ class g11nStorageFilePHP extends g11nStorage
             $value = base64_encode($value->string);
 
             $stringsArray[] = "'".$key."'=>'".$value."'";
-        }//foreach
+        }
 
         /*
          * Plural strings
@@ -100,11 +89,11 @@ class g11nStorageFilePHP extends g11nStorage
             {
                 $value = base64_encode($plural);
                 $ps[] = "'".$keyP."'=>'".$value."'";
-            }//foreach
+            }
 
             $value = base64_encode($value);
             $pluralsArray[] = "'".$key."'=> array(".implode(',', $ps).")";
-        }//foreach
+        }
 
         /*
          * JavaScript strings
@@ -123,7 +112,7 @@ class g11nStorageFilePHP extends g11nStorage
                 $key = md5($key);
                 $value = base64_encode($value->string);
                 $jsArray[] = "'".$key."'=>'".$value."'";
-            }//foreach
+            }
 
             $jsPluralsArray = array();
 
@@ -136,18 +125,18 @@ class g11nStorageFilePHP extends g11nStorage
                 {
                     $value = base64_encode($plural);
                     $ps[] = "'".$keyP."'=>'".$value."'";
-                }//foreach
+                }
 
                 $value = base64_encode($value);
                 $jsPluralsArray[] = "'".$key."'=> array(".implode(',', $ps).")";
-            }//foreach
+            }
         }
         catch(Exception $e)
         {
             //-- We did not found the javascript files...
             //-- Do nothing - for now..@todo do something :P
             echo '';
-        }//try
+        }
 
         /* Process the results - Construct an ""array string""
          * Result:
@@ -156,9 +145,9 @@ class g11nStorageFilePHP extends g11nStorage
         $resultString = '';
         $resultString .= '<?php ';
         $resultString .= '$info=array('
-        ."'mode'=>'".$fileInfo->mode."'"
-        .",'pluralForms'=>'".$this->translatePluralForms($fileInfo->pluralForms)."'"
-        .");";
+            ."'mode'=>'".$fileInfo->mode."'"
+            .",'pluralForms'=>'".$this->translatePluralForms($fileInfo->pluralForms)."'"
+            .");";
         $resultString .= ' $strings=array('.implode(',', $stringsArray).');';
         $resultString .= ' $stringsPlural=array('.implode(',', $pluralsArray).');';
         $resultString .= ' $stringsJs=array('.implode(',', $jsArray).');';
@@ -167,16 +156,17 @@ class g11nStorageFilePHP extends g11nStorage
 
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
-        if( ! JFile::write($storePath, $resultString))
-        throw new g11nException('Unable to write language storage file to '.$storePath);//@Do_NOT_Translate
-    }//function
+        if(! JFile::write($storePath, $resultString))
+            throw new g11nException('Unable to write language storage file to '.$storePath);
+        //@Do_NOT_Translate
+    }
 
     /**
      * Retrieve the storage content.
      *
-     * @param string $lang E.g. de-DE, es-ES etc.
+     * @param string $lang      E.g. de-DE, es-ES etc.
      * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope Must be 'admin' or 'site'.
+     * @param string $scope     Must be 'admin' or 'site'.
      *
      * @return boolean
      */
@@ -188,26 +178,28 @@ class g11nStorageFilePHP extends g11nStorage
 
         if('joomla' != $prefix)
         {
-            if( ! array_key_exists($prefix, g11nExtensionHelper::getExtensionTypes()))
-            throw new g11nException('Unknown extension type: '.$prefix);//@Do_NOT_Translate
+            if(! array_key_exists($prefix, g11nExtensionHelper::getExtensionTypes()))
+                throw new g11nException('Unknown extension type: '.$prefix);
+            //@Do_NOT_Translate
 
             $extensionName = $parts[1];
         }
 
-       # $parts = $this->split($extensionName, '.');
+        # $parts = $this->split($extensionName, '.');
 
         $path = $this->getPath($lang, $extension, $scope).$this->ext;
         $path = JPath::clean($path);
 
         //-- File has not being cached
-        if( ! file_exists($path))
+        if(! file_exists($path))
         {
             //-- Try to store
             $this->store($lang, $extension, $scope);
 
             //-- Failed ?
-            if( ! file_exists($path))
-            throw new g11nException('Unable to retrieve the strings');//@Do_NOT_Translate
+            if(! file_exists($path))
+                throw new g11nException('Unable to retrieve the strings');
+            //@Do_NOT_Translate
         }
 
         /*
@@ -230,30 +222,30 @@ class g11nStorageFilePHP extends g11nStorage
 //            $this->fileInfo->mode = $info['mode'];//Legacy ?
 
             if(isset($info['pluralForms']))
-            $store->set('pluralForms', $info['pluralForms']);
+                $store->set('pluralForms', $info['pluralForms']);
         }
 
-        if( ! empty($strings))
-        $store->set('strings', $strings);
+        if(! empty($strings))
+            $store->set('strings', $strings);
 
-        if( ! empty($stringsPlural))
-        $store->set('stringsPlural', $stringsPlural);
+        if(! empty($stringsPlural))
+            $store->set('stringsPlural', $stringsPlural);
 
-        if( ! empty($stringsJs))
-        $store->set('stringsJs', $stringsJs);
+        if(! empty($stringsJs))
+            $store->set('stringsJs', $stringsJs);
 
-        if( ! empty($stringsJsPlural))
-        $store->set('stringsJsPlural', $stringsJsPlural);
+        if(! empty($stringsJsPlural))
+            $store->set('stringsJsPlural', $stringsJsPlural);
 
         return $store;
-    }//function
+    }
 
     /**
      * Cleans the storage.
      *
-     * @param string $lang E.g. de-DE, es-ES etc.
+     * @param string $lang      E.g. de-DE, es-ES etc.
      * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope Must be 'admin' or 'site'.
+     * @param string $scope     Must be 'admin' or 'site'.
      *
      * @return void
      * @throws Exception
@@ -262,10 +254,12 @@ class g11nStorageFilePHP extends g11nStorage
     {
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
-        if( ! JFile::exists($storePath))
-        return;//-- Storage file does not exist
+        if(! JFile::exists($storePath))
+            return;
+        //-- Storage file does not exist
 
-        if( ! JFile::delete($storePath))
-        throw new g11nException('Unable to clean storage in: '.$storePath);//@Do_NOT_Translate
-    }//function
+        if(! JFile::delete($storePath))
+            throw new g11nException('Unable to clean storage in: '.$storePath);
+        //@Do_NOT_Translate
+    }
 }//class

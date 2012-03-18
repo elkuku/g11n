@@ -1,6 +1,6 @@
 <?php
 /**
- * @version SVN: $Id$
+ * @version SVN: $Id: debug.php 270 2010-12-12 00:07:51Z elkuku $
  * @package    g11n
  * @subpackage Base
  * @author     Nikolai Plath {@link http://nik-it.de}
