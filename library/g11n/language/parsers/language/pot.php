@@ -45,7 +45,7 @@ class g11nParserLanguagePot
      *
      * @param string $fileName Absolute path to the file.
      *
-     * @return void
+     * @return g11nFileInfo
      * @throws Exception
      */
     public function parse($fileName)

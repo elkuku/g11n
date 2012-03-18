@@ -163,7 +163,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
             , count($store->get('strings')));
         }
 
-        self::logEvent(__CLASS__.'::loadLanguage()', $extension, $scope, $inputType, $storageType, $dbgMsg, self::$lang);
+        self::logEvent(__METHOD__, $extension, $scope, $inputType, $storageType, $dbgMsg, self::$lang);
 
         self::$extensionsLoaded[$key] = 1;
     }//function

@@ -117,10 +117,6 @@ class g11nExtensionHelper
 
     public static function getScopePath($scope)
     {
-//         if($scope != 'admin'
-//         && $scope != 'site')
-//         throw new g11nException('Scope must be "admin" or "site"');
-
         return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
     }//function
 
