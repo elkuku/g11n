@@ -12,7 +12,7 @@
 defined('_JEXEC') || die('=;)');
 
 if( ! count($this->items)) :
-    JError::raiseNotice(0, jgettext('Please create a new project'));
+    JFactory::getApplication()->enqueueMessage(jgettext('Please create a new project'));
 endif;
 ?>
 

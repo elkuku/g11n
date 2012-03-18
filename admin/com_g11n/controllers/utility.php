@@ -117,7 +117,7 @@ class g11nListControllerUtility extends JController
         }
         catch(Exception $e)
         {
-            JError::raiseWarning(0, $e->getMessage());
+            JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }//try
 
         # JRequest::setVar('view', 'g11n');
@@ -153,7 +153,7 @@ class g11nListControllerUtility extends JController
 
             if( ! $found)
             {
-                JError::raiseWarning(0, 'Invalid extension');
+                JFactory::getApplication()->enqueueMessage('Invalid extension', 'error');
 
                 return;
             }
@@ -297,7 +297,7 @@ class g11nListControllerUtility extends JController
                 $buffer = $potParser->generate($outFile, $options);
 
                 if( ! JFile::write($templatePath, $buffer))
-                throw new Exception('Unable to write the output file', $code);
+                throw new Exception('Unable to write the output file');
             }
             else//
             {
@@ -329,7 +329,7 @@ class g11nListControllerUtility extends JController
         }
         catch(Exception $e)
         {
-            JError::raiseWarning(0, $e->getMessage());
+            JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }//try
 
         $this->g11nView->display();

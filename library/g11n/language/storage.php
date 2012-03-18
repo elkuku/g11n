@@ -210,7 +210,7 @@ class g11nStore
         if(isset($this->$property))
             return $this->$property;
 
-        JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
+        JFactory::getApplication()->enqueueMessage('Undefined property '.__CLASS__.'::'.$property, 'error');
     }
 
     /**
@@ -225,7 +225,7 @@ class g11nStore
     {
         if(! isset($this->$property))
         {
-            JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
+            JFactory::getApplication()->enqueueMessage('Undefined property '.__CLASS__.'::'.$property, 'error');
 
             return;
         }
@@ -273,7 +273,7 @@ class g11nFileInfo
             return $this->$property;
         }
 
-        JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
+        JFactory::getApplication()->enqueueMessage('Undefined property '.__CLASS__.'::'.$property, 'error');
     }
 }
 

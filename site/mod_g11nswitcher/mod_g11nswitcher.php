@@ -23,7 +23,7 @@ try
 }
 catch(Exception $e)
 {
-    JError::raiseWarning(0, $e->getMessage());
+    JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
     return;
 }//try

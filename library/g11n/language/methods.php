@@ -31,7 +31,8 @@ function jgettext($original)
     //-- @deprecated and marked for removal !
     if(func_num_args() > 1)
     {
-        JError::raiseNotice(0, 'jgettext() has been called with more then ONE arguments..');
+        JFactory::getApplication()->enqueueMessage(
+            'jgettext() has been called with more then ONE arguments..', 'error');
 
         echo '<pre>';
         debug_print_backtrace();

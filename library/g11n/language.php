@@ -1,6 +1,5 @@
 <?php
 /**
- * @version SVN: $Id$
  * @package    g11n
  * @subpackage Base
  * @author     Nikolai Plath {@link http://nik-it.de}
@@ -22,45 +21,52 @@ require __DIR__.'/language/methods.php';
  *
  * @package g11n
  */
-abstract class g11n//-- Joomla!'s Alternative Language Handler oO
+abstract class g11n //-- Joomla!'s Alternative Language Handler oO
 {
     /** Language tag - e.g.en-GB, de-DE
+     *
      * @var string
      */
     protected static $lang = '';
 
     /**
      * Array of defined strings for PHP and their translations
+     *
      * @var array()
      */
     protected static $strings = array();
 
     /**
      * Array of defined strings for JavaScript and their translations
+     *
      * @var array()
      */
     protected static $stringsJs = array();
 
     /**
      * Array of defined plural forms for PHP and their translations
+     *
      * @var array
      */
     protected static $stringsPlural = array();
 
     /**
      * Plural form for a specific language.
+     *
      * @var string
      */
     protected static $pluralForms = '';
 
     /**
      * Cache function that chooses plural forms.
+     *
      * @var object
      */
     protected static $pluralFunction = null;
 
     /**
      * The pluralization function for Javascript as a string.
+     *
      * @var string
      */
     protected static $pluralFunctionJsStr = '';
@@ -68,23 +74,27 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     /**
      * The type of the document to be rendered. E.g. html, json, console, etc.
      * According to the doctype \n will be converted to <br /> - or not.
+     *
      * @var string
      */
     protected static $docType = '';
 
     /**
      *  For debugging purpose
+     *
      * @var array()
      */
     protected static $processedItems = array();
 
     /**
      * This handels how different cases (upper/lower) are treated in ini files
+     *
      * @var string
      */
     protected static $flexibility = '';
 
     /** This is for, well... debugging =;)
+     *
      * @var boolean
      */
     protected static $debug = false;
@@ -105,43 +115,44 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function get($property)
     {
         if(isset(self::$$property))
-        return self::$$property;
+            return self::$$property;
 
-        JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
-    }//function
+        JFactory::getApplication()->enqueueMessage('Undefined property '.__CLASS__.'::'.$property, 'error');
+    }
 
     /**
      * Load the language.
      *
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope Must be 'admin' or 'site' / empty to use the actual.
-     * @param string $inputType The input type e.g. "ini" or "po"
+     * @param string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+     * @param string $scope       Must be 'admin' or 'site' / empty to use the actual.
+     * @param string $inputType   The input type e.g. "ini" or "po"
      * @param string $storageType The store type - e.g. 'file_php'
      *
      * @return void
      * @throws Exception
      */
     public static function loadLanguage($extension = '', $scope = ''
-    , $inputType = 'po', $storageType = 'file_php')
+        , $inputType = 'po', $storageType = 'file_php')
     {
-        if( ! $extension
-        && ! $extension = JRequest::getCmd('option'))
-        throw new g11nException('Invalid extension');
+        if(! $extension
+            && ! $extension = JRequest::getCmd('option')
+        )
+            throw new g11nException('Invalid extension');
 
         if(empty($scope))
-        $scope = JFactory::getApplication()->isAdmin()
-        ? 'admin' : 'site';
+            $scope = JFactory::getApplication()->isAdmin()
+                ? 'admin' : 'site';
 
         $key = $extension.'.'.$scope;
 
         if(array_key_exists($key, self::$extensionsLoaded))
-        return;
+            return;
 
-        if( ! self::$lang)
-        self::detectLanguage();
+        if(! self::$lang)
+            self::detectLanguage();
 
-        if( ! self::$docType)
-        self::detectDocType();
+        if(! self::$docType)
+            self::detectDocType();
 
         $handler = g11nStorage::getHandler($inputType, $storageType);
 
@@ -160,21 +171,21 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         if(self::$debug)
         {
             $dbgMsg = sprintf('Found %d strings'
-            , count($store->get('strings')));
+                , count($store->get('strings')));
         }
 
         self::logEvent(__METHOD__, $extension, $scope, $inputType, $storageType, $dbgMsg, self::$lang);
 
         self::$extensionsLoaded[$key] = 1;
-    }//function
+    }
 
     public static function getDefault()
     {
-        if( ! self::$lang)
-        self::detectLanguage();
+        if(! self::$lang)
+            self::detectLanguage();
 
         return self::$lang;
-    }//function
+    }
 
     /**
      * Try to translate a string.
@@ -186,12 +197,13 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function translate($original)
     {
         if(self::$debug)
-        return self::debugTranslate($original);
+            return self::debugTranslate($original);
 
         $key = md5($original);
 
         if(isset(self::$strings[$key])
-        && self::$strings[$key])
+            && self::$strings[$key]
+        )
         {
             //-- Translation found
             return self::process(self::$strings[$key]);
@@ -199,7 +211,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         //-- Search for alternatives - L for legacy
         if(self::$flexibility == 'mixed'
-        || ( ! self::$flexibility))
+            || (! self::$flexibility)
+        )
         {
             $key = md5(strtoupper($original));
 
@@ -218,14 +231,14 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $original;
-    }//function
+    }
 
     /**
      * Try to translate a plural string.
      *
-     * @param string $singular Singular form
-     * @param string $plural Plural form
-     * @param integer $count How many times..
+     * @param string  $singular Singular form
+     * @param string  $plural   Plural form
+     * @param integer $count    How many times..
      *
      * @return string
      */
@@ -240,7 +253,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         $format = '%s';
 
         if(array_key_exists($key, self::$stringsPlural)
-        && array_key_exists($index, self::$stringsPlural[$key]))
+            && array_key_exists($index, self::$stringsPlural[$key])
+        )
         {
             if(self::$debug)
             {
@@ -253,7 +267,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         //-- Fallback - english: singular == 1
-        $retVal =($count == 1) ? $singular : $plural;
+        $retVal = ($count == 1) ? $singular : $plural;
 
         if(self::$debug)
         {
@@ -263,37 +277,36 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $retVal;
-    }//function
+    }
 
     /**
      * Clean the storage device.
      *
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param boolean $JAdmin Set true for administrator
-     * @param string $inputType The input type e.g. "ini" or "po"
-     * @param string $storageType The story type
+     * @param string  $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+     * @param boolean $JAdmin      Set true for administrator
+     * @param string  $inputType   The input type e.g. "ini" or "po"
+     * @param string  $storageType The story type
      *
      * @return void
      * @throws Exception
      */
     public static function cleanStorage($extension = '', $JAdmin = ''
-    , $inputType = 'po', $storageType = 'file_php')
+        , $inputType = 'po', $storageType = 'file_php')
     {
-        if( ! self::$lang)
-        self::detectLanguage();
+        if(! self::$lang)
+            self::detectLanguage();
 
-        if( ! $extension
-        && !  $extension = JRequest::getCmd('option'))
-        throw new g11nException('Invalid extension');
+        if(! $extension
+            && ! $extension = JRequest::getCmd('option')
+        )
+            throw new g11nException('Invalid extension');
 
         if($JAdmin == '')
-        $JAdmin = JFactory::getApplication()->isAdmin()
-        ? true : false;
-
-        ##self::$strings = array();
+            $JAdmin = JFactory::getApplication()->isAdmin()
+                ? true : false;
 
         g11nStorage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $JAdmin);
-    }//function
+    }
 
     /**
      * Switch the debuggin feature on or off.
@@ -307,7 +320,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function setDebug($bool)
     {
         self::$debug = (bool)$bool;
-    }//function
+    }
 
     /**
      * Debug output translated and untranslated items.
@@ -319,7 +332,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function debugPrintTranslateds($untranslatedOnly = false)
     {
         g11nDebugger::debugPrintTranslateds($untranslatedOnly);
-    }//function
+    }
 
     /**
      * Print out recorded events.
@@ -331,8 +344,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         foreach(self::$events as $e)
         {
             var_dump($e);
-        }//foreach
-    }//function
+        }
+    }
 
     /**
      * For 3PD use.
@@ -348,16 +361,18 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
      */
     public static function getParser($type, $name)
     {
-        if( ! jimport('g11n.language.parsers.'.$type.'.'.$name))
-        throw new g11nException('Can not get the parser '.$type.'.'.$name);//@Do_NOT_Translate
+        if(! jimport('g11n.language.parsers.'.$type.'.'.$name))
+            throw new g11nException('Can not get the parser '.$type.'.'.$name);
+        //@Do_NOT_Translate
 
         $parserName = 'g11nParser'.ucfirst($type).ucfirst($name);
 
-        if( ! class_exists($parserName))
-        throw new g11nException('Required class not found: '.$parserName);//@Do_NOT_Translate
+        if(! class_exists($parserName))
+            throw new g11nException('Required class not found: '.$parserName);
+        //@Do_NOT_Translate
 
         return new $parserName;
-    }//function
+    }
 
     /**
      * Translation in debug mode.
@@ -371,7 +386,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         $key = md5($original);
 
         if(isset(self::$strings[$key])
-        && self::$strings[$key])
+            && self::$strings[$key]
+        )
         {
             //-- Translation found
             self::recordTranslated($original, '+');
@@ -379,7 +395,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
             return sprintf('+-%s-+', self::process(self::$strings[$key]));
         }
         else if(self::$flexibility == 'mixed'
-        || ( ! self::$flexibility))
+            || (! self::$flexibility)
+        )
         {
             //-- Search for alternatives - upper cased key
             $key = md5(strtoupper($original));
@@ -398,7 +415,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::recordTranslated($original, '-');
 
         return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
-    }//function
+    }
 
     /**
      * Set a plural function.
@@ -416,7 +433,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
             $PHPexpression = str_replace('n', '$n', $expression);
         }
-        else//
+        else //
         {
             $nplurals = 2;
             $expression = 'n == 1 ? 0 : 1';
@@ -424,20 +441,20 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         $func_body = '$plural = ('.$PHPexpression.');'
-        . ' return ($plural <= '.$nplurals.')? $plural : $plural - 1;';
+            .' return ($plural <= '.$nplurals.')? $plural : $plural - 1;';
 
         $js_func_body = 'plural = ('.$expression.');'
-        . ' return (plural <= '.$nplurals.')? plural : plural - 1;';
+            .' return (plural <= '.$nplurals.')? plural : plural - 1;';
 
         self::$pluralFunction = create_function('$n', $func_body);
 
         self::$pluralFunctionJsStr = "phpjs.create_function('n', '".$js_func_body."')";
-    }//function
+    }
 
     /**
      * Add the strings designated to JavaScript to the page <head> section.
      *
-     * @param array $strings These strings will be added to the HTML source of your page
+     * @param array $strings       These strings will be added to the HTML source of your page
      * @param array $stringsPlural The plural strings
      *
      * @return void
@@ -447,7 +464,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         static $hasBeenAdded = false;
 
         //-- To be called only once
-        if( ! $hasBeenAdded)
+        if(! $hasBeenAdded)
         {
             $path = 'libraries/g11n/language/javascript';
             $document = JFactory::getDocument();
@@ -472,8 +489,8 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         {
             $js[] = 'g11n.loadPluralStrings('.json_encode($stringsPlural).');';
 
-            if( ! $hasBeenAdded)
-            $js[] = 'g11n.setPluralFunction('.self::$pluralFunctionJsStr.')';
+            if(! $hasBeenAdded)
+                $js[] = 'g11n.setPluralFunction('.self::$pluralFunctionJsStr.')';
         }
 
         $js[] = '-->';
@@ -481,7 +498,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::$stringsJs = array_merge(self::$stringsJs, $strings);
 
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $js));
-    }//function
+    }
 
     /**
      * Processes the final translation. Decoding and converting \n to <br /> if nessesary.
@@ -500,7 +517,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $string;
-    }//function
+    }
 
     /**
      * Try to detect the current language.
@@ -538,9 +555,9 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::$lang = JFactory::getLanguage()->getTag();
         //that should be enough..
 
-        if( ! self::$lang)
-        throw new g11nException('Something wrong with JLanguage :(');
-    }//function
+        if(! self::$lang)
+            throw new g11nException('Something wrong with JLanguage :(');
+    }
 
     /**
      * Try to detect the current document type.
@@ -554,22 +571,23 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     {
         self::$docType = JFactory::getDocument()->getType();
 
-        if( ! self::$docType)
-        throw new g11nException('Unable to detect the document type :(');
-    }//function
+        if(! self::$docType)
+            throw new g11nException('Unable to detect the document type :(');
+    }
 
     /**
      * Record translated and untranslated strings.
      *
      * @param string $string The string to record
-     * @param string $mode Parsing mode strict/legacy
+     * @param string $mode   Parsing mode strict/legacy
      *
      * @return void
      */
     private static function recordTranslated($string, $mode, $level = 3)
     {
         if(array_key_exists($string, self::$processedItems))
-        return;//-- Already recorded
+            return;
+        //-- Already recorded
 
         $info = new stdClass();
         $info->status = $mode;
@@ -592,7 +610,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         self::$processedItems[$string] = $info;
-    }//function
+    }
 
     /**
      * Logs events.
@@ -610,53 +628,49 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         foreach($args as $k => $v)
         {
             $e->$k = $v;
-        }//foreach
+        }
 
         self::$events[] = $e;
-    }//function
+    }
 
-	public static function loader($className)
-	{
-		if(0 !== strpos($className, 'g11n'))
-			return;
+    public static function loader($className)
+    {
+        if(0 !== strpos($className, 'g11n'))
+            return;
 
-//		echo 'Trying to load ', $className, ' via ', __METHOD__, "()\n";
+        $file = strtolower(substr($className, 4)).'.php';
 
-		$file = strtolower(substr($className, 4)).'.php';
+        $path = __DIR__.'/'.$file;
 
-		$path = __DIR__.'/'.$file;
+        if(file_exists($path))
+        {
+            include $path;
 
-		if(file_exists($path))
-		{
-			include $path;
+            return;
+        }
 
-			return;
-		}
+        $path = __DIR__.'/language/'.$file;
 
-		$path = __DIR__.'/language/'.$file;
+        if(file_exists($path))
+        {
+            include $path;
 
-		if(file_exists($path))
-		{
-			include $path;
+            return;
+        }
 
-			return;
-		}
+        $parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($className, 4));
 
-		$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x',substr($className, 4));
+        $path = __DIR__.'/language/'.strtolower(implode('/', $parts)).'.php';
 
-		$path = __DIR__.'/language/'.strtolower(implode('/', $parts)).'.php';
+        //-- @TODO change
+        $path = str_replace('parser', 'parsers', $path);
 
-		//-- @TODO change
-		$path = str_replace('parser', 'parsers', $path);
+        if(file_exists($path))
+        {
+            include $path;
 
-//		$path = __DIR__.'/language/'.$file;
+            return;
+        }
 
-		if(file_exists($path))
-		{
-			include $path;
-
-			return;
-		}
-
-	}
+    }
 }//class

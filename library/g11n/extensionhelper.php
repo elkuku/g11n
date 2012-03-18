@@ -111,7 +111,7 @@ class g11nExtensionHelper
         }
         catch(Exception $e)
         {
-            JError::raiseWarning(0, $e->getMessage());
+            JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }//try
     }//function
 
