@@ -32,7 +32,7 @@ class g11nParserLanguagePo
     public function getExt()
     {
         return $this->ext;
-    }//function
+    }
 
     /**
      * Convert to string.
@@ -42,7 +42,7 @@ class g11nParserLanguagePo
     public function __toString()
     {
         return (string)__CLASS__;
-    }//function
+    }
 
     /**
      * Parse a po style language file.
@@ -53,23 +53,22 @@ class g11nParserLanguagePo
      */
     public function parse($fileName)
     {
-        //    ###public static function parse($fileName)
         $fileInfo = new g11nFileInfo;
 
         $fileName = JPath::clean($fileName);
 
         $fileInfo->fileName = $fileName;
 
-        if( ! file_exists($fileName))
+        if(! file_exists($fileName))
         {
-            return $fileInfo;//@todo throw exception
+            return $fileInfo; //@todo throw exception
         }
 
         $lines = explode("\n", JFile::read($fileName));
 
-        if( ! $lines)
+        if(! $lines)
         {
-            return $fileInfo;//@todo throw exception
+            return $fileInfo; //@todo throw exception
         }
 
         $msgid = '';
@@ -78,26 +77,23 @@ class g11nParserLanguagePo
         $msg_plurals = array();
 
         $head = '';
-
         $info = '';
-
-        $state = -1;
-
-        $stringsPlural = array();
+        $state = - 1;
 
         foreach($lines as $line)
         {
             $line = trim($line);
 
             if(0 === strpos($line, '#~'))
-            continue;
+                continue;
 
             $match = array();
 
             switch($state)
             {
-                case - 1 : //Start parsing
-                    if( ! $line)
+                case - 1 :
+                    //Start parsing
+                    if(! $line)
                     {
                         //-- First empty line stops header
                         $state = 0;
@@ -107,7 +103,9 @@ class g11nParserLanguagePo
                         $head .= $line."\n";
                     }
                     break;
-                case 0://waiting for msgid
+
+                case 0 :
+                    //waiting for msgid
                     if(preg_match('/^msgid "(.*)"$/', $line, $match))
                     {
                         $msgid = stripcslashes($match[1]);
@@ -118,7 +116,9 @@ class g11nParserLanguagePo
                         $info .= $line."\n";
                     }
                     break;
-                case 1: //reading msgid, waiting for msgstr
+
+                case 1:
+                    //reading msgid, waiting for msgstr
                     if(preg_match('/^msgstr "(.*)"$/', $line, $match))
                     {
                         $msgstr = stripcslashes($match[1]);
@@ -139,7 +139,9 @@ class g11nParserLanguagePo
                         $msgid = stripcslashes($match[1]);
                     }
                     break;
-                case 2: //reading msgstr, waiting for blank
+
+                case 2:
+                    //reading msgstr, waiting for blank
                     if(preg_match('/^"(.*)"$/', $line, $match))
                     {
                         $msgstr = stripcslashes($match[1]);
@@ -152,18 +154,19 @@ class g11nParserLanguagePo
                             $e = new JObject;
                             $e->info = $info;
                             $e->string = $msgstr;
-                            $fileInfo->strings[$msgid] = $e;//$msgstr;
+                            $fileInfo->strings[$msgid] = $e; //$msgstr;
                         }
 
                         $state = 0;
                         $info = '';
                     }
                     break;
-            }//switch
+            }
 
             //comment or blank line?
             if(empty($line)
-            || preg_match('/^#/', $line))
+                || preg_match('/^#/', $line)
+            )
             {
                 if($msg_plural)
                 {
@@ -173,7 +176,7 @@ class g11nParserLanguagePo
                         $t->plural = $msg_plural;
                         $t->forms = $msg_plurals;
                         $t->info = $info;
-                        $fileInfo->stringsPlural[$msgid] = $t;//$msg_plurals;
+                        $fileInfo->stringsPlural[$msgid] = $t;
                     }
 
                     $msg_plural = '';
@@ -181,29 +184,26 @@ class g11nParserLanguagePo
                     $state = 0;
                 }
             }
-        }//foreach
+        }
 
         $fileInfo->head = $head;
 
         return $fileInfo;
-    }//function
+    }
 
     /**
      * Generate a language file.
      *
-     * @param LanguageCheckerHelper $checker LanguageCheckerHelper
-     * @param JObject $options JObject
+     * @param g11nFileInfo $fileInfo
+     * @param JObject      $options JObject
      *
-     * @return void
+     * @return string
      */
     public function generate(g11nFileInfo $fileInfo, JObject $options)
     {
         $content = array();
-        #var_dump($fileInfo);
-        $x = true;//...
 
-        $head =($x) ? trim($fileInfo->head) : $checker->getHead();
-        #   $head = trim($fileInfo->head);
+        $head = trim($fileInfo->head);
 
         if($head)
         {
@@ -218,13 +218,13 @@ class g11nParserLanguagePo
 
         $content[] = '';
 
-        $lang =($x) ?  $fileInfo->langTag : $checker->getLang();
+        $lang = $fileInfo->langTag;
 
-        $pluralStrings =($x) ? $fileInfo->stringsPlural : $checker->getStringsPlural();
+        $pluralStrings = $fileInfo->stringsPlural;
 
         foreach($pluralStrings as $key => $string)
         {
-            $value = '';//$key;//@TODO
+            $value = ''; //$key;//@TODO
             $info = '';
 
             if(array_key_exists($key, $checker->getTranslations()))
@@ -255,12 +255,13 @@ class g11nParserLanguagePo
                     foreach($locs as $loc)
                     {
                         $content[] = '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
-            if( ! $value
-            && $options->get('markFuzzy'))
+            if(! $value
+                && $options->get('markFuzzy')
+            )
             {
                 //echo '#, fuzzy'.NL;
             }
@@ -271,10 +272,10 @@ class g11nParserLanguagePo
             foreach($string->pluralForms as $k => $v)
             {
                 $content[] = 'msgstr['.$k.'] "'.$v.'"';
-            }//foreach
+            }
 
             $content[] = '';
-        }//foreach
+        }
 
         //        $translations = $checker->getTranslations();
         //        $strings = $checker->getStrings();
@@ -282,10 +283,11 @@ class g11nParserLanguagePo
         //        echo '# '.count($translations).' translations'.NL;
         //        echo '# '.count($strings).' strings'.NL;
 
-        $checkStrings =($x) ? $fileInfo->strings : $checker->getStrings();
+        $checkStrings = $fileInfo->strings;
 
-        foreach($checkStrings as $key => $string)
-        #foreach($fileInfo->strings as $key => $string)
+        foreach($checkStrings as $key => $string
+        )
+            #foreach($fileInfo->strings as $key => $string)
         {
             $key = html_entity_decode($key);
 
@@ -294,22 +296,22 @@ class g11nParserLanguagePo
             while(strpos($key, "\\\\") != false)
             {
                 $key = str_replace('\\\\', '\\', $key);
-            }//while
+            }
 
             while(strpos($key, "\'") != false)
             {
                 $key = str_replace("\'", "'", $key);
-            }//while
+            }
 
             //            $value = '';
             //            $info = '';
 
             #$value = $string->string;
-            $value =(isset($string->translation) && $string->translation) ? $string->translation : '';
+            $value = (isset($string->translation) && $string->translation) ? $string->translation : '';
 
-            if( ! $value)//...brrrrrrr
+            if(! $value) //...brrrrrrr
             {
-                $value = $string->string;//...right..
+                $value = $string->string; //...right..
             }
 
             #$info = '';
@@ -344,20 +346,21 @@ class g11nParserLanguagePo
                         foreach($locs as $loc)
                         {
                             $content[] = '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc;
-                        }//foreach
-                    }//foreach
+                        }
+                    }
                 }
             }
 
-            if( ! $value
-           && $options->get('markFuzzy')
-            && $lang != 'en-GB')
+            if(! $value
+                && $options->get('markFuzzy')
+                && $lang != 'en-GB'
+            )
             {
                 $content[] = '#, fuzzy';
             }
 
             if($info)
-            $content[] = $info;
+                $content[] = $info;
 
             $content[] = 'msgid "'.htmlspecialchars($key).'"';
 
@@ -371,8 +374,8 @@ class g11nParserLanguagePo
             }
 
             $content[] = '';
-        }//foreach
+        }
 
         return implode(NL, $content);
-    }//function
+    }
 }//class

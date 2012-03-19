@@ -35,8 +35,8 @@ class g11nStorage
      * @param string $inputType   A valid input type
      * @param string $storageType A valid storage type
      *
+     * @throws g11nException
      * @return object Class extending g11nStorage
-     * @throws Exception
      */
     public static function getHandler($inputType, $storageType)
     {
@@ -56,6 +56,12 @@ class g11nStorage
         return new $storageName($inputType);
     }
 
+    /**
+     * Get the cache directory.
+     *
+     * @static
+     * @return string
+     */
     public static function getCacheDir()
     {
         return self::$cacheDir;
@@ -97,11 +103,31 @@ class g11nStorage
         return $path;
     }
 
+    /**
+     * Test is a language template exists.
+     *
+     * @static
+     *
+     * @param $extension
+     * @param $scope
+     *
+     * @return bool
+     */
     public static function templateExists($extension, $scope)
     {
         return (file_exists(self::getTemplatePath($extension, $scope))) ? true : false;
     }
 
+    /**
+     * Get the language template path.
+     *
+     * @static
+     *
+     * @param $extension
+     * @param $scope
+     *
+     * @return string
+     */
     public static function getTemplatePath($extension, $scope)
     {
         static $templates = array();

@@ -26,11 +26,27 @@ class g11nExtensionHelper
 
     protected static $langDirName = 'g11n';
 
+    /**
+     * Set a custom directory name for language files.
+     * @static
+     *
+     * @param $name
+     */
     public static function setDirName($name)
     {
         self::$langDirName = $name;
     }
 
+    /**
+     * Get the extension path.
+     *
+     * @static
+     *
+     * @param string $extension The extension name, e.g. com_easycreator
+     *
+     * @return string
+     * @throws g11nException
+     */
     public static function getExtensionPath($extension)
     {
         static $dirs = array();
@@ -92,6 +108,15 @@ class g11nExtensionHelper
         return $extensionDir;
     }//function
 
+    /**
+     * Get the extensions language path.
+     *
+     * @static
+     *
+     * @param string $extension The extension name, e.g. com_easycreator
+     *
+     * @return string
+     */
     public static function getExtensionLanguagePath($extension)
     {
         $path = self::getExtensionPath($extension);
@@ -99,9 +124,17 @@ class g11nExtensionHelper
         return $path.'/'.self::$langDirName;
     }//function
 
+    /**
+     * @static
+     *
+     * @param string $extension The extension name, e.g. com_easycreator
+     * @param string $scope     The extension scope, e.g. admin
+     *
+     * @return bool
+     */
     public static function isExtension($extension, $scope = 'admin')
     {
-        try//
+        try
         {
             $extensionPath = self::getExtensionPath($extension);
             $scopePath = self::getScopePath($scope);
@@ -114,11 +147,26 @@ class g11nExtensionHelper
         }//try
     }//function
 
+    /**
+     * Get the scope path.
+     *
+     * @static
+     *
+     * @param string $scope The extension scope, e.g. admin
+     *
+     * @return string
+     */
     public static function getScopePath($scope)
     {
         return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
     }//function
 
+    /**
+     * Get known extension types.
+     *
+     * @static
+     * @return array
+     */
     public static function getExtensionTypes()
     {
         return self::$extensionTypes;
@@ -127,14 +175,13 @@ class g11nExtensionHelper
     /**
      * Searches the system for language files.
      *
-     * @param string $lang Language
+     * @param string $lang      Language
      * @param string $extension Extension
-     * @param boolean $JAdmin True for administrator.
-     * @param string $type Language file type - e.g. 'ini', 'po' etc.
+     * @param string $scope     The extension scope, e.g. admin
+     * @param string $type      Language file type - e.g. 'ini', 'po' etc.
      *
      * @return mixed Full path to file | false if none found
      *
-     * @throws Exception
      */
     public static function findLanguageFile($lang, $extension, $scope = '', $type = 'po')
     {
@@ -143,19 +190,19 @@ class g11nExtensionHelper
             $base =(JFactory::getApplication()->isAdmin())
             ? JPATH_ADMINISTRATOR : JPATH_SITE;
         }
-        else//
+        else
         {
             $base = g11nExtensionHelper::getScopePath($scope);
         }
 
-if('joomla' == $extension)
-{
-        $fileName = $lang.'.'.$type;
-}
-else//
-{
-        $fileName = $lang.'.'.$extension.'.'.$type;
-}
+        if('joomla' == $extension)
+        {
+                $fileName = $lang.'.'.$type;
+        }
+        else
+        {
+                $fileName = $lang.'.'.$extension.'.'.$type;
+        }
 
         $extensionDir = self::getExtensionPath($extension);
 

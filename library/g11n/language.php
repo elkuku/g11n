@@ -128,8 +128,8 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
      * @param string $inputType   The input type e.g. "ini" or "po"
      * @param string $storageType The store type - e.g. 'file_php'
      *
+     * @throws g11nException
      * @return void
-     * @throws Exception
      */
     public static function loadLanguage($extension = '', $scope = ''
         , $inputType = 'po', $storageType = 'file_php')
@@ -179,6 +179,12 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
         self::$extensionsLoaded[$key] = 1;
     }
 
+    /**
+     * Get the default language tag.
+     *
+     * @static
+     * @return string
+     */
     public static function getDefault()
     {
         if(! self::$lang)
@@ -282,13 +288,13 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
     /**
      * Clean the storage device.
      *
-     * @param string  $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param boolean $JAdmin      Set true for administrator
-     * @param string  $inputType   The input type e.g. "ini" or "po"
-     * @param string  $storageType The story type
+     * @param string      $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+     * @param bool|string $JAdmin      Set true for administrator
+     * @param string      $inputType   The input type e.g. "ini" or "po"
+     * @param string      $storageType The story type
      *
+     * @throws g11nException
      * @return void
-     * @throws Exception
      */
     public static function cleanStorage($extension = '', $JAdmin = ''
         , $inputType = 'po', $storageType = 'file_php')
@@ -309,7 +315,7 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
     }
 
     /**
-     * Switch the debuggin feature on or off.
+     * Switch the debugging feature on or off.
      *
      * Provided for 3pd use ore whatever..
      *
@@ -325,7 +331,7 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
     /**
      * Debug output translated and untranslated items.
      *
-     * @param boolean $untranslatedOnly Set true to ouput only untranslated strings
+     * @param boolean $untranslatedOnly Set true to output only untranslated strings
      *
      * @return void
      */
@@ -350,14 +356,14 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
     /**
      * For 3PD use.
      *
-     * You may use this function for manupulation of language files.
+     * You may use this function for manipulation of language files.
      * Parsers support parsing and generating language files.
      *
      * @param string $type Parser type
      * @param string $name Parser name
      *
-     * @return object g11nParser of a specific type
-     * @throws Exception If requested parser is not found
+     * @throws g11nException
+     * @return g11nParser of a specific type
      */
     public static function getParser($type, $name)
     {
@@ -501,7 +507,7 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
     }
 
     /**
-     * Processes the final translation. Decoding and converting \n to <br /> if nessesary.
+     * Processes the final translation. Decoding and converting \n to <br /> if necessary.
      *
      * @param string $string The string to process
      *
@@ -524,8 +530,8 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
      *
      * This is done with a little help .. from JFactory::getLanguage()
      *
+     * @throws g11nException
      * @return void
-     * @throws Exception
      */
     private static function detectLanguage()
     {
@@ -564,8 +570,8 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
      *
      * This is done with a little help .. from JFactory::getLanguage()
      *
+     * @throws g11nException
      * @return void
-     * @throws Exception
      */
     private static function detectDocType()
     {
@@ -580,6 +586,7 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
      *
      * @param string $string The string to record
      * @param string $mode   Parsing mode strict/legacy
+     * @param int    $level  The level where the function has been called
      *
      * @return void
      */
@@ -633,6 +640,15 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
         self::$events[] = $e;
     }
 
+    /**
+     * The g11n autoloader.
+     *
+     * @static
+     *
+     * @param string $className The class to load.
+     *
+     * @return mixed
+     */
     public static function loader($className)
     {
         if(0 !== strpos($className, 'g11n'))
@@ -671,6 +687,5 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
 
             return;
         }
-
     }
 }//class

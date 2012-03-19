@@ -2,10 +2,10 @@
 // @codingStandardsIgnoreStart
 
 /**
- * @package    g11n
- * @subpackage	Utilities
- * @author		Nikolai Plath (elkuku) {@link http://www.nik-it.de NiK-IT.de}
- * @author		Created on 10-Sep-2010
+ * @package       g11n
+ * @subpackage    Utilities
+ * @author        Nikolai Plath (elkuku) {@link http://www.nik-it.de NiK-IT.de}
+ * @author        Created on 10-Sep-2010
  */
 
 error_reporting(E_ALL | E_STRICT);
@@ -88,8 +88,10 @@ class g11nCodeScanner
     /**
      * Constructor.
      *
-     * @param array $argv Command line args
+     * @param array $argv      Command line args
      * @param array $languages A
+     *
+     * @throws Exception
      */
     public function __construct($argv = array(), $languages = array())
     {
@@ -172,7 +174,7 @@ class g11nCodeScanner
     }//function
 
     /**
-     *
+     * @throws Exception
      */
     public function build()
     {
@@ -419,6 +421,7 @@ class g11nCodeScanner
     /**
      * Build the md5 hash table
      *
+     * @throws Exception
      * @return string
      */
     private function buildHashTable()
@@ -479,6 +482,7 @@ class g11nCodeScanner
      *
      * Build the md5 hash table
      *
+     * @throws Exception
      * @return string
      */
     private function buildCompressedHashTable()
@@ -555,6 +559,11 @@ class g11nCodeScanner
         return $hashTable;
     }//function
 
+    /**
+     * @param $path
+     *
+     * @return string
+     */
     private function compress($path)
     {
         static $previous = '';
@@ -608,6 +617,11 @@ class g11nCodeScanner
         return $compressed;
     }//function
 
+    /**
+     * @param $path
+     *
+     * @return string
+     */
     private function decompress($path)
     {
         static $previous = '';
@@ -661,6 +675,9 @@ class g11nCodeScanner
         return $decompressed;
     }//function
 
+    /**
+     * @return string
+     */
     private function processDefinedLanguages()
     {
         $ls = array('en-GB');
@@ -676,6 +693,10 @@ class g11nCodeScanner
         return "'".implode("', '", $ls)."'";
     }//function
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     private function processLanguages()
     {
         $fields = array();
