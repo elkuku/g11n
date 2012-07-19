@@ -137,7 +137,7 @@ class g11nStorage
         $extensionDir = g11nExtensionHelper::getExtensionPath($extension);
 
         return JPath::clean("$base/$extensionDir/"
-            .g11nExtensionHelper::langDirName."/templates/$fileName");
+            .g11nExtensionHelper::$langDirName."/templates/$fileName");
     }
 
     /**

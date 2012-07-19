@@ -23,9 +23,10 @@ class g11nExtensionHelper
     , 'mod' => 'module'
     , 'tpl' => 'template'
     , 'plg' => 'plugin'
-    , 'lib' => 'library');
+    , 'lib' => 'library'
+    , 'cli' => 'cli_language');
 
-    protected static $langDirName = 'g11n';
+    public static $langDirName = 'g11n';
 
     public static function setDirName($name)
     {

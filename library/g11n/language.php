@@ -108,7 +108,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         return self::$$property;
 
         JError::raiseWarning(0, 'Undefined property '.__CLASS__.'::'.$property);
-    }//function
+    }
 
     /**
      * Load the language.
@@ -166,7 +166,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::logEvent(__METHOD__, $extension, $scope, $inputType, $storageType, $dbgMsg, self::$lang);
 
         self::$extensionsLoaded[$key] = 1;
-    }//function
+    }
 
     public static function getDefault()
     {
@@ -174,7 +174,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::detectLanguage();
 
         return self::$lang;
-    }//function
+    }
 
     /**
      * Try to translate a string.
@@ -218,7 +218,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $original;
-    }//function
+    }
 
     /**
      * Try to translate a plural string.
@@ -263,7 +263,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $retVal;
-    }//function
+    }
 
     /**
      * Clean the storage device.
@@ -283,7 +283,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::detectLanguage();
 
         if( ! $extension
-        && !  $extension = JRequest::getCmd('option'))
+        && !  $extension = JFactory::getApplication()->input->get('option'))
         throw new g11nException('Invalid extension');
 
         if($JAdmin == '')
@@ -293,7 +293,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         ##self::$strings = array();
 
         g11nStorage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $JAdmin);
-    }//function
+    }
 
     /**
      * Switch the debuggin feature on or off.
@@ -307,7 +307,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function setDebug($bool)
     {
         self::$debug = (bool)$bool;
-    }//function
+    }
 
     /**
      * Debug output translated and untranslated items.
@@ -319,7 +319,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
     public static function debugPrintTranslateds($untranslatedOnly = false)
     {
         g11nDebugger::debugPrintTranslateds($untranslatedOnly);
-    }//function
+    }
 
     /**
      * Print out recorded events.
@@ -332,7 +332,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         {
             var_dump($e);
         }//foreach
-    }//function
+    }
 
     /**
      * For 3PD use.
@@ -357,7 +357,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         throw new g11nException('Required class not found: '.$parserName);//@Do_NOT_Translate
 
         return new $parserName;
-    }//function
+    }
 
     /**
      * Translation in debug mode.
@@ -398,7 +398,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::recordTranslated($original, '-');
 
         return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
-    }//function
+    }
 
     /**
      * Set a plural function.
@@ -432,7 +432,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::$pluralFunction = create_function('$n', $func_body);
 
         self::$pluralFunctionJsStr = "phpjs.create_function('n', '".$js_func_body."')";
-    }//function
+    }
 
     /**
      * Add the strings designated to JavaScript to the page <head> section.
@@ -481,7 +481,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         self::$stringsJs = array_merge(self::$stringsJs, $strings);
 
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $js));
-    }//function
+    }
 
     /**
      * Processes the final translation. Decoding and converting \n to <br /> if nessesary.
@@ -500,7 +500,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         return $string;
-    }//function
+    }
 
     /**
      * Try to detect the current language.
@@ -512,35 +512,50 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
      */
     private static function detectLanguage()
     {
-        $reqLang = JRequest::getCmd('lang');
+	    self::$lang = JFactory::getApplication()->input->get('lang');
 
-        if($reqLang != '')
+        if(self::$lang != '')
         {
             //@todo CHECKif language exists..
-            self::$lang = $reqLang;
+            //self::$lang = $reqLang;
 
-            JFactory::getApplication()->setUserState('lang', $reqLang);
+            JFactory::getApplication()->setUserState('lang', self::$lang);
 
             return;
         }
 
-        $stateLang = JFactory::getApplication()->getUserState('lang');
+	    self::$lang = JFactory::getApplication()->getUserState('lang');
 
-        if($stateLang != '')
+        if(self::$lang != '')
         {
             //@todo CHECKif language exists..
-            self::$lang = $stateLang;
+            //self::$lang = $stateLang;
 
             return;
         }
 
-        //-- OK.. first let's do a
+	    self::$lang = getenv('LANG');
+
+	    if(self::$lang)
+	    {
+		    self::$lang = str_replace('_', '-', self::$lang);
+
+		    //-- We're british..
+		    if('en-US' == self::$lang)
+			    self::$lang = 'en-GB';
+
+		    return;
+	    }
+
+	    //-- OK.. let's do a
         self::$lang = JFactory::getLanguage()->getTag();
-        //that should be enough..
 
+        //-- That should be enough.. british or die.
         if( ! self::$lang)
-        throw new g11nException('Something wrong with JLanguage :(');
-    }//function
+	        self::$lang = 'en-GB';
+
+//        throw new g11nException('Something wrong with JLanguage :(');
+    }
 
     /**
      * Try to detect the current document type.
@@ -556,7 +571,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
 
         if( ! self::$docType)
         throw new g11nException('Unable to detect the document type :(');
-    }//function
+    }
 
     /**
      * Record translated and untranslated strings.
@@ -592,7 +607,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }
 
         self::$processedItems[$string] = $info;
-    }//function
+    }
 
     /**
      * Logs events.
@@ -613,7 +628,7 @@ abstract class g11n//-- Joomla!'s Alternative Language Handler oO
         }//foreach
 
         self::$events[] = $e;
-    }//function
+    }
 
 	public static function loader($className)
 	{

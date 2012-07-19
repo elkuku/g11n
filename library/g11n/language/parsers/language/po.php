@@ -54,7 +54,8 @@ class g11nParserLanguagePo
      */
     public function parse($fileName)
     {
-        //    ###public static function parse($fileName)
+	    jimport('joomla.filesystem.file');
+
         $fileInfo = new g11nFileInfo;
 
         $fileName = JPath::clean($fileName);
