@@ -302,10 +302,9 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
         if(! self::$lang)
             self::detectLanguage();
 
-        if(! $extension
-            && ! $extension = JRequest::getCmd('option')
-        )
-            throw new g11nException('Invalid extension');
+        if( ! $extension
+        && !  $extension = JFactory::getApplication()->input->get('option'))
+        throw new g11nException('Invalid extension');
 
         if($JAdmin == '')
             $JAdmin = JFactory::getApplication()->isAdmin()
@@ -535,34 +534,49 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
      */
     private static function detectLanguage()
     {
-        $reqLang = JRequest::getCmd('lang');
+	    self::$lang = JFactory::getApplication()->input->get('lang');
 
-        if($reqLang != '')
+        if(self::$lang != '')
         {
             //@todo CHECKif language exists..
-            self::$lang = $reqLang;
+            //self::$lang = $reqLang;
 
-            JFactory::getApplication()->setUserState('lang', $reqLang);
+            JFactory::getApplication()->setUserState('lang', self::$lang);
 
             return;
         }
 
-        $stateLang = JFactory::getApplication()->getUserState('lang');
+	    self::$lang = JFactory::getApplication()->getUserState('lang');
 
-        if($stateLang != '')
+        if(self::$lang != '')
         {
             //@todo CHECKif language exists..
-            self::$lang = $stateLang;
+            //self::$lang = $stateLang;
 
             return;
         }
 
-        //-- OK.. first let's do a
+	    self::$lang = getenv('LANG');
+
+	    if(self::$lang)
+	    {
+		    self::$lang = str_replace('_', '-', self::$lang);
+
+		    //-- We're british..
+		    if('en-US' == self::$lang)
+			    self::$lang = 'en-GB';
+
+		    return;
+	    }
+
+	    //-- OK.. let's do a
         self::$lang = JFactory::getLanguage()->getTag();
-        //that should be enough..
 
-        if(! self::$lang)
-            throw new g11nException('Something wrong with JLanguage :(');
+        //-- That should be enough.. british or die.
+        if( ! self::$lang)
+	        self::$lang = 'en-GB';
+
+//        throw new g11nException('Something wrong with JLanguage :(');
     }
 
     /**

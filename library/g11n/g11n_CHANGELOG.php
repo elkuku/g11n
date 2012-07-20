@@ -33,6 +33,11 @@ _______________________________________________
 _______________________________________________
 
 2012-03-18
+1371b25 Fix docblocks
+54a6495 Remove obsolete SVN Ids
+f69bdf1 Add a changelog generator
+cadd51f Fix code style
+44bdefa Update changelog
 70d476e Add a pre-commit script to include a version number
 
 ---------- 1.0.1 ----------

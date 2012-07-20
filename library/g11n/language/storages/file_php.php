@@ -252,6 +252,8 @@ class g11nStorageFilePHP extends g11nStorage
      */
     public function clean($lang, $extension, $scope = '')
     {
+	    jimport('joomla.filesystem.file');
+
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
         if(! JFile::exists($storePath))
