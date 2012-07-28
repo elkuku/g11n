@@ -1,6 +1,6 @@
 # This file contains the paths to project g11n
 
-basePath=/home/elkuku/eclipse/workspace/eclipse_helios/elkuku_g11n
+basePath=
 
 library/g11n libraries/g11n
 library/g11n/lib_g11n.xml administrator/manifests/libraries/lib_g11n.xml

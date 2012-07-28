@@ -14,6 +14,7 @@ ini_set('error_reporting', -1);
 jimport('joomla.application.component.controller');
 
 defined('BR') || define('BR', '<br />');
+defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
 try
 {
@@ -39,7 +40,11 @@ JHTML::stylesheet('icon.css', 'administrator/components/com_g11n/assets/css/');
 //-- Import Helper class
 JLoader::import('helpers.g11n', JPATH_COMPONENT);
 
-$controller = JController::getInstance('g11nList');
+//$controller = JController::getInstance('g11nList');
+
+include 'controller.php';
+
+$controller = new g11nListController;
 
 $controller->execute(JRequest::getCmd('task'));
 
