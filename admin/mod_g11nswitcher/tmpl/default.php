@@ -1,6 +1,6 @@
 <?php
 /**
- * @version SVN: $Id$
+ * @version    SVN: $Id$
  * @package    g11nSwitcher
  * @subpackage Tmpl
  * @author     Nikolai Plath {@link http://nik-it.de}
@@ -20,7 +20,7 @@ $uri = JURI::getInstance();
 
 $baseLink = (string)$uri;
 
-$baseLink .=($uri->getQuery()) ? '&' : '?';
+$baseLink .= ($uri->getQuery()) ? '&' : '?';
 
 if(strpos($baseLink, 'lang='))
 {
@@ -34,25 +34,25 @@ JHtml::_('stylesheet', 'administrator/modules/mod_g11nswitcher/assets/css/defaul
     <ul>
         <?php
         foreach($languages as $language) :
+            //-- J! test lang
             if($language['tag'] == 'xx-XX')
-            continue;//J test lang
+                continue;
 
-
-            $class =($language['tag'] == $default) ? 'selected' : '';
+            $class = ($language['tag'] == $default) ? 'selected' : '';
             ?>
-                <li>
-                	<a class="<?php echo $class; ?>"
-                	href="<?php echo $baseLink.'lang='.$language['tag']; ?>"
-                	title="<?php echo $language['name']; ?>">
-                       <?php echo $language['tag']; ?>
-                    </a>
+            <li>
+                <a class="<?php echo $class; ?>"
+                   href="<?php echo $baseLink.'lang='.$language['tag']; ?>"
+                   title="<?php echo $language['name']; ?>">
+                    <?php echo $language['tag']; ?>
+                </a>
             </li>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         <li>
-        	<a title="<?php echo jgettext('Clean the cache'); ?>"
-        	style="color: red;"
-        	href="index.php?option=com_g11n&task=deleteCache&scope=admin&retUri=<?php echo base64_encode((string)$uri); ?>">
-        	CCC</a>
+            <a title="<?php echo jgettext('Clean the cache'); ?>"
+               style="color: red;"
+               href="index.php?option=com_g11n&task=deleteCache&scope=admin&retUri=<?php echo base64_encode((string)$uri); ?>">
+                CCC</a>
         </li>
     </ul>
 </span>

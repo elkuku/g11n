@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package    g11n
  * @subpackage Controllers
  */
-class g11nListController extends JController
+class g11nListController extends JControllerLegacy
 {
     public function cleanCache()
     {
@@ -65,7 +65,7 @@ class g11nListController extends JController
 
         if( ! JFolder::exists($basePath.DS.$cachePath))
         {
-            $message = 'Invalid folder';
+            $message = 'Invalid folder: '.$basePath.DS.$cachePath;
             $msgType = 'error';
         }
         else//
