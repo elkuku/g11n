@@ -1,4 +1,9 @@
 /**
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
+ */
+
+/**
  * Small multilanguaging function =;).
  *
  * Also includes sprintf() functionality if more parameters are supplied.

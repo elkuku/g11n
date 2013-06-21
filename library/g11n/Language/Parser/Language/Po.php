@@ -1,10 +1,7 @@
 <?php
 /**
- * @package    g11n
- * @subpackage Parsers
- * @author     Nikolai Plath {@link http://nik-it.de}
- * @author     Created on 19-Sep-2010
- * @license    GNU/GPL
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
 namespace g11n\Language\Parser\Language;

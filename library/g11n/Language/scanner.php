@@ -1,11 +1,7 @@
 <?php
-// @codingStandardsIgnoreStart
-
 /**
- * @package       g11n
- * @subpackage    Utilities
- * @author        Nikolai Plath (elkuku) {@link http://www.nik-it.de NiK-IT.de}
- * @author        Created on 10-Sep-2010
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
 error_reporting(E_ALL | E_STRICT);

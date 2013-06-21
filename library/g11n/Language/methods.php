@@ -1,20 +1,17 @@
 <?php
 /**
- * @package    g11n
- * @subpackage Base
- * @author     Nikolai Plath {@link http://nik-it.de}
- * @author     Created on 19-Sep-2010
- * @license    GNU/GPL
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-use g11n\g11n;
+namespace g11n;
 
 /**
  * Small multilanguaging function =;).
  *
  * Also includes sprintf() functionality if more parameters are supplied.
  * Additional @param $n @deprecated use printf, sprintf or vprintf for this purpose !
- * If additional paramaters are supplied, the function behaves like sprintf.
+ *                            If additional paramaters are supplied, the function behaves like sprintf.
  *
  * @param   string  $original  Text to translate.
  *
@@ -22,28 +19,7 @@ use g11n\g11n;
  */
 function jgettext($original)
 {
-    $translation = g11n::translate($original);
-
-    //-- Do we have additional arguments ?
-    //-- @deprecated and marked for removal !
-    if(func_num_args() > 1)
-    {
-        JFactory::getApplication()->enqueueMessage(
-            'jgettext() has been called with more then ONE arguments..', 'error');
-
-        echo '<pre>';
-        debug_print_backtrace();
-        echo '</pre>';
-
-        //-- Treat it as sprintf
-        $args = func_get_args();
-
-        $args[0] = $translation;
-
-        return call_user_func_array('sprintf', $args);
-    }
-
-    return $translation;
+	return g11n::translate($original);
 }
 
 /**
@@ -57,5 +33,5 @@ function jgettext($original)
  */
 function jngettext($singular, $plural, $count)
 {
-    return g11n::translatePlural($singular, $plural, $count);
+	return g11n::translatePlural($singular, $plural, $count);
 }

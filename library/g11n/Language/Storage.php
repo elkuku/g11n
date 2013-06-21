@@ -1,10 +1,7 @@
 <?php
 /**
- * @package    g11n
- * @subpackage Storage
- * @author     Nikolai Plath {@link http://nik-it.de}
- * @author     Created on 19-Sep-2010
- * @license    GNU/GPL
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
 namespace g11n\Language;
@@ -17,7 +14,7 @@ use g11n\g11nExtensionHelper;
  *
  * @package g11n
  */
-class g11nStorage
+class Storage
 {
 	protected static $handler = '';
 
@@ -42,20 +39,34 @@ class g11nStorage
 	 */
 	public static function getHandler($inputType, $storageType)
 	{
-		$fileName = __DIR__ . '/storages/' . $storageType . '.php';
+		//$fileName = __DIR__ . '/storages/' . $storageType . '.php';
 
-		if (!file_exists($fileName))
-			throw new g11nException('Can not get the storage handler ' . $storageType . ' - ' . $fileName);
+		$parts = explode('_', $storageType);
 
-		require_once $fileName;
+		if (count($parts) != 2)
+		{
+			throw new \RuntimeException('Storage type must be in format [type][_subtype]');
+		}
 
-		$parts       = g11nExtensionHelper::split($storageType, '_');
+		$className = '\\g11n\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
+
+		if (false == class_exists($className))
+		{
+			throw new \RuntimeException('Invalid storage class: ' . $className);
+		}
+//		if (!file_exists($fileName))
+//			throw new g11nException('Can not get the storage handler ' . $storageType . ' - ' . $fileName);
+
+//		require_once $fileName;
+
+/*		$parts       = g11nExtensionHelper::split($storageType, '_');
 		$storageName = 'g11nStorage' . ucfirst($parts[0]) . ucfirst($parts[1]);
 
 		if (!class_exists($storageName))
-			throw new g11nException('Required class not found: ' . $storageName);
+			throw new g11nException('Required class not found: ' . $storageName);*/
 
-		return new $storageName($inputType);
+		return new $className($inputType);
+		//return new $storageName($inputType);
 	}
 
 	/**
@@ -78,9 +89,9 @@ class g11nStorage
 	 *
 	 * @return string
 	 */
-	protected function getPath($lang, $extension, $scope = '')
+	protected function getPath($lang, $extension, $domain = '')
 	{
-		if (empty($scope))
+/*		if (empty($scope))
 		{
 			$path = (JFactory::getApplication()->isAdmin())
 				? JPATH_ADMINISTRATOR : JPATH_SITE;
@@ -89,6 +100,10 @@ class g11nStorage
 		{
 			$path = ('admin' == $scope) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		}
+*/
+
+		// @todo TEMP
+		$path = __DIR__;
 
 		$parts = g11nExtensionHelper::split($extension, '.');
 
@@ -163,8 +178,8 @@ class g11nStorage
 
 		$extensionDir = g11nExtensionHelper::getExtensionPath($extension);
 
-		return JPath::clean("$base/$extensionDir/"
-		. g11nExtensionHelper::$langDirName . "/templates/$fileName");
+		return "$base/$extensionDir/"
+		. g11nExtensionHelper::$langDirName . "/templates/$fileName";
 	}
 
 	/**
@@ -205,58 +220,5 @@ class g11nStorage
 		}
 
 		return $res;
-	}
-}
-
-/**
- * The g11n store description class.
- *
- * @package g11n
- */
-class g11nStore
-{
-	private $strings = array();
-
-	private $stringsPlural = array();
-
-	private $stringsJs = array();
-
-	private $stringsJsPlural = array();
-
-	private $pluralForms = '';
-
-	/**
-	 * Get a property.
-	 *
-	 * @param string $property Property name
-	 *
-	 * @return string
-	 */
-	public function get($property)
-	{
-		if (isset($this->$property))
-			return $this->$property;
-
-		JFactory::getApplication()->enqueueMessage('Undefined property ' . __CLASS__ . '::' . $property, 'error');
-	}
-
-	/**
-	 * Set a property.
-	 *
-	 * @param string $property Property name
-	 * @param mixed  $value    The value to set
-	 *
-	 * @return void
-	 */
-	public function set($property, $value)
-	{
-		if (!isset($this->$property))
-		{
-			JFactory::getApplication()->enqueueMessage('Undefined property ' . __CLASS__ . '::' . $property, 'error');
-
-			return;
-		}
-
-		$this->$property = $value;
 	}
 }

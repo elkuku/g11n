@@ -1,22 +1,19 @@
 <?php
 /**
- * @version SVN: $Id: debug.php 270 2010-12-12 00:07:51Z elkuku $
- * @package    g11n
- * @subpackage Base
- * @author     Nikolai Plath {@link http://nik-it.de}
- * @author     Created on 19-Sep-2010
- * @license    GNU/GPL
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n\Language;
+
+use g11n\g11n;
 
 /**
  * Enter description here ...
  *
  * @package    g11n
  */
-abstract class g11nDebugger
+abstract class Debugger
 {
     /**
      * Prints out translated and untranslated strings.

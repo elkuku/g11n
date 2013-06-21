@@ -1,11 +1,6 @@
 /**
- * JavaScript g11n object. This has been "stolen" from the Joomla! 1.6 code
- * base - to improve it =;)
- *
- * Custom behavior for JavaScript I18N in Joomla! 1.6
- *
- * Allows you to call Joomla.JText._() to get a translated JavaScript string
- * pushed in with JText::script() in Joomla.
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 (function () {
     /**

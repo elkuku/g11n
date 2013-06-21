@@ -4,14 +4,11 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Support;
+namespace g11n;
 
 /**
- * File info class.
+ * The g11n Exception class.
  */
-class TransInfo
+class g11nException extends \Exception
 {
-	public $info = '';
-
-	public $string = '';
 }

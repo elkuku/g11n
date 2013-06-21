@@ -1,22 +1,21 @@
 <?php
 /**
- * @package    g11n
- * @subpackage Storage handler
- * @author     Nikolai Plath {@link http://nik-it.de}
- * @author     Created on 19-Sep-2010
- * @license    GNU/GPL
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n\Language\Storage\File;
+
+use g11n\g11nException;
+use g11n\g11nExtensionHelper;
+use g11n\Language\g11nStorage;
 
 /**
- * Storage handler
- * @todo    desc...
+ * Storage handler for PHP files.
  *
  * @package g11n
  */
-class g11nStorageFilePHP extends g11nStorage
+class Php extends g11nStorage
 {
     public $fileInfo = null;
 
@@ -24,11 +23,13 @@ class g11nStorageFilePHP extends g11nStorage
 
     protected $ext = '.php';
 
-    /**
-     * Constructor.
-     *
-     * @param string $inputType The input type
-     */
+	/**
+	 * Constructor.
+	 *
+	 * @param string $inputType The input type
+	 *
+	 * @throws \g11n\g11nException
+	 */
     public function __construct($inputType)
     {
         $parserName = 'g11nParserLanguage'.ucfirst($inputType);
@@ -39,16 +40,16 @@ class g11nStorageFilePHP extends g11nStorage
         $this->parser = new $parserName;
     }
 
-    /**
-     * Stores the strings into a storage.
-     *
-     * @param string $lang      E.g. de-DE, es-ES etc.
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope     Must be 'admin' or 'site'.
-     *
-     * @return void
-     * @throws Exception
-     */
+	/**
+	 * Stores the strings into a storage.
+	 *
+	 * @param string $lang      E.g. de-DE, es-ES etc.
+	 * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param string $scope     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
     public function store($lang, $extension, $scope = '')
     {
         $ext = $this->parser->getExt();

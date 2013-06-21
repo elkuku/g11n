@@ -1,8 +1,7 @@
 <?php
 /**
- * User: elkuku
- * Date: 21.06.13
- * Time: 15:57
+ * @copyright  2010-2013 Nikolsi Plath
+ * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
 namespace g11n\Support;
@@ -35,8 +34,9 @@ class FileInfo
 	/**
 	 * Get a property.
 	 *
-	 * @param string $property Property name
+	 * @param   string  $property  Property name.
 	 *
+	 * @throws \UnexpectedValueException
 	 * @return mixed
 	 */
 	public function get($property)
@@ -46,7 +46,7 @@ class FileInfo
 			return $this->$property;
 		}
 
-		JFactory::getApplication()->enqueueMessage('Undefined property ' . __CLASS__ . '::' . $property, 'error');
+		throw new \UnexpectedValueException('Get undefined property ' . __CLASS__ . '::' . $property);
 	}
 }
 
