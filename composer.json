@@ -1,0 +1,14 @@
+{
+    "name": "elkuku/g11n",
+    "description": "The g11n language library",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Nikolai Plath",
+            "email": "der.el.kuku@gmail.com"
+        }
+    ],
+    "require": {
+
+    }
+}
