@@ -36,3 +36,8 @@ span.g11nSwitcher a.selected {
 	color: #fff;
 	padding: 0.3em;
 }
+
+span.g11nSwitcher select {
+    width: 6em;
+    height: 1.8em;
+}

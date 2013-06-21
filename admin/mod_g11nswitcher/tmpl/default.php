@@ -30,6 +30,22 @@ JHtml::_('stylesheet', 'administrator/modules/mod_g11nswitcher/assets/css/defaul
 ?>
 
 <span class="g11nSwitcher">
+	<select class="span1" onchange="window.location = this.value">
+        <?php foreach($languages as $language) : ?>
+		<?php $selected = ($language['tag'] == $default) ? ' selected="selected"' : ''; ?>
+        <option <?php echo $selected; ?>
+           value="<?php echo $baseLink.'lang='.$language['tag']; ?>"
+           title="<?php echo $language['name']; ?>">
+			<?php echo $language['tag']; ?>
+        </option>
+
+		<?php endforeach; ?>
+		<!--
+		<option>Clean cache</option>
+		-->
+	</select>
+
+	<!--
     <ul>
         <?php
         foreach($languages as $language) :
@@ -54,4 +70,5 @@ JHtml::_('stylesheet', 'administrator/modules/mod_g11nswitcher/assets/css/defaul
                 CCC</a>
         </li>
     </ul>
+    -->
 </span>

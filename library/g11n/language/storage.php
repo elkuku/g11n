@@ -159,7 +159,7 @@ class g11nStorage
 
         $fileName = $extension.'.pot';
 
-//        $extensionDir = g11nExtensionHelper::getExtensionPath($extension);
+        $extensionDir = g11nExtensionHelper::getExtensionPath($extension);
 
         return JPath::clean("$base/$extensionDir/"
             .g11nExtensionHelper::$langDirName."/templates/$fileName");

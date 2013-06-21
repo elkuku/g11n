@@ -564,6 +564,9 @@ abstract class g11n //-- Joomla!'s Alternative Language Handler oO
         {
             self::$lang = str_replace('_', '-', self::$lang);
 
+	        if(strpos(self::$lang, '.'))
+		        self::$lang = substr(self::$lang, 0, strpos(self::$lang, '.'));
+
             //-- We're british..
             if('en-US' == self::$lang)
                 self::$lang = 'en-GB';
