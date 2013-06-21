@@ -7,18 +7,16 @@
  * @license    GNU/GPL
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+use g11n\g11n;
 
 /**
  * Small multilanguaging function =;).
  *
  * Also includes sprintf() functionality if more parameters are supplied.
- *
  * Additional @param $n @deprecated use printf, sprintf or vprintf for this purpose !
  * If additional paramaters are supplied, the function behaves like sprintf.
  *
- * @param string $original Text to translate.
+ * @param   string  $original  Text to translate.
  *
  * @return string Translated text or original if not found.
  */
@@ -46,18 +44,18 @@ function jgettext($original)
     }
 
     return $translation;
-}//function
+}
 
 /**
  * Small multilanguaging pluralisation function =;).
  *
- * @param string $singular Singular form of text to translate.
- * @param string $plural Plural form of text to translate.
- * @param integer $count The number of items
+ * @param   string   $singular  Singular form of text to translate.
+ * @param   string   $plural    Plural form of text to translate.
+ * @param   integer  $count     The number of items
  *
  * @return string Translated text.
  */
 function jngettext($singular, $plural, $count)
 {
     return g11n::translatePlural($singular, $plural, $count);
-}//function
+}

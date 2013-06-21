@@ -7,15 +7,14 @@
  * @license    GNU/GPL
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n\Language\Parser\Language;
 
 /**
  * Parser for po language files.
  *
  * @package g11n
  */
-class g11nParserLanguagePo
+class Po
 {
     /**
      * File extension.
@@ -380,4 +379,4 @@ class g11nParserLanguagePo
 
         return implode(NL, $content);
     }
-}//class
+}

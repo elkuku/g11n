@@ -7,8 +7,7 @@
  * @license    GNU/GPL
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n;
 
 /**
  * Extension helper class.
@@ -142,7 +141,7 @@ class g11nExtensionHelper
 
             return is_dir($scopePath.'/'.$extensionPath);
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }//try

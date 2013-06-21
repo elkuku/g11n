@@ -12,9 +12,6 @@
  * @author     Created on 22-Sep-2010
  */
 
-//--No direct access to this changelog...
-defined('_JEXEC') || die('=;)');
-
 //--For phpDocumentor documentation we need to construct a function ;)
 /**
  * CHANGELOG

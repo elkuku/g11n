@@ -7,21 +7,20 @@
  * @license    GNU/GPL
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n;
 
-spl_autoload_register('g11n::loader');
-
-require __DIR__.'/language/methods.php';
+require_once __DIR__ . '/Language/methods.php';
 
 /**
  * The g11n - "globalization" class.
  *
  * Language handling class.
  *
+ *  //-- Joomla!'s Alternative Language Handler oO
+ *
  * @package g11n
  */
-abstract class g11n //-- Joomla!'s Alternative Language Handler oO
+abstract class g11n
 {
     /** Language tag - e.g.en-GB, de-DE
      *

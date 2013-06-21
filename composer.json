@@ -9,6 +9,11 @@
         }
     ],
     "require": {
-
-    }
+		"php": ">=5.3.10"
+    },
+	"autoload": {
+		"psr-0": {
+			"g11n": "library/g11n/"
+		}
+	}
 }

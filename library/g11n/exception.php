@@ -7,12 +7,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-//-- No direct access
-defined('_JEXEC') || die('=;)');
+namespace g11n;
 
 /**
  * The g11n Exception class.
  */
-class g11nException extends Exception
+class g11nException extends \Exception
 {
-}//class
+}
