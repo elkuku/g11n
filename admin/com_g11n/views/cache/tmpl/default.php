@@ -43,7 +43,7 @@ endif;
                 echo '<th>';
                 echo $lang['tag'];
                 echo '</th>';
-            }//foreach
+            }
             ?>
 		</tr>
 	</thead>

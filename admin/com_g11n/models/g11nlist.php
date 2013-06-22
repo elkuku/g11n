@@ -42,7 +42,7 @@ class g11nListModelg11nList extends JModel
         }
 
         return $this->_data;
-    }//function
+    }
 
     public static function getCachedFiles()
     {
@@ -68,11 +68,11 @@ class g11nListModelg11nList extends JModel
             foreach($extensions as $extension)
             {
                 $cachedFiles[$extension][$scope] = JFolder::files($cachePath.'/'.$extension);
-            }//foreach
-        }//foreach
+            }
+        }
 
         return $cachedFiles;
-    }//function
+    }
 
     public static function getLanguages()
     {
@@ -91,7 +91,7 @@ class g11nListModelg11nList extends JModel
         }
 
         return $languages;
-    }//function
+    }
 
     /**
      * Returns the query.
@@ -104,5 +104,5 @@ class g11nListModelg11nList extends JModel
         . ' FROM #__g11n ';
 
         return $query;
-    }//function
-}//class
+    }
+}

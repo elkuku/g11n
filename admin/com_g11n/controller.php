@@ -48,7 +48,7 @@ class g11nListController extends JControllerLegacy
         }//try
 
         parent::display();
-    }//function
+    }
 
     public function deleteCache()
     {
@@ -77,5 +77,5 @@ class g11nListController extends JControllerLegacy
         }
 
         $this->setRedirect(base64_decode($retUri), $message, $msgType);
-    }//function
-}//class
+    }
+}

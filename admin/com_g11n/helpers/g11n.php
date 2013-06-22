@@ -36,5 +36,5 @@ class g11nHelper
         , 'index.php?option=com_g11n&task=utility.display',
         $vName == 'utility'
         );
-    }//function
-}//class
+    }
+}

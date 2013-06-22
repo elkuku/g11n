@@ -66,6 +66,6 @@ class g11nBaseFormField extends JFormField
         $label .= '</label>';
 
         return $label;
-    }//function
+    }
 
 }

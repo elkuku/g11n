@@ -30,14 +30,14 @@ class g11nListControllerUtility extends JController
 
         $this->g11nView = $this->getView('Utility', 'html', 'g11nListView');
         $this->g11nView->setModel($model, true);
-    }//function
+    }
     public function display($cachable = null, $urlparams = null)
     {
         $this->g11nView->display($cachable, $urlparams);
 
         //-- this one is only for the submenu :|
         JRequest::setVar('view', 'utility');
-    }//function
+    }
 
     public function updateLanguage()
     {
@@ -125,7 +125,7 @@ class g11nListControllerUtility extends JController
         //-- this one is only for the submenu :|
         JRequest::setVar('view', 'utility');
         #   parent::display();
-    }//function
+    }
 
     public function createTemplate()
     {
@@ -148,7 +148,7 @@ class g11nListControllerUtility extends JController
 
                     break;
                 }
-            }//foreach
+            }
 
             if( ! $found)
             {
@@ -248,11 +248,11 @@ class g11nListControllerUtility extends JController
                 {
                     if(strpos($file, $exclude))
                     $found = true;
-                }//foreach
+                }
 
                 if( ! $found)
                 $cleanFiles[] = $file;
-            }//foreach
+            }
 
             if('config' == $subType)
             {
@@ -289,9 +289,9 @@ class g11nListControllerUtility extends JController
                             $t = new g11nTransInfo;
                             $t->info .= '#: '.$relPath.':'.$key.NL;
                             $outFile->strings[$string] = $t;
-                        }//foreach
-                    }//foreach
-                }//foreach
+                        }
+                    }
+                }
 
                 $buffer = $potParser->generate($outFile, $options);
 
@@ -336,5 +336,5 @@ class g11nListControllerUtility extends JController
         //-- this one is only for the submenu :|
         JRequest::setVar('view', 'utility');
 //        parent::display();
-    }//function
-}//class
+    }
+}

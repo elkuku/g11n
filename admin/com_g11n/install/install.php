@@ -32,5 +32,5 @@ function com_install()
      */
 
     return true;
-}//function
+}
 ##ECR_MD5CHECK_FNC##

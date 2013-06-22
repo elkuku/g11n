@@ -18,14 +18,14 @@ class Storage
 {
 	protected static $handler = '';
 
-	protected static $cacheDir = 'cache/g11n';
+	protected static $cacheDir = '/tmp';
 
 	/**
 	 * Constructor.
 	 */
 	protected function __construct()
 	{
-		self::$cacheDir = 'cache/' . ExtensionHelper::langDirName;
+		self::$cacheDir .= ExtensionHelper::$langDirName;
 	}
 
 	/**
@@ -54,16 +54,17 @@ class Storage
 		{
 			throw new \RuntimeException('Invalid storage class: ' . $className);
 		}
+
 //		if (!file_exists($fileName))
 //			throw new g11nException('Can not get the storage handler ' . $storageType . ' - ' . $fileName);
 
 //		require_once $fileName;
 
-/*		$parts       = ExtensionHelper::split($storageType, '_');
-		$storageName = 'g11nStorage' . ucfirst($parts[0]) . ucfirst($parts[1]);
+		/*		$parts       = ExtensionHelper::split($storageType, '_');
+				$storageName = 'g11nStorage' . ucfirst($parts[0]) . ucfirst($parts[1]);
 
-		if (!class_exists($storageName))
-			throw new g11nException('Required class not found: ' . $storageName);*/
+				if (!class_exists($storageName))
+					throw new g11nException('Required class not found: ' . $storageName);*/
 
 		return new $className($inputType);
 		//return new $storageName($inputType);
@@ -81,43 +82,34 @@ class Storage
 	}
 
 	/**
+	 * Set the cache directory.
+	 *
+	 * @param string $cacheDir
+	 *
+	 * @return void
+	 */
+	public static function setCacheDir($cacheDir)
+	{
+		self::$cacheDir = $cacheDir;
+	}
+
+	/**
 	 * Get the path of a storage file.
 	 *
 	 * @param string $lang      Language tag e.g. en-GB.
 	 * @param string $extension Extension name e.g. com_component.
-	 * @param string $scope     Must be 'admin' or 'site' / blank to use actual.
 	 *
 	 * @return string
 	 */
-	protected function getPath($lang, $extension, $domain = '')
+	protected function getPath($lang, $extension)
 	{
-/*		if (empty($scope))
-		{
-			$path = (JFactory::getApplication()->isAdmin())
-				? JPATH_ADMINISTRATOR : JPATH_SITE;
-		}
-		else //
-		{
-			$path = ('admin' == $scope) ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		}
-*/
-
-		// @todo TEMP
-		$path = __DIR__;
-
 		$parts = ExtensionHelper::split($extension, '.');
 
-		$dirName = $extension;
+		$dirName = (1 == count($parts))
+			? $extension
+			: $parts[0];
 
-		if (count($parts) != 1)
-		{
-			$dirName = $parts[0];
-		}
-
-		$path .= '/' . self::$cacheDir . '/' . $dirName;
-		$path .= '/' . $lang . '.' . $extension;
-
-		return $path;
+		return self::$cacheDir . '/' . $dirName . '/' . $lang . '.' . $extension;
 	}
 
 	/**
@@ -140,8 +132,8 @@ class Storage
 	 *
 	 * @static
 	 *
-	 * @param $extension
-	 * @param $scope
+	 * @param   string  $extension  Extension name.
+	 * @param   string  $scope      Extension scope
 	 *
 	 * @return string
 	 */
@@ -150,11 +142,12 @@ class Storage
 		static $templates = array();
 
 		if (array_key_exists($extension, $templates)
-			&& array_key_exists($scope, $templates[$extension])
-		)
+			&& array_key_exists($scope, $templates[$extension]))
+		{
 			return $templates[$extension][$scope];
+		}
 
-		$base = ExtensionHelper::getScopePath($scope);
+		$base = ExtensionHelper:: getDomainPath($scope);
 
 		$parts = ExtensionHelper::split($extension);
 
@@ -165,9 +158,9 @@ class Storage
 			$parts  = ExtensionHelper::split($extension, '_');
 			$prefix = $parts[0];
 		}
-		else //
+		else
 		{
-			//-- We have a subType
+			// We have a subType
 			$subType = $parts[1];
 
 			$parts  = ExtensionHelper::split($parts[0], '_');
@@ -187,7 +180,7 @@ class Storage
 	 *
 	 * E.g.: nplurals=2; plural=(n != 1)
 	 *
-	 * @param string $gettextPluralForms Gettext format
+	 * @param   string  $gettextPluralForms  Gettext format.
 	 *
 	 * @return string pcre type PluralForms
 	 */

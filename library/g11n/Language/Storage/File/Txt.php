@@ -52,7 +52,7 @@ class g11nStorageFileTxt extends g11nStorage
         $this->paths[$extension][$fileName] = true;
 
         return true;
-    }//function
+    }
 
     /**
      * Stores the strings into a storage.
@@ -89,5 +89,5 @@ class g11nStorageFileTxt extends g11nStorage
         $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
 
         return true;
-    }//function
-}//class
+    }
+}

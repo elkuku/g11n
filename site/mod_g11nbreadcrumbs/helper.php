@@ -39,7 +39,7 @@ class modg11nBreadCrumbsHelper
         }
 
         return $items;
-    }//function
+    }
 
     /**
      * Set the breadcrumbs separator for the breadcrumbs display.
@@ -70,5 +70,5 @@ class modg11nBreadCrumbsHelper
         }
 
         return $_separator;
-    }//function
-}//class
+    }
+}

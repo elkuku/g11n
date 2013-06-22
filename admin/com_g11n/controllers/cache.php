@@ -30,28 +30,28 @@ class g11nListControllerCache extends JController
 
         //-- this one is only for the submenu :|
         JRequest::setVar('view', 'cache');
-    }//function
+    }
 
     public function clean()
     {
         echo 'RR';
         var_dump($_REQUEST);
-    }//function
+    }
 
     public function cleanAllAdmin()
     {
         echo 'ALLLL admin';
         var_dump($_REQUEST);
-    }//function
+    }
 
     public function cleanAllSite()
     {
         echo 'ALLLL site';
         var_dump($_REQUEST);
-    }//function
+    }
 
     public function cache()
     {
         echo 'POOP';
-    }//function
-}//class
+    }
+}

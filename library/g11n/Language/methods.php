@@ -4,7 +4,7 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n;
+use \g11n\g11n;
 
 /**
  * Small multilanguaging function =;).

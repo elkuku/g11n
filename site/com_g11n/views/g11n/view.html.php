@@ -31,5 +31,5 @@ class g11nViewg11n extends JView
         $this->assignRef('data', $data);
 
         parent::display($tpl);
-    }//function
-}//class
+    }
+}

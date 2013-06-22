@@ -21,7 +21,7 @@ class g11nParserLanguagePot
     public function getExt()
     {
         return $this->ext;
-    }//function
+    }
 
     /**
      * Convert to string.
@@ -31,7 +31,7 @@ class g11nParserLanguagePot
     public function __toString()
     {
         return (string)__CLASS__;
-    }//function
+    }
 
     /**
      * Parse a language file - NOT NESSESARY !.
@@ -161,12 +161,12 @@ class g11nParserLanguagePot
                     $state = 0;
                 }
             }
-        }//foreach
+        }
 
         $fileInfo->head = $head;
 
         return $fileInfo;
-    }//function
+    }
 
     /**
      * Generate a language file.
@@ -228,8 +228,8 @@ msgstr \"\"
                     foreach($locs as $loc)
                     {
                         $contents[] = '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             $key = html_entity_decode($key);
@@ -249,7 +249,7 @@ msgstr \"\"
             $contents[] = 'msgid "'.htmlentities($key).'"';
             $contents[] = 'msgstr ""';
             $contents[] = '';
-        }//foreach
+        }
 
         foreach($stringsPlural as $key => $string)
         {
@@ -260,8 +260,8 @@ msgstr \"\"
                     foreach($locs as $loc)
                     {
                         $contents[] = '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             $key = html_entity_decode($key);
@@ -272,8 +272,8 @@ msgstr \"\"
             $contents[] = 'msgstr[0] ""';
             $contents[] = 'msgstr[1] ""';
             $contents[] = '';
-        }//foreach
+        }
 
         return implode("\n", $contents);
-    }//function
-}//class
+    }
+}

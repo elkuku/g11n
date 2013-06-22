@@ -14,256 +14,236 @@ use g11n\Support\Store;
 /**
  * Storage handler for PHP files.
  *
- * @package g11n
+ * @since  1.0
  */
 class Php extends Storage
 {
-    public $fileInfo = null;
+	public $fileInfo = null;
 
-    protected $parser = null;
+	protected $parser = null;
 
-    protected $ext = '.php';
+	protected $ext = '.php';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param string $inputType The input type
+	 * @param   string $inputType  The input type
 	 *
 	 * @throws \g11n\g11nException
 	 */
-    public function __construct($inputType)
-    {
-        $parserName = '\\g11n\\Language\\Parser\\Language\\'.ucfirst($inputType);
+	public function __construct($inputType)
+	{
+		parent::__construct();
 
-        if(! class_exists($parserName))
-            throw new g11nException('Required parser class not found: '.$parserName);
+		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($inputType);
 
-        $this->parser = new $parserName;
-    }
+		if (!class_exists($class))
+			throw new g11nException('Required parser class not found: ' . $class);
+
+		$this->parser = new $class;
+	}
 
 	/**
 	 * Stores the strings into a storage.
 	 *
-	 * @param string $lang      E.g. de-DE, es-ES etc.
-	 * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param string $scope     Must be 'admin' or 'site'.
+	 * @param   string $lang       E.g. de-DE, es-ES etc.
+	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $scope      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
 	 */
-    public function store($lang, $extension, $scope = '')
-    {
-        $ext = $this->parser->getExt();
+	public function store($lang, $extension, $scope = '')
+	{
+		$ext = $this->parser->getExt();
 
-        /*
-         * Parse language files
-         */
-        $fileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, $ext);
+		/*
+		 * Parse language files
+		 */
+		$fileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, $ext);
 
-        $fileInfo = $this->parser->parse($fileName);
+		$fileInfo = $this->parser->parse($fileName);
 
-        $this->fileInfo = $fileInfo;
+		$this->fileInfo = $fileInfo;
 
-        /*
-         * "Normal" strings
-         */
-        $stringsArray = array();
+		/*
+		 * "Normal" strings
+		 */
+		$stringsArray = array();
 
-        foreach($fileInfo->strings as $key => $value)
-        {
-            $key = md5($key);
-            $value = base64_encode($value->string);
+		foreach ($fileInfo->strings as $key => $value)
+		{
+			$key   = md5($key);
+			$value = base64_encode($value->string);
 
-            $stringsArray[] = "'".$key."'=>'".$value."'";
-        }
+			$stringsArray[] = "'" . $key . "'=>'" . $value . "'";
+		}
 
-        /*
-         * Plural strings
-         */
-        $pluralsArray = array();
+		/*
+		 * Plural strings
+		 */
+		$pluralsArray = array();
 
-        foreach($fileInfo->stringsPlural as $key => $plurals)
-        {
-            $key = md5($key);
-            $ps = array();
+		foreach ($fileInfo->stringsPlural as $key => $plurals)
+		{
+			$key = md5($key);
+			$ps  = array();
 
-            foreach($plurals->forms as $keyP => $plural)
-            {
-                $value = base64_encode($plural);
-                $ps[] = "'".$keyP."'=>'".$value."'";
-            }
+			foreach ($plurals->forms as $keyP => $plural)
+			{
+				$value = base64_encode($plural);
+				$ps[]  = "'" . $keyP . "'=>'" . $value . "'";
+			}
 
-            $value = base64_encode($value);
-            $pluralsArray[] = "'".$key."'=> array(".implode(',', $ps).")";
-        }
+			$value          = base64_encode($value);
+			$pluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ")";
+		}
 
-        /*
-         * JavaScript strings
-         */
-        $jsArray = array();
-        $jsPluralsArray = array();
+		/*
+		 * JavaScript strings
+		 */
+		$jsArray        = array();
+		$jsPluralsArray = array();
 
-        try
-        {
-            $jsFileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, 'js.'.$ext);
+		try
+		{
+			$jsFileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, 'js.' . $ext);
 
-            $jsInfo = $this->parser->parse($jsFileName);
+			$jsInfo = $this->parser->parse($jsFileName);
 
-            foreach($jsInfo->strings as $key => $value)
-            {
-                $key = md5($key);
-                $value = base64_encode($value->string);
-                $jsArray[] = "'".$key."'=>'".$value."'";
-            }
+			foreach ($jsInfo->strings as $key => $value)
+			{
+				$key       = md5($key);
+				$value     = base64_encode($value->string);
+				$jsArray[] = "'" . $key . "'=>'" . $value . "'";
+			}
 
-            $jsPluralsArray = array();
+			$jsPluralsArray = array();
 
-            foreach($jsInfo->stringsPlural as $key => $plurals)
-            {
-                $key = md5($key);
-                $ps = array();
+			foreach ($jsInfo->stringsPlural as $key => $plurals)
+			{
+				$key = md5($key);
+				$ps  = array();
 
-                foreach($plurals as $keyP => $plural)
-                {
-                    $value = base64_encode($plural);
-                    $ps[] = "'".$keyP."'=>'".$value."'";
-                }
+				foreach ($plurals as $keyP => $plural)
+				{
+					$value = base64_encode($plural);
+					$ps[]  = "'" . $keyP . "'=>'" . $value . "'";
+				}
 
-                $value = base64_encode($value);
-                $jsPluralsArray[] = "'".$key."'=> array(".implode(',', $ps).")";
-            }
-        }
-        catch(Exception $e)
-        {
-            //-- We did not found the javascript files...
-            //-- Do nothing - for now..@todo do something :P
-            echo '';
-        }
+				$value            = base64_encode($value);
+				$jsPluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ")";
+			}
+		}
+		catch (\Exception $e)
+		{
+			// We did not found the javascript files...
+			// Do nothing - for now..@todo do something :P
+			echo '';
+		}
 
-        /* Process the results - Construct an ""array string""
-         * Result:
-         * '<?php $strings = array('a'=>'b', ...); ?>'
-         */
-        $resultString = '';
-        $resultString .= '<?php ';
-        $resultString .= '$info=array('
-            ."'mode'=>'".$fileInfo->mode."'"
-            .",'pluralForms'=>'".$this->translatePluralForms($fileInfo->pluralForms)."'"
-            .");";
-        $resultString .= ' $strings=array('.implode(',', $stringsArray).');';
-        $resultString .= ' $stringsPlural=array('.implode(',', $pluralsArray).');';
-        $resultString .= ' $stringsJs=array('.implode(',', $jsArray).');';
-        $resultString .= ' $stringsJsPlural=array('.implode(',', $jsPluralsArray).');';
-        /*$resultString .= ' ?>';*/
+		/*
+		 * Process the results - Construct an ""array string""
+		 * Result:
+		 * '<?php $strings = array('a'=>'b', ...); ?>'
+		 */
+		$resultString = '<?php '
+			. '$info=array('
+			. "'mode'=>'" . $fileInfo->mode . "'"
+			. ",'pluralForms'=>'" . $this->translatePluralForms($fileInfo->pluralForms) . "'"
+			. ");"
+			. ' $strings=array(' . implode(',', $stringsArray) . ');'
+			. ' $stringsPlural=array(' . implode(',', $pluralsArray) . ');'
+			. ' $stringsJs=array(' . implode(',', $jsArray) . ');'
+			. ' $stringsJsPlural=array(' . implode(',', $jsPluralsArray) . ');';
 
-        $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
+		$storePath = $this->getPath($lang, $extension, $scope) . $this->ext;
 
-        if(! file_put_contents($storePath, $resultString))
-            throw new g11nException('Unable to write language storage file to '.$storePath);
-        //@Do_NOT_Translate
-    }
+		if (false == is_dir(dirname($storePath)))
+		{
+			mkdir(dirname($storePath), 0755, true);
+		}
 
-    /**
-     * Retrieve the storage content.
-     *
-     * @param string $lang      E.g. de-DE, es-ES etc.
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope     Must be 'admin' or 'site'.
-     *
-     * @return boolean
-     */
-    public function retrieve($lang, $extension, $scope = '')
-    {
-        $parts = ExtensionHelper::split($extension, '_');
+		if (!file_put_contents($storePath, $resultString))
+			throw new g11nException('Unable to write language storage file to ' . $storePath);
+	}
 
-        $prefix = $parts[0];
+	/**
+	 * Retrieve the storage content.
+	 *
+	 * @param   string $lang       E.g. de-DE, es-ES etc.
+	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $scope      Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return boolean
+	 */
+	public function retrieve($lang, $extension, $scope = '')
+	{
+		$path = $this->getPath($lang, $extension, $scope) . $this->ext;
 
-        if('joomla' != $prefix)
-        {
-            if(! array_key_exists($prefix, ExtensionHelper::getExtensionTypes()))
-                throw new g11nException('Unknown extension type: '.$prefix);
-            //@Do_NOT_Translate
+		// File has not being cached
+		if (!file_exists($path))
+		{
+			// Try to store
+			$this->store($lang, $extension, $scope);
 
-            $extensionName = $parts[1];
-        }
+			// Failed ?
+			if (!file_exists($path))
+				throw new g11nException('Unable to retrieve the strings');
+		}
 
-        # $parts = $this->split($extensionName, '.');
+		/*
+		 * Include the file
+		 * This file should contain the arrays
+		 * # $info()
+		 * # $strings()
+		 * # $jsStrings()
+		 */
+		include $path;
 
-        $path = $this->getPath($lang, $extension, $scope).$this->ext;
-//        $path = JPath::clean($path);
+		$store = new Store;
 
-        //-- File has not being cached
-        if(! file_exists($path))
-        {
-            //-- Try to store
-            $this->store($lang, $extension, $scope);
+		if (isset($info['pluralForms']))
+			$store->set('pluralForms', $info['pluralForms']);
 
-            //-- Failed ?
-            if(! file_exists($path))
-                throw new g11nException('Unable to retrieve the strings');
-            //@Do_NOT_Translate
-        }
+		if (!empty($strings))
+			$store->set('strings', $strings);
 
-        /*
-         * Include the file
-         * This file should contain the arrays
-         * # $info()
-         * # $strings()
-         * # $jsStrings()
-         */
-        include $path;
+		if (!empty($stringsPlural))
+			$store->set('stringsPlural', $stringsPlural);
 
-        $store = new Store;
+		if (!empty($stringsJs))
+			$store->set('stringsJs', $stringsJs);
 
-        if(isset($info))
-        {
-//            $this->fileInfo->mode = null;
-//
-//            if(isset($info['mode'])
-//            && $info['mode'])
-//            $this->fileInfo->mode = $info['mode'];//Legacy ?
+		if (!empty($stringsJsPlural))
+			$store->set('stringsJsPlural', $stringsJsPlural);
 
-            if(isset($info['pluralForms']))
-                $store->set('pluralForms', $info['pluralForms']);
-        }
-
-        if(! empty($strings))
-            $store->set('strings', $strings);
-
-        if(! empty($stringsPlural))
-            $store->set('stringsPlural', $stringsPlural);
-
-        if(! empty($stringsJs))
-            $store->set('stringsJs', $stringsJs);
-
-        if(! empty($stringsJsPlural))
-            $store->set('stringsJsPlural', $stringsJsPlural);
-
-        return $store;
-    }
+		return $store;
+	}
 
 	/**
 	 * Cleans the storage.
 	 *
-	 * @param string $lang      E.g. de-DE, es-ES etc.
-	 * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param string $scope     Must be 'admin' or 'site'.
+	 * @param   string $lang       E.g. de-DE, es-ES etc.
+	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $scope      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
 	 */
-    public function clean($lang, $extension, $scope = '')
-    {
-	    jimport('joomla.filesystem.file');
+	public function clean($lang, $extension, $scope = '')
+	{
+		jimport('joomla.filesystem.file');
 
-        $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
+		$storePath = $this->getPath($lang, $extension, $scope) . $this->ext;
 
-        if(! file_exists($storePath))
-            return;
-        //-- Storage file does not exist
+		// Storage file does not exist
+		if (!file_exists($storePath))
+			return;
 
-        if(!unlink($storePath))
-            throw new g11nException('Unable to clean storage in: '.$storePath);
-        //@Do_NOT_Translate
-    }
+		// @Do_NOT_Translate
+		if (!unlink($storePath))
+			throw new g11nException('Unable to clean storage in: ' . $storePath);
+	}
 }

@@ -47,15 +47,15 @@ class modg11nLoginHelper
         }
 
         return base64_encode($url);
-    }//function
+    }
 
     public static function getType()
     {
         $user = JFactory::getUser();
 
         return ( ! $user->get('guest')) ? 'logout' : 'login';
-    }//function
-}//class
+    }
+}
 
 /**
  * Enter description here ...
@@ -77,12 +77,12 @@ class TalkPHP_Gravatar
         $this->m_iSize = 80;
         $this->m_szRating = 'R';
         $this->m_szDefaultImage = '';
-    }//function
+    }
 
     public function __toString()
     {
         return $this->getAvatar();
-    }//function
+    }
 
     public function getAvatar()
     {
@@ -93,68 +93,68 @@ class TalkPHP_Gravatar
         $this->m_szRating,
         $this->m_szDefaultImage
         );
-    }//function
+    }
 
     public function setDefaultImageAsIdentIcon()
     {
         $this->m_szDefaultImage = 'identicon';
 
         return $this;
-    }//function
+    }
 
     public function setDefaultImageAsMonsterId()
     {
         $this->m_szDefaultImage = 'monsterid';
 
         return $this;
-    }//function
+    }
 
     public function setDefaultImageAsWavatar()
     {
         $this->m_szDefaultImage = 'wavatar';
 
         return $this;
-    }//function
+    }
 
     public function setEmail($szEmail)
     {
         $this->m_szEmail = md5($szEmail);
 
         return $this;
-    }//function
+    }
 
     public function setSize($iSize)
     {
         $this->m_iSize = (int)$iSize;
 
         return $this;
-    }//function
+    }
 
     public function setRatingAsG()
     {
         $this->m_szRating = 'G';
 
         return $this;
-    }//function
+    }
 
     public function setRatingAsPG()
     {
         $this->m_szRating = 'PG';
 
         return $this;
-    }//function
+    }
 
     public function setRatingAsR()
     {
         $this->m_szRating = 'R';
 
         return $this;
-    }//function
+    }
 
     public function setRatingAsX()
     {
         $this->m_szRating = 'X';
 
         return $this;
-    }//function
-}//class
+    }
+}

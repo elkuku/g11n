@@ -82,7 +82,7 @@ abstract class Debugger
                     continue;//skip first element
 
                     echo $arg.'<br />';
-                }//foreach
+                }
             }
 
             echo '</td>';
@@ -90,10 +90,10 @@ abstract class Debugger
             echo '</tr>';
 
             $k = 1 - $k;
-        }//foreach
+        }
 
         echo '</table>';
-    }//function
+    }
 
     /**
      * Draws untranslated strings to paste in a language file.
@@ -130,14 +130,14 @@ abstract class Debugger
             echo htmlspecialchars($string)."\n";
 
             $count ++;
-        }//foreach
+        }
 
         echo '</pre>';
 
         echo ($count)
         ? sprintf('<h3>Found <b>%d</b> untranslated items</h3>', $count)//@Do_NOT_Translate
         : '<h3 style="color: green;">Everything\'s translated <tt>=:)</tt></h3>';
-    }//function
+    }
 
     /**
      * Replaces the JPATH_ROOT by the string "J" in a path.
@@ -149,5 +149,5 @@ abstract class Debugger
     public static function JReplace($path)
     {
         return str_replace(JPATH_ROOT, 'J', $path);
-    }//function
-}//class
+    }
+}

@@ -6,6 +6,7 @@
 
 namespace g11n\Language\Parser\Language;
 
+use g11n\Language\Parser\Language;
 use g11n\Support\FileInfo;
 
 /**
@@ -13,7 +14,7 @@ use g11n\Support\FileInfo;
  *
  * @package g11n
  */
-class Po
+class Po extends Language
 {
     /**
      * File extension.
@@ -21,26 +22,6 @@ class Po
      * @var string
      */
     protected $ext = 'po';
-
-    /**
-     * Get the extension.
-     *
-     * @return string
-     */
-    public function getExt()
-    {
-        return $this->ext;
-    }
-
-    /**
-     * Convert to string.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)__CLASS__;
-    }
 
     /**
      * Parse a po style language file.
@@ -53,8 +34,6 @@ class Po
     {
         $fileInfo = new FileInfo;
 
-        //$fileName = JPath::clean($fileName);
-
         $fileInfo->fileName = $fileName;
 
         if(! file_exists($fileName))
@@ -62,7 +41,6 @@ class Po
             return $fileInfo; //@todo throw exception
         }
 
-//        $lines = explode("\n", JFile::read($fileName));
         $lines = file($fileName);
 
         if(! $lines)
@@ -91,10 +69,10 @@ class Po
             switch($state)
             {
                 case - 1 :
-                    //Start parsing
+                    // Start parsing
                     if(! $line)
                     {
-                        //-- First empty line stops header
+                        // First empty line stops header
                         $state = 0;
                     }
                     else
@@ -104,7 +82,7 @@ class Po
                     break;
 
                 case 0 :
-                    //waiting for msgid
+                    // Waiting for msgid
                     if(preg_match('/^msgid "(.*)"$/', $line, $match))
                     {
                         $msgid = stripcslashes($match[1]);
@@ -117,7 +95,7 @@ class Po
                     break;
 
                 case 1:
-                    //reading msgid, waiting for msgstr
+                    // Reading msgid, waiting for msgstr
                     if(preg_match('/^msgstr "(.*)"$/', $line, $match))
                     {
                         $msgstr = stripcslashes($match[1]);
@@ -140,7 +118,7 @@ class Po
                     break;
 
                 case 2:
-                    //reading msgstr, waiting for blank
+                    // Reading msgstr, waiting for blank
                     if(preg_match('/^"(.*)"$/', $line, $match))
                     {
                         $msgstr = stripcslashes($match[1]);
@@ -149,7 +127,7 @@ class Po
                     {
                         if($msgstr)
                         {
-                            //we have a complete entry
+                            // We have a complete entry
                             $e = new \stdClass;
                             $e->info = $info;
                             $e->string = $msgstr;
@@ -162,7 +140,7 @@ class Po
                     break;
             }
 
-            //comment or blank line?
+            // Comment or blank line?
             if(empty($line)
                 || preg_match('/^#/', $line)
             )

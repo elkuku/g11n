@@ -49,5 +49,5 @@ class g11nListViewg11n extends JView
         $this->assignRef('g11n', $g11n);
 
         parent::display($tpl);
-    }//function
-}//class
+    }
+}

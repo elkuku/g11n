@@ -47,8 +47,8 @@ class Modg11nSwitcherHelper
         foreach($rands as $rand)
         {
             $items2[] = $items[$rand];
-        }//foreach
+        }
 
         return $items2;
-    }//function
-}//class
+    }
+}

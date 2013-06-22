@@ -20,4 +20,4 @@ jimport('joomla.application.component.controller');
  */
 class g11nController extends JController
 {
-}//class
+}

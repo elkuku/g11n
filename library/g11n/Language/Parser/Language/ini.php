@@ -21,7 +21,7 @@ class g11nParserLanguageIni
     public function getExt()
     {
         return $this->ext;
-    }//function
+    }
 
     /**
      * Convert to string.
@@ -31,7 +31,7 @@ class g11nParserLanguageIni
     public function __toString()
     {
         return (string)__CLASS__;
-    }//function
+    }
 
     /**
      * Parse an ini style language file with *few restrictions*.
@@ -118,10 +118,10 @@ class g11nParserLanguageIni
             $info = '';
 
             $fileInfo->strings[$key] = $e;
-        }//foreach
+        }
 
         return $fileInfo;
-    }//function
+    }
 
     /**
      * Generate a language file.
@@ -172,8 +172,8 @@ class g11nParserLanguageIni
                     foreach($locs as $loc)
                     {
                         $out[] = '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             $value = '';
@@ -209,8 +209,8 @@ class g11nParserLanguageIni
             {
                 $out[] = htmlspecialchars($key).'='.htmlspecialchars($value);
             }
-        }//foreach
+        }
 
         return implode("\n", $out);
-    }//function
-}//class
+    }
+}

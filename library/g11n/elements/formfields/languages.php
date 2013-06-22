@@ -65,9 +65,9 @@ class JFormFieldLanguages extends g11nBaseFormField
                 $html[] = '<label for="'.$id.'">'.$label.'</label>';
                 $html[] = '<input id="'.$id.'" type="text" name="'.$this->name.'['.$lang['tag'].']['.$fieldName.']"'// id="'.$this->id.'"'
                 .' value="'.htmlspecialchars($v, ENT_COMPAT, 'UTF-8').'">';
-            }//foreach
-        }//foreach
+            }
+        }
 
         return implode("\n", $html);
-    }//function
-}//class
+    }
+}

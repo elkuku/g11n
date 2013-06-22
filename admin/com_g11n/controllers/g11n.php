@@ -31,7 +31,7 @@ class g11nListControllerg11n extends JController
 
         //-- Register Extra tasks
         $this->registerTask('add', 'edit');
-    }//function
+    }
 
     /**
      * display the edit form.
@@ -45,7 +45,7 @@ class g11nListControllerg11n extends JController
         JRequest::setVar('hidemainmenu', 1);
 
         parent::display();
-    }//function
+    }
 
     /**
      * Save a record (and redirect to main page).
@@ -67,7 +67,7 @@ class g11nListControllerg11n extends JController
             $msg = $model->getError();
             $this->setRedirect($link, $msg, 'error');
         }
-    }//function
+    }
 
     /**
      * Remove record(s).
@@ -89,7 +89,7 @@ class g11nListControllerg11n extends JController
             $msg = JText::sprintf('One or more records could not be deleted: ', $model->getError());
             $this->setRedirect($link, $msg, 'error');
         }
-    }//function
+    }
 
     /**
      * Cancel editing a record.
@@ -100,5 +100,5 @@ class g11nListControllerg11n extends JController
     {
         $msg = JText::_('Operation Cancelled');
         $this->setRedirect('index.php?option=com_g11n', $msg, 'notice');
-    }//function
-}//class
+    }
+}

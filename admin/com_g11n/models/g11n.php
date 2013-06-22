@@ -32,7 +32,7 @@ class g11nListModelg11n extends JModel
 
         $array = JRequest::getVar('cid', 0, '', 'array');
         $this->setId((int)$array[0]);
-    }//function
+    }
 
     /**
      * Method to set the g11n identifier.
@@ -46,7 +46,7 @@ class g11nListModelg11n extends JModel
         // Set id and wipe data
         $this->_id = $id;
         $this->_data = null;
-    }//function
+    }
 
     /**
      * Method to get a record.
@@ -70,7 +70,7 @@ class g11nListModelg11n extends JModel
         }
 
         return $this->_data;
-    }//function
+    }
 
     /**
      * Method to store a record
@@ -109,7 +109,7 @@ class g11nListModelg11n extends JModel
         }
 
         return true;
-    }//function
+    }
 
     /**
      * Method to delete record(s).
@@ -133,9 +133,9 @@ class g11nListModelg11n extends JModel
 
                     return false;
                 }
-            }//foreach
+            }
         }
 
         return true;
-    }//function
-}//class
+    }
+}

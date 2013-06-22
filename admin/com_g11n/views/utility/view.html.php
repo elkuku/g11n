@@ -96,12 +96,12 @@ class g11nListViewUtility extends JView
                     //                    $items[$i]->updateCommands[$scope][$lang['tag']] =($exists)
                     //                    ? jgettext('Update')
                     //                    : jgettext('Create');
-                }//foreach
-            }//foreach
-        }//foreach
+                }
+            }
+        }
 
         $this->assignRef('items', $items);
 
         parent::display($tpl);
-    }//function
-}//class
+    }
+}

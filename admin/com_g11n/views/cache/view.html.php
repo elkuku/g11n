@@ -95,15 +95,15 @@ class g11nListViewCache extends JView
                             $s = '<a  class="action cleanCache" href="'.$link.'" title="'.sprintf(jgettext('Clean cached file: %s'), $file).'">'
                             .jgettext('Clean cache').'</a>';
                         }
-                    }//foreach
+                    }
 
                     $items[$i]->cacheLinks[$scope][$lang['tag']][] = $s;
-                }//foreach
-            }//foreach
-        }//foreach
+                }
+            }
+        }
 
         $this->assignRef('items', $items);
 
         parent::display($tpl);
-    }//function
-}//class
+    }
+}

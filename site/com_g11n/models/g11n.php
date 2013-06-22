@@ -34,5 +34,5 @@ class g11nModelg11n extends JModel
         $data = $db->loadObjectList();
 
         return $data;
-    }//function
-}//class
+    }
+}

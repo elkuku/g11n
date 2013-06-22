@@ -4,13 +4,28 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+namespace g11n\Language\Parser\Code;
+
+use g11n\Language\Parser\Code;
+use g11n\Support\FileInfo;
+
 /**
  * Enter description here ...
  *
  * @package    g11n
  */
-class g11nParserCodePHP
+class Php extends Code
 {
+	private $patternPHP;
+
+	private $patternPHP0;
+
+	private $patternPHP2;
+
+	private $patternPHPPlural;
+
+	private $patternJs;
+
     /**
      * Set the language format.
      *
@@ -97,27 +112,7 @@ class g11nParserCodePHP
             "/".$cmds['js']."\(\s*\"(.*)\"|".$cmds['js']."\(\s*\'(.*)\'"
             //--'''normal''' use...
          ."|".$cmds['js']."\(\s*\'(.*)\'\s*\)|".$cmds['js']."\(\s*\"(.*)\"\s*\)/iU";
-    }//function
-
-    /**
-     * Get the extension.
-     *
-     * @return string
-     */
-    public function getExt()
-    {
-        return $this->ext;
-    }//function
-
-    /**
-     * Convert to string.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)__CLASS__;
-    }//function
+    }
 
     /**
      * Parse a file.
@@ -128,16 +123,13 @@ class g11nParserCodePHP
      */
     public function parse($fileName)
     {
-        $fileName = JPath::clean($fileName);
-
-        $fileInfo = new g11nFileInfo;
+        $fileInfo = new FileInfo;
 
         $fileInfo->fileName = $fileName;
 
         //--Search PHP files
-        $contents = JFile::read($fileName);
 
-        $lines = explode("\n", $contents);
+        $lines = file($fileName);
 
         foreach($lines as $lineNo => $line)
         {
@@ -156,8 +148,8 @@ class g11nParserCodePHP
                         continue;
 
                         $fileInfo->strings[$lineNo + 1][] = $string;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             //            elseif(preg_match_all($this->patternPHP, $line, $matches, PREG_SET_ORDER))
@@ -178,8 +170,8 @@ class g11nParserCodePHP
             //      #                  $fileInfo->strings[$lineNo + 1][] = $string;
             //
             //#                        $this->addString($string, $fileName, $lineNo + 1);
-            //                    }//foreach
-            //                }//foreach
+            //                    }
+            //                }
             //            }
             //            elseif(preg_match_all($this->patternPHP2, $line, $matches, PREG_SET_ORDER))
             //            {
@@ -197,8 +189,8 @@ class g11nParserCodePHP
             //                        }
             //
             //                        #       $this->addString($string, $fileName, $lineNo + 1);
-            //                    }//foreach
-            //                }//foreach
+            //                    }
+            //                }
             //            }
 
             preg_match_all($this->patternPHPPlural, $line, $matches, PREG_SET_ORDER);
@@ -238,11 +230,11 @@ class g11nParserCodePHP
                     }
 
                     $fileInfo->stringsPlural[$lineNo + 1][$match[1]] = $match[2];
-                }//foreach
-            }//foreach
-        }//foreach
+                }
+            }
+        }
 
         //var_dump($fileInfo);
         return $fileInfo;
-    }//function
-}//class
+    }
+}

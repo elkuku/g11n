@@ -21,7 +21,7 @@ class g11nParserLanguageNafuIni
     public function getExt()
     {
         return $this->ext;
-    }//function
+    }
 
     /**
      * Convert to string.
@@ -31,7 +31,7 @@ class g11nParserLanguageNafuIni
     public function __toString()
     {
         return (string)__CLASS__;
-    }//function
+    }
 
     /**
      * Parse an ini style language file similar to gettext files.
@@ -126,7 +126,7 @@ class g11nParserLanguageNafuIni
 
             //-- Nothing matched :(
             $previous = $line;
-        }//foreach
+        }
 
         //        #if( ! $strings) JError::raiseWarning(0, 'No strings found :(');
 
@@ -134,7 +134,7 @@ class g11nParserLanguageNafuIni
         $fileInfo->stringsPlural = $stringsPlural;
 
         return $fileInfo;
-    }//function
+    }
 
     /**
      * Generate a language file.
@@ -166,8 +166,8 @@ class g11nParserLanguageNafuIni
                     foreach($locs as $loc)
                     {
                         echo '#: '.str_replace(JPATH_ROOT.DS, '', $f).':'.$loc.NL;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             $value = '';//@TRANSLATE: '.$key;//@TODO
@@ -203,6 +203,6 @@ class g11nParserLanguageNafuIni
             echo htmlspecialchars($key).NL;
             echo htmlspecialchars($value).NL;
             echo NL;
-        }//foreach
-    }//function
-}//class
+        }
+    }
+}

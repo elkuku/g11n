@@ -158,16 +158,16 @@ class g11nCodeScanner
          foreach($fileList as $tag => $fileName)
          {
              $fileContents[$tag] = implode('', file('evi_template_'.$fileName));
-         }//foreach
+         }
 
          foreach($fileContents as $tag => $content)
          {
              $this->searches[$tag] = $content;
-         }//foreach
+         }
 
          $this->searches["\$eviStrings = array("] = $this->processLanguages();
          $this->searches["\$eviDefinedLanguages = array("] = $this->processDefinedLanguages();
-    }//function
+    }
 
     /**
      * @throws Exception
@@ -181,7 +181,7 @@ class g11nCodeScanner
         foreach($this->searches as $search => $replace)
         {
             $fileContents = str_replace($search, $search.$replace, $fileContents);
-        }//foreach
+        }
 
         $fh = fopen($this->basePath.DS.$this->resultFileName, 'w');
 
@@ -201,7 +201,7 @@ class g11nCodeScanner
         {
             echo 'Have a look: <a href="'.$this->resultFileName.'">'.$this->resultFileName.'</a>'.BR;
         }
-    }//function
+    }
 
     /**
      *
@@ -248,7 +248,7 @@ class g11nCodeScanner
         }
 
         echo str_repeat('-', 80).BR;
-    }//function
+    }
 
     /**
      *
@@ -266,7 +266,7 @@ class g11nCodeScanner
         {
             $info .= sprintf(" [-%s] --%s\t\t%s", $short, $long, $this->argDescs[$short]);
             $info .= BR;
-        }//foreach
+        }
 
         $info .= str_repeat('_', 50).'|'.BR;
 
@@ -274,7 +274,7 @@ class g11nCodeScanner
         $info = '<pre>'.$info.'</pre>';
 
         return $info;
-    }//function
+    }
 
     /**
      * Parse command line arguments.
@@ -303,7 +303,7 @@ class g11nCodeScanner
                 {
                     $argv[] = $k;
                 }
-            }//foreach
+            }
 
             // @codingStandardsIgnoreEnd
         }
@@ -340,14 +340,14 @@ class g11nCodeScanner
                     foreach(str_split(substr($a, 1)) as $k)
                     {
                         $args->$k = true;
-                    }//foreach
+                    }
                 }
             }
             else
             {
                 $args->$a = true;
             }
-        }//foreach
+        }
 
         $this->args = $args;
 
@@ -356,8 +356,8 @@ class g11nCodeScanner
         {
             if($this->args->$short)
             $this->args->$long = $this->args->$short;
-        }//foreach
-    }//function
+        }
+    }
 
 // @codingStandardsIgnoreStart
 
@@ -368,7 +368,7 @@ class g11nCodeScanner
     public function getArgs()
     {
         return $this->args;
-    }//function
+    }
 
     /**
      *
@@ -377,7 +377,7 @@ class g11nCodeScanner
     public function getInterface()
     {
         return $this->interface;
-    }//function
+    }
 
     /**
      * Get the current Joomla! version
@@ -412,7 +412,7 @@ class g11nCodeScanner
 
         //--Get the installed Joomla! version
         return $JVersion;
-    }//function
+    }
 
     /**
      * Build the md5 hash table
@@ -440,7 +440,7 @@ class g11nCodeScanner
             {
                 if(strpos($sub, $black) === 0)
                 continue 2;
-            }//foreach
+            }
 
             if( ! is_readable($fileName))
             {
@@ -462,7 +462,7 @@ class g11nCodeScanner
             $hashTable .= $hash.' '.$sub.NL;
 
             $i ++;
-        }//foreach
+        }
 
         if( ! $hashTable)
         throw new Exception('Can not build the hash table');
@@ -471,7 +471,7 @@ class g11nCodeScanner
         echo str_repeat('-', 80).BR;
 
         return $hashTable;
-    }//function
+    }
 
     /**
      * This is an @@@ EXPERIMENTAL @@@ function
@@ -531,7 +531,7 @@ class g11nCodeScanner
                         continue 2;
                     }
                 }
-            }//foreach
+            }
 
             $contents = file_get_contents($fileName);
 
@@ -544,7 +544,7 @@ class g11nCodeScanner
             $hashTable .= $hash.' '.str_replace(DS, '/', $compressed).'@'.$file->getFilename().NL;
 
             $i ++;
-        }//foreach
+        }
 
         if( ! $hashTable)
         throw new Exception('Can not build the hash table');
@@ -553,7 +553,7 @@ class g11nCodeScanner
         echo str_repeat('-', 80).BR;
 
         return $hashTable;
-    }//function
+    }
 
     /**
      * @param $path
@@ -599,7 +599,7 @@ class g11nCodeScanner
 
                         $result[] = $part.DS;
                     }
-                }//foreach
+                }
 
                 if(count($result) && $result[count($result) - 1] == '-')
                 $result[] = '|'; //-- Add a separator(no add path)
@@ -611,7 +611,7 @@ class g11nCodeScanner
         $previous = $path;
 
         return $compressed;
-    }//function
+    }
 
     /**
      * @param $path
@@ -669,7 +669,7 @@ class g11nCodeScanner
         $previous = $decompressed;
 
         return $decompressed;
-    }//function
+    }
 
     /**
      * @return string
@@ -684,10 +684,10 @@ class g11nCodeScanner
             {
                 $ls[] = $lang;
             }
-        }//foreach
+        }
 
         return "'".implode("', '", $ls)."'";
-    }//function
+    }
 
     /**
      * @return string
@@ -733,16 +733,16 @@ class g11nCodeScanner
                 $value = trim(substr($line, $pos + 1));
 
                 $field .= $key.' = '.$value."\n";
-            }//foreach
+            }
 
             $tag = substr($lang, 0, 2);
 
             $fields[] = "'$lang' => '".$field."'";
-        }//foreach
+        }
 
         return implode(",\n", $fields);
-    }//function
-}//class
+    }
+}
 
 /**
  * Helper class to process CLI arguments.
@@ -754,12 +754,12 @@ class cliArgs
     public function __set($k, $v)
     {
         $this->$k = $v;
-    }//function
+    }
 
     public function __get($k)
     {
         if(isset($this->$k)) return $this->$k;
 
         return false;
-    }//function
-}//class
+    }
+}

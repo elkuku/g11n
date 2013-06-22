@@ -479,6 +479,10 @@ abstract class g11n
 	 */
 	protected static function addJavaScript($strings, $stringsPlural)
 	{
+		// @todo disabled.
+
+		return;
+
 		static $hasBeenAdded = false;
 
 		//-- To be called only once

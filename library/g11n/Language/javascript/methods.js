@@ -23,7 +23,7 @@ function jgettext(original) {
     }
 
     return translation;
-}//function
+}
 
 /**
  * Small multilanguaging pluralisation function =;).
@@ -35,4 +35,4 @@ function jgettext(original) {
  */
 function jngettext(singular, plural, count) {
     return g11n.translatePlural(singular, plural, count);
-}//function
+}

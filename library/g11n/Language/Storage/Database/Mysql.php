@@ -76,7 +76,7 @@ class g11nStorageDB extends g11nStorage
         $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
 
         return true;
-    }//function
+    }
 
     /**
      * Retrieve the storage content.
@@ -133,5 +133,5 @@ class g11nStorageDB extends g11nStorage
         $this->paths[$extension][$fileName] = true;
 
         return true;
-    }//function
-}//class
+    }
+}

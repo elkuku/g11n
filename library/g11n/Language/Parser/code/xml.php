@@ -39,7 +39,7 @@ class g11nParserCodeXML
      */
     public function setLangFormat($langFormatIn)
     {
-    }//function
+    }
 
     /**
      * Parse a file.
@@ -63,7 +63,7 @@ class g11nParserCodeXML
         $this->parseXML($xml);
 
         return $this->fileInfo;
-    }//function
+    }
 
     /**
      * Parse a XML string.
@@ -98,16 +98,16 @@ class g11nParserCodeXML
 
                 if($x)
                 $this->fileInfo->strings[$attrib][] = $x;
-            }//foreach
+            }
 
             foreach($v->option as $option)
             {
                 if((string)$option)
                 $this->fileInfo->strings['opt'][] = trim((string)$option);
-            }//foreach
+            }
 
             //-- Recurse...
             $this->parseXML($v);
-        }//foreach
-    }//function
-}//class
+        }
+    }
+}

@@ -26,5 +26,5 @@ class Tableg11n extends JTable
     public function __construct(& $db)
     {
         parent::__construct('#__g11n', 'id', $db);
-    }//function
-}//class
+    }
+}

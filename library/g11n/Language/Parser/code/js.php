@@ -97,7 +97,7 @@ class g11nParserCodeJS
             "/".$cmds['js']."\(\s*\"(.*)\"|".$cmds['js']."\(\s*\'(.*)\'"
             //--'''normal''' use...
          ."|".$cmds['js']."\(\s*\'(.*)\'\s*\)|".$cmds['js']."\(\s*\"(.*)\"\s*\)/iU";
-    }//function
+    }
 
     /**
      * Parse a file.
@@ -136,8 +136,8 @@ class g11nParserCodeJS
                         continue;
 
                         $fileInfo->strings[$lineNo + 1][] = $string;
-                    }//foreach
-                }//foreach
+                    }
+                }
             }
 
             //            elseif(preg_match_all($this->patternPHP, $line, $matches, PREG_SET_ORDER))
@@ -158,8 +158,8 @@ class g11nParserCodeJS
             //      #                  $fileInfo->strings[$lineNo + 1][] = $string;
             //
             //#                        $this->addString($string, $fileName, $lineNo + 1);
-            //                    }//foreach
-            //                }//foreach
+            //                    }
+            //                }
             //            }
             //            elseif(preg_match_all($this->patternPHP2, $line, $matches, PREG_SET_ORDER))
             //            {
@@ -177,8 +177,8 @@ class g11nParserCodeJS
             //                        }
             //
             //                        #       $this->addString($string, $fileName, $lineNo + 1);
-            //                    }//foreach
-            //                }//foreach
+            //                    }
+            //                }
             //            }
 
             preg_match_all($this->patternPHPPlural, $line, $matches, PREG_SET_ORDER);
@@ -218,10 +218,10 @@ class g11nParserCodeJS
                     }
 
                     $fileInfo->stringsPlural[$lineNo + 1][$match[1]] = $match[2];
-                }//foreach
-            }//foreach
-        }//foreach
+                }
+            }
+        }
 
         return $fileInfo;
-    }//function
-}//class
+    }
+}

@@ -115,13 +115,13 @@ class g11nListViewg11nList extends JView
                             $s = jgettext('Cached');
                             $items[$i]->cacheStatus[$scope][$lang['tag']] = true;
                         }
-                    }//foreach
-                }//foreach
-            }//foreach
-        }//foreach
+                    }
+                }
+            }
+        }
 
         $this->assignRef('items', $items);
 
         parent::display($tpl);
-    }//function
-}//class
+    }
+}
