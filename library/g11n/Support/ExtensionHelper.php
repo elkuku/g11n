@@ -6,6 +6,8 @@
 
 namespace g11n\Support;
 
+use g11n\g11nException;
+
 /**
  * Extension helper class.
  *
@@ -51,14 +53,14 @@ class ExtensionHelper
         if(array_key_exists($extension, $dirs))
         return $dirs[$extension];
 
-        if('joomla' == $extension)
+/*        if('joomla' == $extension)
         return;
-
-        $prfx_extension = $extension;
+*/
+	    $prfx_extension = $extension;
 
         $parts = self::split($extension);
 
-        $subType = '';
+     //   $subType = '';
 
         if(count($parts) === 1)
         {
@@ -69,7 +71,7 @@ class ExtensionHelper
         else//
         {
             //-- We have a subType
-            $subType = $parts[1];
+      //      $subType = $parts[1];
 
             $prfx_extension  = $parts[0];
 
@@ -131,18 +133,11 @@ class ExtensionHelper
      */
     public static function isExtension($extension, $scope = 'admin')
     {
-        try
-        {
-            $extensionPath = self::getExtensionPath($extension);
-            $scopePath = self::getScopePath($scope);
+        $extensionPath = self::getExtensionPath($extension);
+        $scopePath = self::getScopePath($scope);
 
-            return is_dir($scopePath.'/'.$extensionPath);
-        }
-        catch(\Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }//try
-    }//function
+        return is_dir($scopePath.'/'.$extensionPath);
+    }
 
     /**
      * Get the scope path.
@@ -155,8 +150,14 @@ class ExtensionHelper
      */
     public static function getScopePath($scope)
     {
-        return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
-    }//function
+	    if ('core' == $scope)
+	    {
+		    return JPATH_BASE;
+	    }
+
+	    return JPATH_APP . '/' . $scope;
+//        return ($scope == 'admin') ? JPATH_ADMINISTRATOR : JPATH_SITE;
+    }
 
     /**
      * Get known extension types.
@@ -167,7 +168,7 @@ class ExtensionHelper
     public static function getExtensionTypes()
     {
         return self::$extensionTypes;
-    }//function
+    }
 
     /**
      * Searches the system for language files.
@@ -184,13 +185,13 @@ class ExtensionHelper
     {
         if($scope == '')
         {
-            $base =(JFactory::getApplication()->isAdmin())
-            ? JPATH_ADMINISTRATOR : JPATH_SITE;
+//            $base =(JFactory::getApplication()->isAdmin())
+//            ? JPATH_ADMINISTRATOR : JPATH_SITE;
         }
         else
         {
-            $base = g11nExtensionHelper::getScopePath($scope);
         }
+        $base = ExtensionHelper::getScopePath($scope);
 
         if('joomla' == $extension)
         {
@@ -206,19 +207,19 @@ class ExtensionHelper
         $extensionLangDir = self::getExtensionLanguagePath($extension);
 
         //-- First try our special dir
-        $path = JPath::clean("$base/$extensionLangDir/$lang/$fileName");
+        $path = "$base/$extensionLangDir/$lang/$fileName";
 
         if(file_exists($path))
         return $path;
 
         //-- Next try extension/language directory
-        $path = JPath::clean("$base/$extensionDir/language/$lang/$fileName");
+        $path = "$base/$extensionDir/language/$lang/$fileName";
 
         if(file_exists($path))
         return $path;
 
         //-- Now try the base language dir
-        $path = JPath::clean("$base/language/$lang/$fileName");
+        $path = "$base/language/$lang/$fileName";
 
         if(file_exists($path))
         return $path;
@@ -232,7 +233,7 @@ class ExtensionHelper
         return false;
 
         //throw new Exception('No language files found');//@Do_NOT_Translate
-    }//function
+    }
 
     /**
      * Splits a string by a separator.
@@ -268,5 +269,5 @@ class ExtensionHelper
         throw new g11nException('Invalid type - must be xx'.$delimiter.'[xx]: '.$string);
 
         return $parts;
-    }//function
-}//class
+    }
+}

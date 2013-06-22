@@ -7,15 +7,16 @@
 namespace g11n\Language\Storage\File;
 
 use g11n\g11nException;
-use g11n\g11nExtensionHelper;
-use g11n\Language\g11nStorage;
+use g11n\Support\ExtensionHelper;
+use g11n\Language\Storage;
+use g11n\Support\Store;
 
 /**
  * Storage handler for PHP files.
  *
  * @package g11n
  */
-class Php extends g11nStorage
+class Php extends Storage
 {
     public $fileInfo = null;
 
@@ -32,7 +33,7 @@ class Php extends g11nStorage
 	 */
     public function __construct($inputType)
     {
-        $parserName = 'g11nParserLanguage'.ucfirst($inputType);
+        $parserName = '\\g11n\\Language\\Parser\\Language\\'.ucfirst($inputType);
 
         if(! class_exists($parserName))
             throw new g11nException('Required parser class not found: '.$parserName);
@@ -57,7 +58,7 @@ class Php extends g11nStorage
         /*
          * Parse language files
          */
-        $fileName = g11nExtensionHelper::findLanguageFile($lang, $extension, $scope, $ext);
+        $fileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, $ext);
 
         $fileInfo = $this->parser->parse($fileName);
 
@@ -104,7 +105,7 @@ class Php extends g11nStorage
 
         try
         {
-            $jsFileName = g11nExtensionHelper::findLanguageFile($lang, $extension, $scope, 'js.'.$ext);
+            $jsFileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, 'js.'.$ext);
 
             $jsInfo = $this->parser->parse($jsFileName);
 
@@ -157,7 +158,7 @@ class Php extends g11nStorage
 
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
-        if(! JFile::write($storePath, $resultString))
+        if(! file_put_contents($storePath, $resultString))
             throw new g11nException('Unable to write language storage file to '.$storePath);
         //@Do_NOT_Translate
     }
@@ -173,13 +174,13 @@ class Php extends g11nStorage
      */
     public function retrieve($lang, $extension, $scope = '')
     {
-        $parts = g11nExtensionHelper::split($extension, '_');
+        $parts = ExtensionHelper::split($extension, '_');
 
         $prefix = $parts[0];
 
         if('joomla' != $prefix)
         {
-            if(! array_key_exists($prefix, g11nExtensionHelper::getExtensionTypes()))
+            if(! array_key_exists($prefix, ExtensionHelper::getExtensionTypes()))
                 throw new g11nException('Unknown extension type: '.$prefix);
             //@Do_NOT_Translate
 
@@ -189,7 +190,7 @@ class Php extends g11nStorage
         # $parts = $this->split($extensionName, '.');
 
         $path = $this->getPath($lang, $extension, $scope).$this->ext;
-        $path = JPath::clean($path);
+//        $path = JPath::clean($path);
 
         //-- File has not being cached
         if(! file_exists($path))
@@ -212,7 +213,7 @@ class Php extends g11nStorage
          */
         include $path;
 
-        $store = new g11nStore;
+        $store = new Store;
 
         if(isset($info))
         {
@@ -241,28 +242,28 @@ class Php extends g11nStorage
         return $store;
     }
 
-    /**
-     * Cleans the storage.
-     *
-     * @param string $lang      E.g. de-DE, es-ES etc.
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $scope     Must be 'admin' or 'site'.
-     *
-     * @return void
-     * @throws Exception
-     */
+	/**
+	 * Cleans the storage.
+	 *
+	 * @param string $lang      E.g. de-DE, es-ES etc.
+	 * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param string $scope     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
     public function clean($lang, $extension, $scope = '')
     {
 	    jimport('joomla.filesystem.file');
 
         $storePath = $this->getPath($lang, $extension, $scope).$this->ext;
 
-        if(! JFile::exists($storePath))
+        if(! file_exists($storePath))
             return;
         //-- Storage file does not exist
 
-        if(! JFile::delete($storePath))
+        if(!unlink($storePath))
             throw new g11nException('Unable to clean storage in: '.$storePath);
         //@Do_NOT_Translate
     }
-}//class
+}

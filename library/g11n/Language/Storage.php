@@ -7,7 +7,7 @@
 namespace g11n\Language;
 
 use g11n\g11nException;
-use g11n\g11nExtensionHelper;
+use g11n\Support\ExtensionHelper;
 
 /**
  * The g11n storage base class.
@@ -25,7 +25,7 @@ class Storage
 	 */
 	protected function __construct()
 	{
-		self::$cacheDir = 'cache/' . g11nExtensionHelper::langDirName;
+		self::$cacheDir = 'cache/' . ExtensionHelper::langDirName;
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Storage
 	 * @param string $storageType A valid storage type
 	 *
 	 * @throws g11nException
-	 * @return object Class extending g11nStorage
+	 * @return Storage
 	 */
 	public static function getHandler($inputType, $storageType)
 	{
@@ -48,7 +48,7 @@ class Storage
 			throw new \RuntimeException('Storage type must be in format [type][_subtype]');
 		}
 
-		$className = '\\g11n\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
+		$className = '\\g11n\\Language\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
 
 		if (false == class_exists($className))
 		{
@@ -59,7 +59,7 @@ class Storage
 
 //		require_once $fileName;
 
-/*		$parts       = g11nExtensionHelper::split($storageType, '_');
+/*		$parts       = ExtensionHelper::split($storageType, '_');
 		$storageName = 'g11nStorage' . ucfirst($parts[0]) . ucfirst($parts[1]);
 
 		if (!class_exists($storageName))
@@ -105,7 +105,7 @@ class Storage
 		// @todo TEMP
 		$path = __DIR__;
 
-		$parts = g11nExtensionHelper::split($extension, '.');
+		$parts = ExtensionHelper::split($extension, '.');
 
 		$dirName = $extension;
 
@@ -154,15 +154,15 @@ class Storage
 		)
 			return $templates[$extension][$scope];
 
-		$base = g11nExtensionHelper::getScopePath($scope);
+		$base = ExtensionHelper::getScopePath($scope);
 
-		$parts = g11nExtensionHelper::split($extension);
+		$parts = ExtensionHelper::split($extension);
 
 		$subType = '';
 
 		if (count($parts) == 1)
 		{
-			$parts  = g11nExtensionHelper::split($extension, '_');
+			$parts  = ExtensionHelper::split($extension, '_');
 			$prefix = $parts[0];
 		}
 		else //
@@ -170,16 +170,16 @@ class Storage
 			//-- We have a subType
 			$subType = $parts[1];
 
-			$parts  = g11nExtensionHelper::split($parts[0], '_');
+			$parts  = ExtensionHelper::split($parts[0], '_');
 			$prefix = $parts[0];
 		}
 
 		$fileName = $extension . '.pot';
 
-		$extensionDir = g11nExtensionHelper::getExtensionPath($extension);
+		$extensionDir = ExtensionHelper::getExtensionPath($extension);
 
 		return "$base/$extensionDir/"
-		. g11nExtensionHelper::$langDirName . "/templates/$fileName";
+		. ExtensionHelper::$langDirName . "/templates/$fileName";
 	}
 
 	/**

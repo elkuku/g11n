@@ -6,6 +6,8 @@
 
 namespace g11n\Language\Parser\Language;
 
+use g11n\Support\FileInfo;
+
 /**
  * Parser for po language files.
  *
@@ -45,15 +47,13 @@ class Po
      *
      * @param string $fileName Absolute path to the language file.
      *
-     * @return g11nFileInfo
+     * @return FileInfo
      */
     public function parse($fileName)
     {
-	    jimport('joomla.filesystem.file');
+        $fileInfo = new FileInfo;
 
-        $fileInfo = new g11nFileInfo;
-
-        $fileName = JPath::clean($fileName);
+        //$fileName = JPath::clean($fileName);
 
         $fileInfo->fileName = $fileName;
 
@@ -62,7 +62,8 @@ class Po
             return $fileInfo; //@todo throw exception
         }
 
-        $lines = explode("\n", JFile::read($fileName));
+//        $lines = explode("\n", JFile::read($fileName));
+        $lines = file($fileName);
 
         if(! $lines)
         {
@@ -149,7 +150,7 @@ class Po
                         if($msgstr)
                         {
                             //we have a complete entry
-                            $e = new JObject;
+                            $e = new \stdClass;
                             $e->info = $info;
                             $e->string = $msgstr;
                             $fileInfo->strings[$msgid] = $e; //$msgstr;
@@ -170,7 +171,7 @@ class Po
                 {
                     if($msg_plurals[0])
                     {
-                        $t = new stdClass();
+                        $t = new \stdClass;
                         $t->plural = $msg_plural;
                         $t->forms = $msg_plurals;
                         $t->info = $info;
@@ -192,12 +193,12 @@ class Po
     /**
      * Generate a language file.
      *
-     * @param g11nFileInfo $fileInfo
-     * @param JObject      $options JObject
+     * @param FileInfo $fileInfo
+     * @param \stdClass      $options JObject
      *
      * @return string
      */
-    public function generate(g11nFileInfo $fileInfo, JObject $options)
+    public function generate(FileInfo $fileInfo, $options)
     {
         $content = array();
 
