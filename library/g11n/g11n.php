@@ -6,7 +6,7 @@
 
 namespace g11n;
 
-use g11n\Language\g11nStorage;
+use g11n\Language\Storage;
 
 require_once __DIR__ . '/Language/methods.php';
 
@@ -101,6 +101,8 @@ abstract class g11n
 
 	protected static $extensionsLoaded = array();
 
+	private static $application;
+
 	/**
 	 * Provide access to everything we have inside ;).
 	 *
@@ -145,7 +147,7 @@ abstract class g11n
 		if (!self::$docType)
 			self::detectDocType();
 
-		$handler = g11nStorage::getHandler($inputType, $storageType);
+		$handler = Storage::getHandler($inputType, $storageType);
 
 		$store = $handler->retrieve(self::$lang, $extension, $domain);
 
@@ -280,29 +282,19 @@ abstract class g11n
 	 * Clean the storage device.
 	 *
 	 * @param string      $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param bool|string $JAdmin      Set true for administrator
+	 * @param bool|string $domain      Set true for administrator
 	 * @param string      $inputType   The input type e.g. "ini" or "po"
 	 * @param string      $storageType The story type
 	 *
 	 * @throws g11nException
 	 * @return void
 	 */
-	public static function cleanStorage($extension = '', $JAdmin = ''
-		, $inputType = 'po', $storageType = 'file_php')
+	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php')
 	{
 		if (!self::$lang)
 			self::detectLanguage();
 
-		if (!$extension
-			&& !$extension = JFactory::getApplication()->input->get('option')
-		)
-			throw new g11nException('Invalid extension');
-
-		if ($JAdmin == '')
-			$JAdmin = JFactory::getApplication()->isAdmin()
-				? true : false;
-
-		g11nStorage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $JAdmin);
+		Storage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $domain);
 	}
 
 	/**
@@ -320,6 +312,34 @@ abstract class g11n
 	}
 
 	/**
+	 * Set the application object.
+	 *
+	 * @param   object  $application  The application object.
+	 *
+	 * @return $this
+	 */
+	public static function setApplication($application)
+	{
+		self::$application = $application;
+	}
+
+	/**
+	 * Get the application object.
+	 *
+	 * @throws \RuntimeException
+	 * @return mixed
+	 */
+	public static function getApplication()
+	{
+		if (!self::$application)
+		{
+			throw new \RuntimeException('No application set');
+		}
+
+		return self::$application;
+	}
+
+	/**
 	 * Debug output translated and untranslated items.
 	 *
 	 * @param boolean $untranslatedOnly Set true to output only untranslated strings
@@ -328,7 +348,7 @@ abstract class g11n
 	 */
 	public static function debugPrintTranslateds($untranslatedOnly = false)
 	{
-		g11nDebugger::debugPrintTranslateds($untranslatedOnly);
+		Debugger::debugPrintTranslateds($untranslatedOnly);
 	}
 
 	/**
@@ -465,7 +485,7 @@ abstract class g11n
 		if (!$hasBeenAdded)
 		{
 			$path     = 'libraries/g11n/language/javascript';
-			$document = JFactory::getDocument();
+			$document = self::getApplication()->getDocument();
 
 			$document->addScript(JURI::root(true) . '/' . $path . '/methods.js');
 			$document->addScript(JURI::root(true) . '/' . $path . '/language.js');
@@ -495,7 +515,7 @@ abstract class g11n
 
 		self::$stringsJs = array_merge(self::$stringsJs, $strings);
 
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $js));
+		self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
 	}
 
 	/**
@@ -520,31 +540,19 @@ abstract class g11n
 	/**
 	 * Try to detect the current language.
 	 *
-	 * This is done with a little help .. from JFactory::getLanguage()
-	 *
 	 * @throws g11nException
 	 * @return void
 	 */
 	private static function detectLanguage()
 	{
-		self::$lang = JFactory::getApplication()->input->get('lang');
+		self::$lang = self::getApplication()->input->get('lang');
 
 		if (self::$lang != '')
 		{
 			//@todo CHECKif language exists..
 			//self::$lang = $reqLang;
 
-			JFactory::getApplication()->setUserState('lang', self::$lang);
-
-			return;
-		}
-
-		self::$lang = JFactory::getApplication()->getUserState('lang');
-
-		if (self::$lang != '')
-		{
-			//@todo CHECKif language exists..
-			//self::$lang = $stateLang;
+			//self::getApplication()->input->get('lang', self::$lang);
 
 			return;
 		}
@@ -567,7 +575,7 @@ abstract class g11n
 		}
 
 		//-- OK.. let's do a
-		self::$lang = JFactory::getLanguage()->getTag();
+		//self::$lang = JFactory::getLanguage()->getTag();
 
 		//-- That should be enough.. british or die.
 		if (!self::$lang)
@@ -586,7 +594,8 @@ abstract class g11n
 	 */
 	private static function detectDocType()
 	{
-		self::$docType = JFactory::getDocument()->getType();
+		// JFactory::getDocument()->getType();
+		self::$docType = 'html';
 
 		if (!self::$docType)
 			throw new g11nException('Unable to detect the document type :(');
@@ -607,7 +616,7 @@ abstract class g11n
 			return;
 		//-- Already recorded
 
-		$info           = new stdClass();
+		$info           = new \stdClass;
 		$info->status   = $mode;
 		$info->file     = '';
 		$info->line     = 0;
@@ -641,7 +650,7 @@ abstract class g11n
 	{
 		$args = func_get_args();
 
-		$e = new stdClass();
+		$e = new \stdClass;
 
 		foreach ($args as $k => $v)
 		{
@@ -650,53 +659,4 @@ abstract class g11n
 
 		self::$events[] = $e;
 	}
-
-	/**
-	 * The g11n autoloader.
-	 *
-	 * @static
-	 *
-	 * @param string $className The class to load.
-	 *
-	 * @return mixed
-	 */
-	public static function loader($className)
-	{
-		if (0 !== strpos($className, 'g11n'))
-			return;
-
-		$file = strtolower(substr($className, 4)) . '.php';
-
-		$path = __DIR__ . '/' . $file;
-
-		if (file_exists($path))
-		{
-			include $path;
-
-			return;
-		}
-
-		$path = __DIR__ . '/language/' . $file;
-
-		if (file_exists($path))
-		{
-			include $path;
-
-			return;
-		}
-
-		$parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($className, 4));
-
-		$path = __DIR__ . '/language/' . strtolower(implode('/', $parts)) . '.php';
-
-		//-- @TODO change
-		$path = str_replace('parser', 'parsers', $path);
-
-		if (file_exists($path))
-		{
-			include $path;
-
-			return;
-		}
-	}
-}//class
+}
