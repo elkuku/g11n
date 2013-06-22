@@ -1,5 +1,5 @@
 /**
- * @copyright  2010-2013 Nikolsi Plath
+ * @copyright  2010-2013 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 (function () {
