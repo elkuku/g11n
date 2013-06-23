@@ -21,6 +21,8 @@ class ExtensionHelper
 	 */
 	protected static $domainPaths = array();
 
+	protected static $cacheDir = '/tmp';
+
 	public static $langDirName = 'g11n';
 
 	/**
@@ -36,14 +38,47 @@ class ExtensionHelper
 	}
 
 	/**
-	 * Get the extension path.
+	 * Set the cache directory.
 	 *
-	 * @static
+	 * @param   string  $path  A valid path.
+	 *
+	 * @throws \RuntimeException
+	 * @return vloid
+	 */
+	public static function setCacheDir($path)
+	{
+		if (false == is_dir($path))
+		{
+			throw new \RuntimeException('Invalid cache dir');
+		}
+
+		$path .= '/g11n';
+
+		if (false == is_dir($path) && false == mkdir($path))
+		{
+			throw new \RuntimeException('Can not create the cache directory');
+		}
+
+		self::$cacheDir = $path;
+	}
+
+	/**
+	 * Get the cache dir path.
+	 *
+	 * @return string
+	 */
+	public static function getCacheDir()
+	{
+		return self::$cacheDir;
+	}
+
+	/**
+	 * Get the extension path.
 	 *
 	 * @param string $extension The extension name, e.g. com_easycreator
 	 *
-	 * @return string
 	 * @throws g11nException
+	 * @return string
 	 */
 	public static function getExtensionPath($extension)
 	{
@@ -52,17 +87,13 @@ class ExtensionHelper
 		if (array_key_exists($extension, $dirs))
 			return $dirs[$extension];
 
-		/*        if('joomla' == $extension)
-				return;
-		*/
 		$extensionDir = $extension;
 
 		$parts = self::split($extension);
 
 		if (count($parts) > 1)
 		{
-			//-- We have a subType
-
+			// We have a subType
 			$extensionDir = $parts[0];
 		}
 
@@ -142,41 +173,40 @@ class ExtensionHelper
 
 		$extensionLangDir = self::getExtensionLanguagePath($extension);
 
-		//-- First try our special dir
+		// First try our special dir
 		$path = "$base/$extensionLangDir/$lang/$fileName";
 
 		if (file_exists($path))
 			return $path;
 
-		//-- Next try extension/language directory
+		// Next try extension/language directory
 		$path = "$base/$extensionDir/language/$lang/$fileName";
 
 		if (file_exists($path))
 			return $path;
 
-		//-- Now try the base language dir
+		// Now try the base language dir
 		$path = "$base/language/$lang/$fileName";
 
 		if (file_exists($path))
 			return $path;
 
-		//-- Found nothing :(
+		// Found nothing :(
 
-		//throw new Exception('No language files found');
+		// @ throw new Exception('No language files found');
 		return false;
 	}
 
 	/**
 	 * Splits a string by a separator.
 	 *
-	 * Expects exactly two parts. Otherwise it will fail.
+	 * Expects exactly one or two parts. Otherwise it will fail.
 	 *
 	 * @param string $string    The string to split
 	 * @param string $delimiter The delimiter character
 	 *
 	 * @throws g11nException
 	 * @return array
-	 *
 	 */
 	public static function split($string, $delimiter = '.')
 	{
@@ -191,10 +221,14 @@ class ExtensionHelper
 	}
 
 	/**
-	 * @param $domain
-	 * @param $path
+	 * Add a path to search for language files.
+	 *
+	 * @param   string  $domain  The domain name.
+	 * @param   string  $path    A path to search for language files.
+	 *
+	 * @return void
 	 */
-	public static function setDomainPath($domain, $path)
+	public static function addDomainPath($domain, $path)
 	{
 		self::$domainPaths[$domain] = $path;
 	}

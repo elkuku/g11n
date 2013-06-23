@@ -8,6 +8,7 @@ namespace g11n\Language;
 
 use g11n\g11nException;
 use g11n\Support\ExtensionHelper;
+use g11n\Language\Parser;
 
 /**
  * The g11n storage base class.
@@ -16,16 +17,32 @@ use g11n\Support\ExtensionHelper;
  */
 class Storage
 {
+	/**
+	 * @var string
+	 */
 	protected static $handler = '';
 
-	protected static $cacheDir = '/tmp';
+	/**
+	 * @var Parser\Language
+	 */
+	protected $parser = null;
 
 	/**
 	 * Constructor.
+	 *
+	 * @param   string $type  The input type (e.g. ini, po)
+	 *
+	 * @throws \g11n\g11nException
 	 */
-	protected function __construct()
+	protected function __construct($type)
 	{
-		self::$cacheDir .= ExtensionHelper::$langDirName;
+
+		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
+
+		if (!class_exists($class))
+			throw new g11nException('Required parser class not found: ' . $class);
+
+		$this->parser = new $class;
 	}
 
 	/**
@@ -55,42 +72,7 @@ class Storage
 			throw new \RuntimeException('Invalid storage class: ' . $className);
 		}
 
-//		if (!file_exists($fileName))
-//			throw new g11nException('Can not get the storage handler ' . $storageType . ' - ' . $fileName);
-
-//		require_once $fileName;
-
-		/*		$parts       = ExtensionHelper::split($storageType, '_');
-				$storageName = 'g11nStorage' . ucfirst($parts[0]) . ucfirst($parts[1]);
-
-				if (!class_exists($storageName))
-					throw new g11nException('Required class not found: ' . $storageName);*/
-
 		return new $className($inputType);
-		//return new $storageName($inputType);
-	}
-
-	/**
-	 * Get the cache directory.
-	 *
-	 * @static
-	 * @return string
-	 */
-	public static function getCacheDir()
-	{
-		return self::$cacheDir;
-	}
-
-	/**
-	 * Set the cache directory.
-	 *
-	 * @param string $cacheDir
-	 *
-	 * @return void
-	 */
-	public static function setCacheDir($cacheDir)
-	{
-		self::$cacheDir = $cacheDir;
 	}
 
 	/**
@@ -109,7 +91,7 @@ class Storage
 			? $extension
 			: $parts[0];
 
-		return self::$cacheDir . '/' . $dirName . '/' . $lang . '.' . $extension;
+		return ExtensionHelper::getCacheDir() . '/' . $dirName . '/' . $lang . '.' . $extension;
 	}
 
 	/**

@@ -6,41 +6,34 @@
 
 namespace g11n\Language\Storage\File;
 
-use g11n\g11nException;
-use g11n\Support\ExtensionHelper;
 use g11n\Language\Storage;
+use g11n\Support\ExtensionHelper;
 use g11n\Support\Store;
+use g11n\g11nException;
 
 /**
  * Storage handler for PHP files.
  *
  * @since  1.0
  */
-class Php extends Storage
+class Php extends Storage\File
 {
 	public $fileInfo = null;
-
-	protected $parser = null;
 
 	protected $ext = '.php';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   string $inputType  The input type
+	 * @param   string $type  The input type
 	 *
 	 * @throws \g11n\g11nException
 	 */
-	public function __construct($inputType)
+	public function __construct($type)
 	{
-		parent::__construct();
+		parent::__construct($type);
 
-		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($inputType);
-
-		if (!class_exists($class))
-			throw new g11nException('Required parser class not found: ' . $class);
-
-		$this->parser = new $class;
+		self::$cacheDir = ExtensionHelper::getCacheDir() . '/' . ExtensionHelper::$langDirName;
 	}
 
 	/**
@@ -69,6 +62,7 @@ class Php extends Storage
 		/*
 		 * "Normal" strings
 		 */
+
 		$stringsArray = array();
 
 		foreach ($fileInfo->strings as $key => $value)
@@ -82,6 +76,7 @@ class Php extends Storage
 		/*
 		 * Plural strings
 		 */
+
 		$pluralsArray = array();
 
 		foreach ($fileInfo->stringsPlural as $key => $plurals)
@@ -102,6 +97,7 @@ class Php extends Storage
 		/*
 		 * JavaScript strings
 		 */
+
 		$jsArray        = array();
 		$jsPluralsArray = array();
 
@@ -147,6 +143,7 @@ class Php extends Storage
 		 * Result:
 		 * '<?php $strings = array('a'=>'b', ...); ?>'
 		 */
+
 		$resultString = '<?php '
 			. '$info=array('
 			. "'mode'=>'" . $fileInfo->mode . "'"
