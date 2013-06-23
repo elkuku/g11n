@@ -231,8 +231,6 @@ class Php extends Storage\File
 	 */
 	public function clean($lang, $extension, $scope = '')
 	{
-		jimport('joomla.filesystem.file');
-
 		$storePath = $this->getPath($lang, $extension, $scope) . $this->ext;
 
 		// Storage file does not exist

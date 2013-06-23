@@ -36,7 +36,6 @@ class Storage
 	 */
 	protected function __construct($type)
 	{
-
 		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
 
 		if (!class_exists($class))
@@ -51,13 +50,11 @@ class Storage
 	 * @param string $inputType   A valid input type
 	 * @param string $storageType A valid storage type
 	 *
-	 * @throws g11nException
+	 * @throws \RuntimeException
 	 * @return Storage
 	 */
 	public static function getHandler($inputType, $storageType)
 	{
-		//$fileName = __DIR__ . '/storages/' . $storageType . '.php';
-
 		$parts = explode('_', $storageType);
 
 		if (count($parts) != 2)
@@ -80,10 +77,11 @@ class Storage
 	 *
 	 * @param string $lang      Language tag e.g. en-GB.
 	 * @param string $extension Extension name e.g. com_component.
+	 * @param string $domain    The domain name.
 	 *
 	 * @return string
 	 */
-	protected function getPath($lang, $extension)
+	protected function getPath($lang, $extension, $domain)
 	{
 		$parts = ExtensionHelper::split($extension, '.');
 
@@ -91,13 +89,11 @@ class Storage
 			? $extension
 			: $parts[0];
 
-		return ExtensionHelper::getCacheDir() . '/' . $dirName . '/' . $lang . '.' . $extension;
+		return ExtensionHelper::getCacheDir() . '/' . $domain . '/' . $dirName . '/' . $lang . '.' . $extension;
 	}
 
 	/**
 	 * Test is a language template exists.
-	 *
-	 * @static
 	 *
 	 * @param $extension
 	 * @param $scope
@@ -112,10 +108,8 @@ class Storage
 	/**
 	 * Get the language template path.
 	 *
-	 * @static
-	 *
-	 * @param   string  $extension  Extension name.
-	 * @param   string  $scope      Extension scope
+	 * @param   string $extension  Extension name.
+	 * @param   string $scope      Extension scope
 	 *
 	 * @return string
 	 */
@@ -131,24 +125,6 @@ class Storage
 
 		$base = ExtensionHelper:: getDomainPath($scope);
 
-		$parts = ExtensionHelper::split($extension);
-
-		$subType = '';
-
-		if (count($parts) == 1)
-		{
-			$parts  = ExtensionHelper::split($extension, '_');
-			$prefix = $parts[0];
-		}
-		else
-		{
-			// We have a subType
-			$subType = $parts[1];
-
-			$parts  = ExtensionHelper::split($parts[0], '_');
-			$prefix = $parts[0];
-		}
-
 		$fileName = $extension . '.pot';
 
 		$extensionDir = ExtensionHelper::getExtensionPath($extension);
@@ -162,7 +138,7 @@ class Storage
 	 *
 	 * E.g.: nplurals=2; plural=(n != 1)
 	 *
-	 * @param   string  $gettextPluralForms  Gettext format.
+	 * @param   string $gettextPluralForms  Gettext format.
 	 *
 	 * @return string pcre type PluralForms
 	 */
