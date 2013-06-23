@@ -14,7 +14,7 @@ use g11n\Language\Storage;
  *
  * @package g11n\Language\Storage
  */
-class File extends Storage
+abstract class File extends Storage
 {
 	public static $cacheDir = '/tmp';
 }

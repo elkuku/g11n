@@ -6,7 +6,7 @@
 
 namespace g11n\Language\Parser\Language;
 
-use g11n\Language\Parser\Language;
+use g11n\Language\Parser;
 use g11n\Support\FileInfo;
 
 /**
@@ -14,7 +14,7 @@ use g11n\Support\FileInfo;
  *
  * @package g11n
  */
-class Po extends Language
+class Po extends Parser\Language
 {
     /**
      * File extension.

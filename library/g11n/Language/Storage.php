@@ -15,7 +15,7 @@ use g11n\Language\Parser;
  *
  * @package g11n
  */
-class Storage
+abstract class Storage
 {
 	/**
 	 * @var string
@@ -172,4 +172,40 @@ class Storage
 
 		return $res;
 	}
+
+	/**
+	 * Stores the strings into a storage.
+	 *
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	abstract public function store($lang, $extension, $domain = '');
+
+	/**
+	 * Retrieve the storage content.
+	 *
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return \g11n\Support\Store
+	 */
+	abstract public function retrieve($lang, $extension, $domain = '');
+
+	/**
+	 * Cleans the storage.
+	 *
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	abstract public function clean($lang, $extension, $domain = '');
 }
