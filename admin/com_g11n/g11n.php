@@ -31,7 +31,7 @@ catch(Exception $e)
     JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
     return;
-}//try
+}
 
 //-- Add CSS
 JHTML::stylesheet('default.css', 'administrator/components/com_g11n/assets/css/');

@@ -45,7 +45,7 @@ class g11nListController extends JControllerLegacy
         catch(Exception $e)
         {
             JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }//try
+        }
 
         parent::display();
     }

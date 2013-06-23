@@ -380,14 +380,14 @@ abstract class g11n
 	{
 		if (!jimport('g11n.language.parsers.' . $type . '.' . $name))
 			throw new g11nException('Can not get the parser ' . $type . '.' . $name);
-		//@Do_NOT_Translate
+
 
 		$parserName = 'g11nParser' . ucfirst($type) . ucfirst($name);
 
 		if (!class_exists($parserName))
 			throw new g11nException('Required class not found: ' . $parserName);
 
-		//@Do_NOT_Translate
+
 
 		return new $parserName;
 	}

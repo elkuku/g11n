@@ -82,7 +82,7 @@ class g11nListViewg11nList extends JView
                 {
                     $items[$i]->templateStatus[$scope] = $e->getMessage();
                     echo '';
-                }//try
+                }
 
                 foreach($this->languages[$scope] as $lang)
                 {

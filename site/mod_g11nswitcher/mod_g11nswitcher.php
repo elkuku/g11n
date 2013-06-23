@@ -25,7 +25,7 @@ catch(Exception $e)
     JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
     return;
-}//try
+}
 
 //-- Include the helper file
 #require_once dirname(__FILE__).DS.'helper.php';

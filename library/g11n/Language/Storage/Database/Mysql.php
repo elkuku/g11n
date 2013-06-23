@@ -68,10 +68,10 @@ class g11nStorageDB extends g11nStorage
                 break;
 
             default:
-                throw new g11nException('Undefined storage: '.self::$storage);//@Do_NOT_Translate
+                throw new g11nException('Undefined storage: '.self::$storage);
 
                 break;
-        }//switch
+        }
 
         $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
 

@@ -36,7 +36,7 @@ class g11nBaseFormField extends JFormField
 
                     $text = $this->translateLabel ? jgettext($text) : $text;
                 }
-            }//try
+            }
             catch (Exception $e)
             {
                 //-- do nothing..

@@ -142,7 +142,7 @@ class g11nParserLanguagePot
                         $info = '';
                     }
                     break;
-            }//switch
+            }
 
             //comment or blank line?
             if(empty($line)

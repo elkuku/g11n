@@ -81,7 +81,7 @@ class g11nStorageFileTxt extends g11nStorage
         $jsonString = json_encode($strings);
 
         if( ! JFile::write($path, $jsonString))
-        throw new g11nException('Unable to write language storage file');//@Do_NOT_Translate
+        throw new g11nException('Unable to write language storage file');
 
         $profiler->mark('<span style="color: blue;">wrote file</span>: '
         .str_replace(JPATH_ROOT, 'J', $path));//@@debug

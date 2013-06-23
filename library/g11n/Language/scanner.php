@@ -40,7 +40,7 @@ try
 catch(Exception $e)
 {
     echo $e->getMessage().BR;
-}//try
+}
 
 /**
  * g11n code scanner.

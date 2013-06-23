@@ -117,7 +117,7 @@ class g11nListControllerUtility extends JController
         catch(Exception $e)
         {
             JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }//try
+        }
 
         # JRequest::setVar('view', 'g11n');
         $this->g11nView->display();
@@ -231,7 +231,7 @@ class g11nListControllerUtility extends JController
 
                 default:
                     break;
-            }//switch
+            }
 
             $files = JFolder::files($base.DS.$extensionDir, '.'.$search.'$', true, true);
 
@@ -329,7 +329,7 @@ class g11nListControllerUtility extends JController
         catch(Exception $e)
         {
             JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }//try
+        }
 
         $this->g11nView->display();
 

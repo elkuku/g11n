@@ -26,7 +26,7 @@ catch(Exception $e)
     echo $e->getMessage();
 
     return;
-}//try
+}
 
 //-- Include the helper file
 #require_once dirname(__FILE__).DS.'helper.php';

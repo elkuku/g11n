@@ -98,7 +98,7 @@ class g11nParserLanguageNafuIni
                 continue;
             }
 
-            if($previous)//trying to match
+            if($previous)ing to match
             {
                 if(preg_match('/@PLURALFORM:\s*(.*)/', $line, $matches))
                 {

@@ -65,7 +65,7 @@ class g11nListViewUtility extends JView
 //                {
 //                    $items[$i]->templateStatus[$scope] = $e->getMessage();
 //                    echo '';
-//                }//try
+//                }
 
                 try//
                 {
@@ -76,7 +76,7 @@ class g11nListViewUtility extends JView
                     $items[$i]->templateCommands[$scope] = $e->getMessage();
                     $items[$i]->templateLink = '';
                     echo '';
-                }//try
+                }
 
                 foreach($this->languages[$scope] as $lang)
                 {

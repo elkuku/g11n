@@ -23,6 +23,6 @@ catch(Exception $e)
     JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
     return;
-}//try
+}
 
 require JModuleHelper::getLayoutPath('mod_g11nbtw', $params->get('layout', 'default'));

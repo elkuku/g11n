@@ -162,7 +162,7 @@ class ExtensionHelper
 
 		//-- Found nothing :(
 
-		//throw new Exception('No language files found');//@Do_NOT_Translate
+		//throw new Exception('No language files found');
 		return false;
 	}
 
