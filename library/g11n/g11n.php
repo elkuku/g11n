@@ -6,6 +6,7 @@
 
 namespace g11n;
 
+use g11n\Language\Debugger;
 use g11n\Language\Storage;
 
 require_once __DIR__ . '/Language/methods.php';
@@ -14,10 +15,6 @@ require_once __DIR__ . '/Language/methods.php';
  * The g11n - "globalization" class.
  *
  * Language handling class.
- *
- *  //-- Joomla!'s Alternative Language Handler oO
- *
- * @package g11n
  */
 abstract class g11n
 {
@@ -58,7 +55,7 @@ abstract class g11n
 	/**
 	 * Cache function that chooses plural forms.
 	 *
-	 * @var object
+	 * @var callable
 	 */
 	protected static $pluralFunction = null;
 
@@ -163,8 +160,10 @@ abstract class g11n
 
 		if (self::$debug)
 		{
-			$dbgMsg = sprintf('Found %d strings'
-				, count($store->get('strings')));
+			$dbgMsg = sprintf(
+				'Found %d strings',
+				count($store->get('strings'))
+			);
 		}
 
 		self::logEvent(__METHOD__, $extension, $domain, $inputType, $storageType, $dbgMsg, self::$lang);
@@ -201,28 +200,26 @@ abstract class g11n
 		$key = md5($original);
 
 		if (isset(self::$strings[$key])
-			&& self::$strings[$key]
-		)
+			&& self::$strings[$key])
 		{
-			//-- Translation found
+			// Translation found
 			return self::process(self::$strings[$key]);
 		}
 
-		//-- Search for alternatives - L for legacy
+		// Search for alternatives - L for legacy
 		if (self::$flexibility == 'mixed'
-			|| (!self::$flexibility)
-		)
+			|| (!self::$flexibility))
 		{
 			$key = md5(strtoupper($original));
 
 			if (isset(self::$strings[$key]))
 			{
-				//-- Translation found - key is upper cased, requested string is not..
+				// Translation found - key is upper cased, requested string is not..
 				return self::process(self::$strings[$key]);
 			}
 		}
 
-		//-- Worst case - No translation found !
+		// Worst case - No translation found !
 
 		if (self::$docType == 'html')
 		{
@@ -249,11 +246,8 @@ abstract class g11n
 
 		$index = (int) call_user_func(self::$pluralFunction, $count);
 
-		$format = '%s';
-
 		if (array_key_exists($key, self::$stringsPlural)
-			&& array_key_exists($index, self::$stringsPlural[$key])
-		)
+			&& array_key_exists($index, self::$stringsPlural[$key]))
 		{
 			if (self::$debug)
 			{
@@ -265,7 +259,7 @@ abstract class g11n
 			return self::process(self::$stringsPlural[$key][$index]);
 		}
 
-		//-- Fallback - english: singular == 1
+		// Fallback - english: singular == 1
 		$retVal = ($count == 1) ? $singular : $plural;
 
 		if (self::$debug)
@@ -314,7 +308,7 @@ abstract class g11n
 	/**
 	 * Set the application object.
 	 *
-	 * @param   object  $application  The application object.
+	 * @param   object $application  The application object.
 	 *
 	 * @return $this
 	 */
@@ -374,22 +368,16 @@ abstract class g11n
 	 * @param string $name Parser name
 	 *
 	 * @throws g11nException
-	 * @return g11nParser of a specific type
+	 * @return Parser of a specific type
 	 */
 	public static function getParser($type, $name)
 	{
-		if (!jimport('g11n.language.parsers.' . $type . '.' . $name))
-			throw new g11nException('Can not get the parser ' . $type . '.' . $name);
+		$class = '\\g11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
 
+		if (!class_exists($class))
+			throw new g11nException('Required class not found: ' . $class);
 
-		$parserName = 'g11nParser' . ucfirst($type) . ucfirst($name);
-
-		if (!class_exists($parserName))
-			throw new g11nException('Required class not found: ' . $parserName);
-
-
-
-		return new $parserName;
+		return new $class;
 	}
 
 	/**
@@ -404,31 +392,30 @@ abstract class g11n
 		$key = md5($original);
 
 		if (isset(self::$strings[$key])
-			&& self::$strings[$key]
-		)
+			&& self::$strings[$key])
 		{
-			//-- Translation found
+			// Translation found
 			self::recordTranslated($original, '+');
 
 			return sprintf('+-%s-+', self::process(self::$strings[$key]));
 		}
-		else if (self::$flexibility == 'mixed'
+		elseif (self::$flexibility == 'mixed'
 			|| (!self::$flexibility)
 		)
 		{
-			//-- Search for alternatives - upper cased key
+			// Search for alternatives - upper cased key
 			$key = md5(strtoupper($original));
 
 			if (isset(self::$strings[$key]))
 			{
-				//-- Translation found - key is upper cased, value is not..
+				// Translation found - key is upper cased, value is not..
 				self::recordTranslated($original, 'L');
 
 				return sprintf('L-%s-L', self::process(self::$strings[$key]));
 			}
 		}
 
-		//-- Worst case - No translation found !
+		// Worst case - No translation found !
 
 		self::recordTranslated($original, '-');
 
@@ -485,7 +472,7 @@ abstract class g11n
 
 		static $hasBeenAdded = false;
 
-		//-- To be called only once
+		// To be called only once
 		if (!$hasBeenAdded)
 		{
 			$path     = 'libraries/g11n/language/javascript';
@@ -500,7 +487,7 @@ abstract class g11n
 			$hasBeenAdded = true;
 		}
 
-		//-- Add the strings to the page <head> section
+		// Add the strings to the page <head> section
 		$js   = array();
 		$js[] = '<!--';
 		$js[] = '/* JavaScript translations */';
@@ -551,17 +538,26 @@ abstract class g11n
 	{
 		self::$lang = self::getApplication()->input->get('lang');
 
-		if (self::$lang != '')
+		if (self::$lang)
 		{
-			//@todo CHECKif language exists..
-			//self::$lang = $reqLang;
+			// @todo CHECK if language exists..
 
-			//self::getApplication()->input->get('lang', self::$lang);
+			self::getApplication()->getSession()->set('lang', self::$lang);
 
 			return;
 		}
 
-		$env        = getenv('LANG');
+		// Get the language from session
+		self::$lang = self::getApplication()->getSession()->get('lang');
+
+		if (self::$lang)
+		{
+			return;
+		}
+
+		// Get the environment language
+		$env = getenv('LANG');
+
 		self::$lang = ('POSIX' != $env) ? $env : '';
 
 		if (self::$lang)
@@ -571,21 +567,16 @@ abstract class g11n
 			if (strpos(self::$lang, '.'))
 				self::$lang = substr(self::$lang, 0, strpos(self::$lang, '.'));
 
-			//-- We're british..
+			// We're british..
 			if ('en-US' == self::$lang)
 				self::$lang = 'en-GB';
 
 			return;
 		}
 
-		//-- OK.. let's do a
-		//self::$lang = JFactory::getLanguage()->getTag();
-
-		//-- That should be enough.. british or die.
+		// That should be enough.. british or die.
 		if (!self::$lang)
 			self::$lang = 'en-GB';
-
-//        throw new g11nException('Something wrong with JLanguage :(');
 	}
 
 	/**
@@ -616,9 +607,9 @@ abstract class g11n
 	 */
 	private static function recordTranslated($string, $mode, $level = 3)
 	{
+		// Already recorded
 		if (array_key_exists($string, self::$processedItems))
 			return;
-		//-- Already recorded
 
 		$info           = new \stdClass;
 		$info->status   = $mode;
@@ -631,7 +622,7 @@ abstract class g11n
 		{
 			$trace = debug_backtrace();
 
-			//-- Element no. 3 must be our jgettext() caller - s/be/not be...
+			// Element no. 3 must be our jgettext() caller - s/be/not be...
 			$trace = $trace[$level];
 
 			$info->file     = $trace['file'];
