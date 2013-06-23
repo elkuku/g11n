@@ -43,20 +43,20 @@ class ExtensionHelper
 	 * @param   string  $path  A valid path.
 	 *
 	 * @throws \RuntimeException
-	 * @return vloid
+	 * @return void
 	 */
 	public static function setCacheDir($path)
 	{
 		if (false == is_dir($path))
 		{
-			throw new \RuntimeException('Invalid cache dir');
+			throw new g11nException('Invalid cache dir');
 		}
 
 		$path .= '/g11n';
 
 		if (false == is_dir($path) && false == mkdir($path))
 		{
-			throw new \RuntimeException('Can not create the cache directory');
+			throw new g11nException('Can not create the cache directory');
 		}
 
 		self::$cacheDir = $path;
