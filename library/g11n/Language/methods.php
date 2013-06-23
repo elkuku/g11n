@@ -9,15 +9,11 @@ use \g11n\g11n;
 /**
  * Small multilanguaging function =;).
  *
- * Also includes sprintf() functionality if more parameters are supplied.
- * Additional @param $n @deprecated use printf, sprintf or vprintf for this purpose !
- *                            If additional paramaters are supplied, the function behaves like sprintf.
- *
  * @param   string  $original  Text to translate.
  *
  * @return string Translated text or original if not found.
  */
-function jgettext($original)
+function g11n3t($original)
 {
 	return g11n::translate($original);
 }
@@ -31,7 +27,7 @@ function jgettext($original)
  *
  * @return string Translated text.
  */
-function jngettext($singular, $plural, $count)
+function g11n4t($singular, $plural, $count)
 {
 	return g11n::translatePlural($singular, $plural, $count);
 }
