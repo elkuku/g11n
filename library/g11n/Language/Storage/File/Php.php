@@ -39,21 +39,21 @@ class Php extends Storage\File
 	/**
 	 * Stores the strings into a storage.
 	 *
-	 * @param   string $lang       E.g. de-DE, es-ES etc.
-	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $scope      Must be 'admin' or 'site'.
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
 	 */
-	public function store($lang, $extension, $scope = '')
+	public function store($lang, $extension, $domain = '')
 	{
 		$ext = $this->parser->getExt();
 
 		/*
 		 * Parse language files
 		 */
-		$fileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, $ext);
+		$fileName = ExtensionHelper::findLanguageFile($lang, $extension, $domain, $ext);
 
 		$fileInfo = $this->parser->parse($fileName);
 
@@ -64,6 +64,7 @@ class Php extends Storage\File
 		 */
 
 		$stringsArray = array();
+		$value        = '';
 
 		foreach ($fileInfo->strings as $key => $value)
 		{
@@ -103,7 +104,7 @@ class Php extends Storage\File
 
 		try
 		{
-			$jsFileName = ExtensionHelper::findLanguageFile($lang, $extension, $scope, 'js.' . $ext);
+			$jsFileName = ExtensionHelper::findLanguageFile($lang, $extension, $domain, 'js.' . $ext);
 
 			$jsInfo = $this->parser->parse($jsFileName);
 
@@ -154,7 +155,7 @@ class Php extends Storage\File
 			. ' $stringsJs=array(' . implode(',', $jsArray) . ');'
 			. ' $stringsJsPlural=array(' . implode(',', $jsPluralsArray) . ');';
 
-		$storePath = $this->getPath($lang, $extension, $scope) . $this->ext;
+		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 
 		if (false == is_dir(dirname($storePath)))
 		{
@@ -168,22 +169,22 @@ class Php extends Storage\File
 	/**
 	 * Retrieve the storage content.
 	 *
-	 * @param   string $lang       E.g. de-DE, es-ES etc.
-	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $scope      Must be 'admin' or 'site'.
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
-	 * @return boolean
+	 * @return \g11n\Support\Store
 	 */
-	public function retrieve($lang, $extension, $scope = '')
+	public function retrieve($lang, $extension, $domain = '')
 	{
-		$path = $this->getPath($lang, $extension, $scope) . $this->ext;
+		$path = $this->getPath($lang, $extension, $domain) . $this->ext;
 
 		// File has not being cached
 		if (!file_exists($path))
 		{
 			// Try to store
-			$this->store($lang, $extension, $scope);
+			$this->store($lang, $extension, $domain);
 
 			// Failed ?
 			if (!file_exists($path))
@@ -222,16 +223,16 @@ class Php extends Storage\File
 	/**
 	 * Cleans the storage.
 	 *
-	 * @param   string $lang       E.g. de-DE, es-ES etc.
-	 * @param   string $extension  E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $scope      Must be 'admin' or 'site'.
+	 * @param   string $lang        E.g. de-DE, es-ES etc.
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
 	 */
-	public function clean($lang, $extension, $scope = '')
+	public function clean($lang, $extension, $domain = '')
 	{
-		$storePath = $this->getPath($lang, $extension, $scope) . $this->ext;
+		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 
 		// Storage file does not exist
 		if (!file_exists($storePath))
