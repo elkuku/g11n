@@ -439,6 +439,19 @@ abstract class g11n
 	}
 
 	/**
+	 * Set the cache directory.
+	 *
+	 * @param   string  $path  A valid path.
+	 *
+	 * @throws \RuntimeException
+	 * @return void
+	 */
+	public static function setCacheDir($path)
+	{
+		ExtensionHelper::setCacheDir($path);
+	}
+
+	/**
 	 * Translation in debug mode.
 	 *
 	 * @param string $original Original string to be translated
