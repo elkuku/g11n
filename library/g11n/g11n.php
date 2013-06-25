@@ -8,6 +8,7 @@ namespace g11n;
 
 use g11n\Language\Debugger;
 use g11n\Language\Storage;
+use g11n\Support\ExtensionHelper;
 
 require_once __DIR__ . '/Language/methods.php';
 
@@ -416,12 +417,25 @@ abstract class g11n
 	 */
 	public static function getLanguageParser($type)
 	{
-		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type) ;
+		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
 
 		if (!class_exists($class))
 			throw new g11nException('Required class not found: ' . $class);
 
 		return new $class;
+	}
+
+	/**
+	 * Add a path to search for language files.
+	 *
+	 * @param   string  $domain  The domain name.
+	 * @param   string  $path    A path to search for language files.
+	 *
+	 * @return void
+	 */
+	public static function addDomainPath($domain, $path)
+	{
+		ExtensionHelper::addDomainPath($domain, $path);
 	}
 
 	/**
