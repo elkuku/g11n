@@ -186,7 +186,7 @@ class ExtensionHelper
 			return $path;
 
 		// Now try the base language dir
-		$path = "$base/language/$lang/$fileName";
+		$path = "$base/" . self::$langDirName . "/$lang/$fileName";
 
 		if (file_exists($path))
 			return $path;
