@@ -367,12 +367,56 @@ abstract class g11n
 	 * @param string $type Parser type
 	 * @param string $name Parser name
 	 *
+	 * @deprecated Use getCodeParser() or getLanguageParser()
+	 *
 	 * @throws g11nException
 	 * @return Parser of a specific type
 	 */
 	public static function getParser($type, $name)
 	{
 		$class = '\\g11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
+
+		if (!class_exists($class))
+			throw new g11nException('Required class not found: ' . $class);
+
+		return new $class;
+	}
+
+	/**
+	 * For 3PD use.
+	 *
+	 * You may use this function for manipulation of language files.
+	 * Parsers support parsing and generating language files.
+	 *
+	 * @param string $type Parser type
+	 *
+	 * @throws g11nException
+	 * @return \g11n\Language\Parser\Code of a specific type
+	 */
+	public static function getCodeParser($type)
+	{
+		$class = '\\g11n\\Language\\Parser\\Code\\' . ucfirst($type);
+
+		if (!class_exists($class))
+			throw new g11nException('Required class not found: ' . $class);
+
+		return new $class;
+	}
+
+	/**
+	 * For 3PD use.
+	 *
+	 * You may use this function for manipulation of language files.
+	 * Parsers support parsing and generating language files.
+	 *
+	 * @param string $type Parser type
+	 *
+	 * @throws g11nException
+	 * @return \g11n\Language\Parser\Language of a specific type
+	 */
+	public static function getLanguageParser($type)
+	{
+		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type) ;
 
 		if (!class_exists($class))
 			throw new g11nException('Required class not found: ' . $class);
