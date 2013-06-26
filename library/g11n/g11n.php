@@ -688,10 +688,12 @@ abstract class g11n
 		$info->line     = 0;
 		$info->function = '';
 		$info->args     = array();
+		$info->trace    = null;
 
 		if (function_exists('debug_backtrace'))
 		{
 			$trace = debug_backtrace();
+			$info->trace = $trace;
 
 			// Element no. 3 must be our jgettext() caller - s/be/not be...
 			$trace = $trace[$level];
