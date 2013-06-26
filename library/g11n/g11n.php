@@ -671,6 +671,9 @@ abstract class g11n
 		{
 			$trace = debug_backtrace();
 
+			// Also store the whole trace for further investigation =;)
+			$info->trace = $trace;
+
 			// Element no. 3 must be our jgettext() caller - s/be/not be...
 			$trace = $trace[$level];
 
@@ -678,9 +681,6 @@ abstract class g11n
 			$info->line     = $trace['line'];
 			$info->function = $trace['function'];
 			$info->args     = $trace['args'];
-
-			// Also store the whole trace for further investigation =;)
-			$info->trace = $trace;
 		}
 
 		self::$processedItems[$string] = $info;
