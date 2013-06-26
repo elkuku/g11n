@@ -25,6 +25,12 @@ abstract class g11n
 	 */
 	protected static $lang = '';
 
+	/** Fallback language tag - e.g.en-GB, de-DE
+	 *
+	 * @var string
+	 */
+	protected static $defaultLang = 'en-GB';
+
 	/**
 	 * Array of defined strings for PHP and their translations
 	 *
@@ -82,13 +88,6 @@ abstract class g11n
 	 */
 	protected static $processedItems = array();
 
-	/**
-	 * This handels how different cases (upper/lower) are treated in ini files
-	 *
-	 * @var string
-	 */
-	protected static $flexibility = '';
-
 	/** This is for, well... debugging =;)
 	 *
 	 * @var boolean
@@ -98,8 +97,6 @@ abstract class g11n
 	protected static $events = array();
 
 	protected static $extensionsLoaded = array();
-
-	private static $application;
 
 	/**
 	 * Provide access to everything we have inside ;).
@@ -132,9 +129,9 @@ abstract class g11n
 	 * @throws g11nException
 	 * @return void
 	 */
-	public static function loadLanguage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php')
+	public static function loadLanguage($extension, $domain, $inputType = 'po', $storageType = 'file_php')
 	{
-		$key = $extension . ($domain ? '.' . $domain : '');
+		$key = $extension . '.' . $domain;
 
 		if (array_key_exists($key, self::$extensionsLoaded))
 			return;
@@ -175,15 +172,51 @@ abstract class g11n
 	/**
 	 * Get the default language tag.
 	 *
-	 * @static
 	 * @return string
 	 */
 	public static function getDefault()
+	{
+		return self::$defaultLang;
+	}
+
+	/**
+	 * Set the default language tag.
+	 *
+	 * @param string $lang The language tag.
+	 *
+	 * @return string
+	 */
+	public static function setDefault($lang)
+	{
+		self::$defaultLang = $lang;
+	}
+
+	/**
+	 * Get the current language.
+	 *
+	 * @since  2.0
+	 * @return string
+	 */
+	public static function getCurrent()
 	{
 		if (!self::$lang)
 			self::detectLanguage();
 
 		return self::$lang;
+	}
+
+	/**
+	 * Set the current language.
+	 *
+	 * @param string $lang The language tag.
+	 *
+	 * @since  2.0
+	 * @return void
+	 */
+	public static function setCurrent($lang)
+	{
+		// @todo check if language "exists"
+		self::$lang = $lang;
 	}
 
 	/**
@@ -200,34 +233,41 @@ abstract class g11n
 
 		$key = md5($original);
 
-		if (isset(self::$strings[$key])
-			&& self::$strings[$key])
-		{
-			// Translation found
+		// Translation found
+		if (isset(self::$strings[$key]) && self::$strings[$key])
 			return self::process(self::$strings[$key]);
-		}
 
-		// Search for alternatives - L for legacy
-		if (self::$flexibility == 'mixed'
-			|| (!self::$flexibility))
-		{
-			$key = md5(strtoupper($original));
-
-			if (isset(self::$strings[$key]))
-			{
-				// Translation found - key is upper cased, requested string is not..
-				return self::process(self::$strings[$key]);
-			}
-		}
-
-		// Worst case - No translation found !
-
-		if (self::$docType == 'html')
-		{
+		// No translation found !
+		if ('html' == self::$docType)
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
-		}
 
 		return $original;
+	}
+
+	/**
+	 * Translation in debug mode.
+	 *
+	 * @param string $original Original string to be translated
+	 *
+	 * @return string
+	 */
+	private static function debugTranslate($original)
+	{
+		$key = md5($original);
+
+		if (isset(self::$strings[$key]) && self::$strings[$key])
+		{
+			// Translation found
+			self::recordTranslated($original, '+');
+
+			return sprintf('+-%s-+', self::process(self::$strings[$key]));
+		}
+
+		// No translation found !
+
+		self::recordTranslated($original, '-');
+
+		return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
 	}
 
 	/**
@@ -304,34 +344,6 @@ abstract class g11n
 	public static function setDebug($bool)
 	{
 		self::$debug = (bool) $bool;
-	}
-
-	/**
-	 * Set the application object.
-	 *
-	 * @param   object $application  The application object.
-	 *
-	 * @return $this
-	 */
-	public static function setApplication($application)
-	{
-		self::$application = $application;
-	}
-
-	/**
-	 * Get the application object.
-	 *
-	 * @throws \RuntimeException
-	 * @return mixed
-	 */
-	public static function getApplication()
-	{
-		if (!self::$application)
-		{
-			throw new \RuntimeException('No application set');
-		}
-
-		return self::$application;
 	}
 
 	/**
@@ -452,48 +464,6 @@ abstract class g11n
 	}
 
 	/**
-	 * Translation in debug mode.
-	 *
-	 * @param string $original Original string to be translated
-	 *
-	 * @return string
-	 */
-	protected static function debugTranslate($original)
-	{
-		$key = md5($original);
-
-		if (isset(self::$strings[$key])
-			&& self::$strings[$key])
-		{
-			// Translation found
-			self::recordTranslated($original, '+');
-
-			return sprintf('+-%s-+', self::process(self::$strings[$key]));
-		}
-		elseif (self::$flexibility == 'mixed'
-			|| (!self::$flexibility)
-		)
-		{
-			// Search for alternatives - upper cased key
-			$key = md5(strtoupper($original));
-
-			if (isset(self::$strings[$key]))
-			{
-				// Translation found - key is upper cased, value is not..
-				self::recordTranslated($original, 'L');
-
-				return sprintf('L-%s-L', self::process(self::$strings[$key]));
-			}
-		}
-
-		// Worst case - No translation found !
-
-		self::recordTranslated($original, '-');
-
-		return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
-	}
-
-	/**
 	 * Set a plural function.
 	 *
 	 * @param string $pcrePluralForm The PCRE plural form to be parsed.
@@ -509,11 +479,11 @@ abstract class g11n
 
 			$PHPexpression = str_replace('n', '$n', $expression);
 		}
-		else //
+		else
 		{
 			$nplurals      = 2;
 			$expression    = 'n == 1 ? 0 : 1';
-			$PHPexpression = '$n == 1 ? 0 : 1';
+			$PHPexpression = '$' . $expression;
 		}
 
 		$func_body = '$plural = (' . $PHPexpression . ');'
@@ -547,7 +517,7 @@ abstract class g11n
 		if (!$hasBeenAdded)
 		{
 			$path     = 'libraries/g11n/language/javascript';
-			$document = self::getApplication()->getDocument();
+			$document = null;//self::getApplication()->getDocument();
 
 			$document->addScript(JURI::root(true) . '/' . $path . '/methods.js');
 			$document->addScript(JURI::root(true) . '/' . $path . '/language.js');
@@ -563,7 +533,6 @@ abstract class g11n
 		$js[] = '<!--';
 		$js[] = '/* JavaScript translations */';
 		$js[] = 'g11n.loadLanguageStrings(' . json_encode($strings) . ');';
-		$js[] = "g11n.legacy = '" . self::$flexibility . "'";
 
 		if (self::$pluralFunctionJsStr)
 		{
@@ -577,7 +546,7 @@ abstract class g11n
 
 		self::$stringsJs = array_merge(self::$stringsJs, $strings);
 
-		self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
+		// @ self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
 	}
 
 	/**
@@ -591,9 +560,9 @@ abstract class g11n
 	{
 		$string = base64_decode($string);
 
-		if (self::$docType == 'html')
+		if ('html' == self::$docType)
 		{
-			$string = str_replace(array("\n", "\\n"), '<br />', $string);
+			$string = str_replace(array("\n", '\n'), '<br />', $string);
 		}
 
 		return $string;
@@ -607,7 +576,7 @@ abstract class g11n
 	 */
 	private static function detectLanguage()
 	{
-		self::$lang = self::getApplication()->input->get('lang');
+/*		self::$lang = self::getApplication()->input->get('lang');
 
 		if (self::$lang)
 		{
@@ -624,30 +593,36 @@ abstract class g11n
 		if (self::$lang)
 		{
 			return;
-		}
+		}*/
 
 		// Get the environment language
-		$env = getenv('LANG');
+		$envLang = getenv('LANG');
 
-		self::$lang = ('POSIX' != $env) ? $env : '';
+		$envLang = ('POSIX' != $envLang) ? $envLang : '';
 
-		if (self::$lang)
+		if ($envLang)
 		{
-			self::$lang = str_replace('_', '-', self::$lang);
+			$envLang = str_replace('_', '-', $envLang);
 
-			if (strpos(self::$lang, '.'))
-				self::$lang = substr(self::$lang, 0, strpos(self::$lang, '.'));
+			if (strpos($envLang, '.'))
+				$envLang = substr($envLang, 0, strpos($envLang, '.'));
 
-			// We're british..
-			if ('en-US' == self::$lang)
-				self::$lang = 'en-GB';
+			// Map with fallback languages.
+			$map = array(
+				'en-US' => 'en-GB'
+			);
+
+			if (array_key_exists($envLang, $map))
+				$envLang = $map[$envLang];
+
+			self::$lang = $envLang;
 
 			return;
 		}
 
-		// That should be enough.. british or die.
+		// Nothing found. Fall back to the default language.
 		if (!self::$lang)
-			self::$lang = 'en-GB';
+			self::$lang = self::$defaultLang;
 	}
 
 	/**
@@ -660,6 +635,8 @@ abstract class g11n
 	 */
 	private static function detectDocType()
 	{
+		// @todo hard set to HTML
+
 		// JFactory::getDocument()->getType();
 		self::$docType = 'html';
 
@@ -672,7 +649,7 @@ abstract class g11n
 	 *
 	 * @param string $string The string to record
 	 * @param string $mode   Parsing mode strict/legacy
-	 * @param int    $level  The level where the function has been called
+	 * @param int    $level  The level where the function has been called (A GUESS !)
 	 *
 	 * @return void
 	 */
@@ -693,7 +670,6 @@ abstract class g11n
 		if (function_exists('debug_backtrace'))
 		{
 			$trace = debug_backtrace();
-			$info->trace = $trace;
 
 			// Element no. 3 must be our jgettext() caller - s/be/not be...
 			$trace = $trace[$level];
@@ -702,6 +678,9 @@ abstract class g11n
 			$info->line     = $trace['line'];
 			$info->function = $trace['function'];
 			$info->args     = $trace['args'];
+
+			// Also store the whole trace for further investigation =;)
+			$info->trace = $trace;
 		}
 
 		self::$processedItems[$string] = $info;
