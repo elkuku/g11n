@@ -42,7 +42,7 @@ class ExtensionHelper
 	 *
 	 * @param   string  $path  A valid path.
 	 *
-	 * @throws \RuntimeException
+	 * @throws g11nException
 	 * @return void
 	 */
 	public static function setCacheDir($path)
@@ -139,7 +139,7 @@ class ExtensionHelper
 	 *
 	 * @param   string  $domain  The extension domain.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws g11nException
 	 * @return string
 	 */
 	public static function getDomainPath($domain)
@@ -149,7 +149,7 @@ class ExtensionHelper
 			return self::$domainPaths[$domain];
 		}
 
-		throw new \UnexpectedValueException('Undefined domain: ' . $domain);
+		throw new g11nException('Undefined domain: ' . $domain);
 	}
 
 	/**
