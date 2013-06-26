@@ -192,11 +192,13 @@ class Php extends Storage\File
 		}
 
 		/*
-		 * Include the file
-		 * This file should contain the arrays
-		 * # $info()
-		 * # $strings()
-		 * # $jsStrings()
+		 * Include the "cache" file containing the language strings.
+		 * This file should contain the arrays:
+		 * # $info[]
+		 * # $strings[]
+		 * # $stringsPlural[]
+		 * # $jsStrings[]
+		 * # $stringsJsPlural[]
 		 */
 		include $path;
 
