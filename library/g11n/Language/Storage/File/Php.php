@@ -8,6 +8,7 @@ namespace g11n\Language\Storage\File;
 
 use g11n\Language\Storage;
 use g11n\Support\ExtensionHelper;
+use g11n\Support\FileInfo;
 use g11n\Support\Store;
 use g11n\g11nException;
 
@@ -18,8 +19,14 @@ use g11n\g11nException;
  */
 class Php extends Storage\File
 {
+	/**
+	 * @var FileInfo
+	 */
 	public $fileInfo = null;
 
+	/**
+	 * @var string
+	 */
 	protected $ext = '.php';
 
 	/**

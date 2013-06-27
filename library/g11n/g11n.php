@@ -372,6 +372,17 @@ abstract class g11n
 	}
 
 	/**
+	 * Get recorded events.
+	 *
+	 * @since  2.0
+	 * @return array
+	 */
+	public static function getEvents()
+	{
+		return self::$events;
+	}
+
+	/**
 	 * For 3PD use.
 	 *
 	 * You may use this function for manipulation of language files.
@@ -403,6 +414,7 @@ abstract class g11n
 	 *
 	 * @param string $type Parser type
 	 *
+	 * @since  2.0
 	 * @throws g11nException
 	 * @return \g11n\Language\Parser\Code of a specific type
 	 */
@@ -424,6 +436,7 @@ abstract class g11n
 	 *
 	 * @param string $type Parser type
 	 *
+	 * @since  2.0
 	 * @throws g11nException
 	 * @return \g11n\Language\Parser\Language of a specific type
 	 */
@@ -443,6 +456,7 @@ abstract class g11n
 	 * @param   string  $domain  The domain name.
 	 * @param   string  $path    A path to search for language files.
 	 *
+	 * @since  2.0
 	 * @return void
 	 */
 	public static function addDomainPath($domain, $path)
@@ -455,6 +469,7 @@ abstract class g11n
 	 *
 	 * @param   string  $path  A valid path.
 	 *
+	 * @since  2.0
 	 * @throws \RuntimeException
 	 * @return void
 	 */
