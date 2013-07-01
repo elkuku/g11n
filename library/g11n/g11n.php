@@ -154,29 +154,22 @@ abstract class g11n
 
 		self::addJavaScript($store->get('stringsJs'), $store->get('stringsJsPlural'));
 
-		$dbgMsg = '';
-
 		if (self::$debug)
 		{
-			$dbgMsg = sprintf(
-				'Found %d strings',
-				count($store->get('strings'))
+			self::logEvent(
+				array(
+					'Method' => __METHOD__,
+					'Extension' => $extension,
+					'Domain' =>$domain,
+					'Input' =>$inputType,
+					'Storage' => $storageType,
+					'Strings' => count($store->get('strings')),
+					'Lang' => self::$lang,
+					'Lang Path' => str_replace(JPATH_BASE, '', $store->get('langPath')),
+					'Cache Path' => str_replace(JPATH_BASE, '',$store->get('cachePath'))
+				)
 			);
 		}
-
-		self::logEvent(
-			array(
-				'Method' => __METHOD__,
-				'Extension' => $extension,
-				'Domain' =>$domain,
-				'Input' =>$inputType,
-				'Storage' => $storageType,
-				'Strings' => $dbgMsg,
-				'Lang' => self::$lang,
-				'Lang Path' => str_replace(JPATH_BASE, '', $store->get('langPath')),
-				'Cache Path' => str_replace(JPATH_BASE, '',$store->get('cachePath'))
-			)
-		);
 
 		self::$extensionsLoaded[$key] = 1;
 	}
