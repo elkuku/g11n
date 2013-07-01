@@ -165,10 +165,17 @@ abstract class g11n
 		}
 
 		self::logEvent(
-			__METHOD__, $extension, $domain, $inputType, $storageType,
-			$dbgMsg, self::$lang,
-			str_replace(JPATH_BASE, '', $store->get('langPath')),
-			str_replace(JPATH_BASE, '',$store->get('cachePath'))
+			array(
+				'Method' => __METHOD__,
+				'Extension' => $extension,
+				'Domain' =>$domain,
+				'Input' =>$inputType,
+				'Storage' => $storageType,
+				'Strings' => $dbgMsg,
+				'Lang' => self::$lang,
+				'Lang Path' => str_replace(JPATH_BASE, '', $store->get('langPath')),
+				'Cache Path' => str_replace(JPATH_BASE, '',$store->get('cachePath'))
+			)
 		);
 
 		self::$extensionsLoaded[$key] = 1;
@@ -711,15 +718,15 @@ abstract class g11n
 	 *
 	 * Accepts multiple arguments
 	 *
+	 * @param array $event The event.
+	 *
 	 * @return void
 	 */
-	private static function logEvent()
+	private static function logEvent(array $event)
 	{
-		$args = func_get_args();
-
 		$e = new \stdClass;
 
-		foreach ($args as $k => $v)
+		foreach ($event as $k => $v)
 		{
 			$e->$k = $v;
 		}
