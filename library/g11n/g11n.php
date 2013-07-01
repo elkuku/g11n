@@ -164,7 +164,12 @@ abstract class g11n
 			);
 		}
 
-		self::logEvent(__METHOD__, $extension, $domain, $inputType, $storageType, $dbgMsg, self::$lang);
+		self::logEvent(
+			__METHOD__, $extension, $domain, $inputType, $storageType,
+			$dbgMsg, self::$lang,
+			str_replace(JPATH_BASE, '', $store->get('langPath')),
+			str_replace(JPATH_BASE, '',$store->get('cachePath'))
+		);
 
 		self::$extensionsLoaded[$key] = 1;
 	}

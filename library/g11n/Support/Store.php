@@ -23,6 +23,10 @@ class Store
 
 	private $pluralForms = '';
 
+	private $langPath = '';
+
+	private $cachePath = '';
+
 	/**
 	 * Get a property.
 	 *

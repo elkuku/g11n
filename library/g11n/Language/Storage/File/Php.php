@@ -51,7 +51,7 @@ class Php extends Storage\File
 	 * @param   string $domain      Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
-	 * @return void
+	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
 	public function store($lang, $extension, $domain = '')
 	{
@@ -171,6 +171,8 @@ class Php extends Storage\File
 
 		if (!file_put_contents($storePath, $resultString))
 			throw new g11nException('Unable to write language storage file to ' . $storePath);
+
+		return $fileName;
 	}
 
 	/**
@@ -187,11 +189,13 @@ class Php extends Storage\File
 	{
 		$path = $this->getPath($lang, $extension, $domain) . $this->ext;
 
+		$langPath = '---';
+
 		// File has not being cached
 		if (!file_exists($path))
 		{
 			// Try to store
-			$this->store($lang, $extension, $domain);
+			$langPath = $this->store($lang, $extension, $domain);
 
 			// Failed ?
 			if (!file_exists($path))
@@ -210,6 +214,9 @@ class Php extends Storage\File
 		include $path;
 
 		$store = new Store;
+
+		$store->set('langPath', $langPath);
+		$store->set('cachePath', $path);
 
 		if (isset($info['pluralForms']))
 			$store->set('pluralForms', $info['pluralForms']);
