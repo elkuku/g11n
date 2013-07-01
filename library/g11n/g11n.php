@@ -158,13 +158,12 @@ abstract class g11n
 		{
 			self::logEvent(
 				array(
-					'Method' => __METHOD__,
-					'Extension' => $extension,
+					'Lang' => self::$lang,
 					'Domain' =>$domain,
+					'Extension' => $extension,
 					'Input' =>$inputType,
 					'Storage' => $storageType,
 					'Strings' => count($store->get('strings')),
-					'Lang' => self::$lang,
 					'Lang Path' => str_replace(JPATH_BASE, '', $store->get('langPath')),
 					'Cache Path' => str_replace(JPATH_BASE, '',$store->get('cachePath'))
 				)
