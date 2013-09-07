@@ -7,6 +7,7 @@
 error_reporting(E_ALL | E_STRICT);
 
 define('JPATH_BASE', 1);//to include the JVersion file
+define('JPATH_ROOT', 1);//to include the JVersion file
 define('DS', DIRECTORY_SEPARATOR);
 define('NL', "\n");
 
