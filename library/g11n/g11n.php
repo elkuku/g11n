@@ -53,11 +53,11 @@ abstract class g11n
 	protected static $stringsPlural = array();
 
 	/**
-	 * Plural form for a specific language.
+	 * Number of plural forms for a specific language.
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected static $pluralForms = '';
+	protected static $pluralForms = 0;
 
 	/**
 	 * Cache function that chooses plural forms.
@@ -65,6 +65,13 @@ abstract class g11n
 	 * @var callable
 	 */
 	protected static $pluralFunction = null;
+
+	/**
+	 * Cache function that chooses plural forms (human readable).
+	 *
+	 * @var string
+	 */
+	protected static $pluralFunctionRaw = '';
 
 	/**
 	 * The pluralization function for Javascript as a string.
@@ -286,6 +293,12 @@ abstract class g11n
 	 */
 	public static function translatePlural($singular, $plural, $count)
 	{
+		if (!self::$pluralFunction)
+		{
+			// Set a pluralization
+			self::setPluralFunction('X');
+		}
+
 		$key = $singular;
 
 		$key = md5($key);
@@ -492,6 +505,11 @@ abstract class g11n
 	 */
 	protected static function setPluralFunction($pcrePluralForm)
 	{
+		if (!$pcrePluralForm || ';' == $pcrePluralForm)
+		{
+			return;
+		}
+
 		if (preg_match("/nplurals\s*=\s*(\d+)\s*\;\s*plural\s*=\s*(.*?)\;+/", $pcrePluralForm, $matches))
 		{
 			$nplurals   = $matches[1];
@@ -512,7 +530,10 @@ abstract class g11n
 		$js_func_body = 'plural = (' . $expression . ');'
 			. ' return (plural <= ' . $nplurals . ')? plural : plural - 1;';
 
+		self::$pluralForms = $nplurals;
+
 		self::$pluralFunction = create_function('$n', $func_body);
+		self::$pluralFunctionRaw = $expression;
 
 		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $js_func_body . "')";
 	}
@@ -596,24 +617,24 @@ abstract class g11n
 	 */
 	private static function detectLanguage()
 	{
-/*		self::$lang = self::getApplication()->input->get('lang');
+		/*		self::$lang = self::getApplication()->input->get('lang');
 
-		if (self::$lang)
-		{
-			// @todo CHECK if language exists..
+				if (self::$lang)
+				{
+					// @todo CHECK if language exists..
 
-			self::getApplication()->getSession()->set('lang', self::$lang);
+					self::getApplication()->getSession()->set('lang', self::$lang);
 
-			return;
-		}
+					return;
+				}
 
-		// Get the language from session
-		self::$lang = self::getApplication()->getSession()->get('lang');
+				// Get the language from session
+				self::$lang = self::getApplication()->getSession()->get('lang');
 
-		if (self::$lang)
-		{
-			return;
-		}*/
+				if (self::$lang)
+				{
+					return;
+				}*/
 
 		// Get the environment language
 		$envLang = getenv('LANG');
