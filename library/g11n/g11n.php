@@ -164,6 +164,7 @@ abstract class g11n
 					'Input' =>$inputType,
 					'Storage' => $storageType,
 					'Strings' => count($store->get('strings')),
+					'Strings Pl.' => count($store->get('stringsPlural')),
 					'Lang Path' => str_replace(JPATH_ROOT, '', $store->get('langPath')),
 					'Cache Path' => str_replace(JPATH_ROOT, '',$store->get('cachePath'))
 				)
