@@ -148,7 +148,7 @@ abstract class g11n
 
 		self::$strings = array_merge(self::$strings, $store->get('strings'));
 
-		self::$stringsPlural = $store->get('stringsPlural');
+		self::$stringsPlural = array_merge(self::$stringsPlural, $store->get('stringsPlural'));
 
 		self::setPluralFunction($store->get('pluralForms'));
 
