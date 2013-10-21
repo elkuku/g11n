@@ -32,7 +32,7 @@ class Php extends Storage\File
 	/**
 	 * Constructor.
 	 *
-	 * @param   string $type  The input type
+	 * @param   string  $type  The input type
 	 *
 	 * @throws \g11n\g11nException
 	 */
@@ -46,14 +46,15 @@ class Php extends Storage\File
 	/**
 	 * Stores the strings into a storage.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string   $lang       E.g. de-DE, es-ES etc.
+	 * @param   string   $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string   $domain     Must be 'admin' or 'site'.
+	 * @param   integer  $mode       The file mode
 	 *
 	 * @throws \g11n\g11nException
 	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
-	public function store($lang, $extension, $domain = '')
+	public function store($lang, $extension, $domain = '', $mode = 0777)
 	{
 		$ext = $this->parser->getExt();
 
@@ -166,7 +167,7 @@ class Php extends Storage\File
 
 		if (false == is_dir(dirname($storePath)))
 		{
-			mkdir(dirname($storePath), 0755, true);
+			mkdir(dirname($storePath), $mode, true);
 		}
 
 		if (!file_put_contents($storePath, $resultString))
@@ -178,9 +179,9 @@ class Php extends Storage\File
 	/**
 	 * Retrieve the storage content.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return \g11n\Support\Store
@@ -239,9 +240,9 @@ class Php extends Storage\File
 	/**
 	 * Cleans the storage.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
