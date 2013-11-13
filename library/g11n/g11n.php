@@ -570,7 +570,7 @@ abstract class g11n
 	{
 		// @todo disabled.
 
-		//return;
+		return;
 
 		static $hasBeenAdded = false;
 
