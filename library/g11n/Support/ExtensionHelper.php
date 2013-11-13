@@ -11,12 +11,15 @@ use g11n\g11nException;
 /**
  * Extension helper class.
  *
- * @package g11n
+ * @package  g11n
+ *
+ * @since    1.0
  */
 class ExtensionHelper
 {
 	/**
 	 * Known domain paths.
+	 *
 	 * @var array
 	 */
 	protected static $domainPaths = array();
@@ -28,9 +31,9 @@ class ExtensionHelper
 	/**
 	 * Set a custom directory name for language files.
 	 *
-	 * @static
+	 * @param   string  $name  The directory name.
 	 *
-	 * @param $name
+	 * @return void
 	 */
 	public static function setDirName($name)
 	{
@@ -54,7 +57,7 @@ class ExtensionHelper
 
 		$path .= '/g11n';
 
-		if (false == is_dir($path) && false == mkdir($path))
+		if (false == is_dir($path) && false == mkdir($path, 0777))
 		{
 			throw new g11nException('Can not create the cache directory');
 		}
@@ -73,11 +76,27 @@ class ExtensionHelper
 	}
 
 	/**
+	 * Clean the cache dir.
+	 *
+	 * @throws \DomainException
+	 * @return void
+	 */
+	public static function cleanCache()
+	{
+		foreach (Folder::folders(self::$cacheDir, '.', false, true) as $folder)
+		{
+			if (!Folder::delete($folder))
+			{
+				throw new \DomainException('Can not clean the cache.');
+			}
+		}
+	}
+
+	/**
 	 * Get the extension path.
 	 *
-	 * @param string $extension The extension name, e.g. com_easycreator
+	 * @param   string  $extension  The extension name, e.g. com_easycreator
 	 *
-	 * @throws g11nException
 	 * @return string
 	 */
 	public static function getExtensionPath($extension)
@@ -85,7 +104,9 @@ class ExtensionHelper
 		static $dirs = array();
 
 		if (array_key_exists($extension, $dirs))
+		{
 			return $dirs[$extension];
+		}
 
 		$extensionDir = $extension;
 
@@ -105,9 +126,7 @@ class ExtensionHelper
 	/**
 	 * Get the extensions language path.
 	 *
-	 * @static
-	 *
-	 * @param string $extension The extension name, e.g. com_easycreator
+	 * @param   string  $extension  The extension name, e.g. com_easycreator
 	 *
 	 * @return string
 	 */
@@ -119,10 +138,10 @@ class ExtensionHelper
 	}
 
 	/**
-	 * @static
+	 * Check that the extension is valid.
 	 *
-	 * @param string $extension The extension name, e.g. com_easycreator
-	 * @param string $domain     The extension scope, e.g. admin
+	 * @param   string  $extension  The extension name, e.g. com_easycreator
+	 * @param   string  $domain     The extension scope, e.g. admin
 	 *
 	 * @return bool
 	 */
@@ -155,17 +174,16 @@ class ExtensionHelper
 	/**
 	 * Searches the system for language files.
 	 *
-	 * @param string $lang       Language
-	 * @param string $extension  Extension
-	 * @param string $domain     The extension scope, e.g. admin
-	 * @param string $type       Language file type - e.g. 'ini', 'po' etc.
+	 * @param   string  $lang       Language
+	 * @param   string  $extension  Extension
+	 * @param   string  $domain     The extension scope, e.g. admin
+	 * @param   string  $type       Language file type - e.g. 'ini', 'po' etc.
 	 *
 	 * @return mixed Full path to file | false if none found
-	 *
 	 */
 	public static function findLanguageFile($lang, $extension, $domain = '', $type = 'po')
 	{
-		$base = ExtensionHelper::getDomainPath($domain);
+		$base = self::getDomainPath($domain);
 
 		$fileName = $lang . '.' . $extension . '.' . $type;
 
@@ -177,19 +195,25 @@ class ExtensionHelper
 		$path = "$base/$extensionLangDir/$lang/$fileName";
 
 		if (file_exists($path))
+		{
 			return $path;
+		}
 
 		// Next try extension/language directory
 		$path = "$base/$extensionDir/language/$lang/$fileName";
 
 		if (file_exists($path))
+		{
 			return $path;
+		}
 
 		// Now try the base language dir
 		$path = "$base/" . self::$langDirName . "/$lang/$fileName";
 
 		if (file_exists($path))
+		{
 			return $path;
+		}
 
 		// Found nothing :(
 
@@ -202,8 +226,8 @@ class ExtensionHelper
 	 *
 	 * Expects exactly one or two parts. Otherwise it will fail.
 	 *
-	 * @param string $string    The string to split
-	 * @param string $delimiter The delimiter character
+	 * @param   string  $string     The string to split
+	 * @param   string  $delimiter  The delimiter character
 	 *
 	 * @throws g11nException
 	 * @return array
@@ -213,9 +237,10 @@ class ExtensionHelper
 		$parts = explode($delimiter, $string);
 
 		if (count($parts) < 1
-			|| count($parts) > 2
-		)
+			|| count($parts) > 2)
+		{
 			throw new g11nException('Invalid type - must be xx' . $delimiter . '[xx]: ' . $string);
+		}
 
 		return $parts;
 	}

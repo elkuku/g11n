@@ -46,6 +46,13 @@ abstract class g11n
 	protected static $stringsJs = array();
 
 	/**
+	 * Array of defined plural strings for JavaScript and their translations
+	 *
+	 * @var array()
+	 */
+	protected static $stringsJsPlural = array();
+
+	/**
 	 * Array of defined plural forms for PHP and their translations
 	 *
 	 * @var array
@@ -110,7 +117,7 @@ abstract class g11n
 	 *
 	 * Provided for 3pd use or whatever..
 	 *
-	 * @param   string $property  Property name
+	 * @param   string $property Property name
 	 *
 	 * @throws \UnexpectedValueException
 	 * @return mixed
@@ -128,10 +135,10 @@ abstract class g11n
 	/**
 	 * Load the language.
 	 *
-	 * @param string $extension    E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param string $domain       The language domain.
-	 * @param string $inputType    The input type e.g. "ini" or "po"
-	 * @param string $storageType  The store type - e.g. 'file_php'
+	 * @param string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param string $domain      The language domain.
+	 * @param string $inputType   The input type e.g. "ini" or "po"
+	 * @param string $storageType The store type - e.g. 'file_php'
 	 *
 	 * @throws g11nException
 	 * @return void
@@ -153,27 +160,29 @@ abstract class g11n
 
 		$store = $handler->retrieve(self::$lang, $extension, $domain);
 
-		self::$strings = array_merge(self::$strings, $store->get('strings'));
-
+		self::$strings       = array_merge(self::$strings, $store->get('strings'));
 		self::$stringsPlural = array_merge(self::$stringsPlural, $store->get('stringsPlural'));
 
 		self::setPluralFunction($store->get('pluralForms'));
 
 		self::addJavaScript($store->get('stringsJs'), $store->get('stringsJsPlural'));
 
+		self::$stringsJs       = array_merge(self::$stringsJs, $store->get('stringsJs'));
+		self::$stringsJsPlural = array_merge(self::$stringsJsPlural, $store->get('stringsJsPlural'));
+
 		if (self::$debug)
 		{
 			self::logEvent(
 				array(
-					'Lang' => self::$lang,
-					'Domain' =>$domain,
-					'Extension' => $extension,
-					'Input' =>$inputType,
-					'Storage' => $storageType,
-					'Strings' => count($store->get('strings')),
-					'Strings Pl.' => count($store->get('stringsPlural')),
-					'Lang Path' => str_replace(JPATH_ROOT, '', $store->get('langPath')),
-					'Cache Path' => str_replace(JPATH_ROOT, '',$store->get('cachePath'))
+					'Lang'       => self::$lang,
+					'Domain'     => $domain,
+					'Extension'  => $extension,
+					'Input'      => $inputType,
+					'Storage'    => $storageType,
+					'Strings'    => count($store->get('strings')),
+					'Plurals'    => count($store->get('stringsPlural')),
+					'Lang Path'  => str_replace(JPATH_ROOT, '', $store->get('langPath')),
+					'Cache Path' => str_replace(JPATH_ROOT, '', $store->get('cachePath'))
 				)
 			);
 		}
@@ -306,7 +315,8 @@ abstract class g11n
 		$index = (int) call_user_func(self::$pluralFunction, $count);
 
 		if (array_key_exists($key, self::$stringsPlural)
-			&& array_key_exists($index, self::$stringsPlural[$key]))
+			&& array_key_exists($index, self::$stringsPlural[$key])
+		)
 		{
 			if (self::$debug)
 			{
@@ -412,7 +422,7 @@ abstract class g11n
 	 * @deprecated Use getCodeParser() or getLanguageParser()
 	 *
 	 * @throws g11nException
-	 * @return Parser of a specific type
+	 * @return \g11n\Language\Parser Parser of a specific type
 	 */
 	public static function getParser($type, $name)
 	{
@@ -471,8 +481,8 @@ abstract class g11n
 	/**
 	 * Add a path to search for language files.
 	 *
-	 * @param   string  $domain  The domain name.
-	 * @param   string  $path    A path to search for language files.
+	 * @param   string $domain The domain name.
+	 * @param   string $path   A path to search for language files.
 	 *
 	 * @since  2.0
 	 * @return void
@@ -485,15 +495,25 @@ abstract class g11n
 	/**
 	 * Set the cache directory.
 	 *
-	 * @param   string  $path  A valid path.
+	 * @param   string $path A valid path.
 	 *
 	 * @since  2.0
-	 * @throws \RuntimeException
 	 * @return void
 	 */
 	public static function setCacheDir($path)
 	{
 		ExtensionHelper::setCacheDir($path);
+	}
+
+	/**
+	 * Clean the cache directory.
+	 *
+	 * @since  2.1
+	 * @return void
+	 */
+	public static function cleanCache()
+	{
+		ExtensionHelper::cleanCache();
 	}
 
 	/**
@@ -532,7 +552,7 @@ abstract class g11n
 
 		self::$pluralForms = $nplurals;
 
-		self::$pluralFunction = create_function('$n', $func_body);
+		self::$pluralFunction    = create_function('$n', $func_body);
 		self::$pluralFunctionRaw = $expression;
 
 		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $js_func_body . "')";
@@ -550,7 +570,7 @@ abstract class g11n
 	{
 		// @todo disabled.
 
-		return;
+		//return;
 
 		static $hasBeenAdded = false;
 
@@ -558,7 +578,7 @@ abstract class g11n
 		if (!$hasBeenAdded)
 		{
 			$path     = 'libraries/g11n/language/javascript';
-			$document = null;//self::getApplication()->getDocument();
+			$document = null; //self::getApplication()->getDocument();
 
 			$document->addScript(JURI::root(true) . '/' . $path . '/methods.js');
 			$document->addScript(JURI::root(true) . '/' . $path . '/language.js');
@@ -585,7 +605,6 @@ abstract class g11n
 
 		$js[] = '-->';
 
-		self::$stringsJs = array_merge(self::$stringsJs, $strings);
 
 		// @ self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
 	}
