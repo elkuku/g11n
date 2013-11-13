@@ -6,6 +6,8 @@
 
 namespace g11n\Support;
 
+use Joomla\Filesystem\Folder;
+
 use g11n\g11nException;
 
 /**
