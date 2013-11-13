@@ -7,9 +7,9 @@ The g11n project is the daughter of the [JALHoO](http://wiki.joomla-nafu.de/joom
 The library is installed using [Composer](http://getcomposer.org/)
 
 ```
-    "require": {
-        "elkuku/g11n": "dev-master"
-    }
+"require": {
+	"elkuku/g11n": "dev-master"
+}
 ```
 
 ##Custom extensions
