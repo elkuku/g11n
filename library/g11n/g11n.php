@@ -174,15 +174,17 @@ abstract class g11n
 		{
 			self::logEvent(
 				array(
-					'Lang'       => self::$lang,
-					'Domain'     => $domain,
-					'Extension'  => $extension,
-					'Input'      => $inputType,
-					'Storage'    => $storageType,
-					'Strings'    => count($store->get('strings')),
-					'Plurals'    => count($store->get('stringsPlural')),
-					'Lang Path'  => str_replace(JPATH_ROOT, '', $store->get('langPath')),
-					'Cache Path' => str_replace(JPATH_ROOT, '', $store->get('cachePath'))
+					'Lang'      => self::$lang,
+					'Domain'    => $domain,
+					'Extension' => $extension,
+					'Ext'       => $inputType,
+					'Store'     => $storageType,
+					'$'         => count($store->get('strings')),
+					'$n'        => count($store->get('stringsPlural')),
+					'JS-$'      => count($store->get('stringsJs')),
+					'JS-$n'     => count($store->get('stringsJsPlural')),
+					'File'      => str_replace(JPATH_ROOT, '', $store->get('langPath')),
+					'Cache'     => str_replace(JPATH_ROOT, '', $store->get('cachePath'))
 				)
 			);
 		}
