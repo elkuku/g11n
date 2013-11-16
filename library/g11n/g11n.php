@@ -602,13 +602,41 @@ abstract class g11n
 			$js[] = 'g11n.loadPluralStrings(' . json_encode($stringsPlural) . ');';
 
 			if (!$hasBeenAdded)
+			{
 				$js[] = 'g11n.setPluralFunction(' . self::$pluralFunctionJsStr . ')';
+			}
 		}
 
 		$js[] = '-->';
 
-
 		// @ self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
+	}
+
+	/**
+	 * Get the JavaScript declaration.
+	 *
+	 * @return  string
+	 *
+	 * @since  2.1
+	 */
+	public static function getJavaScript()
+	{
+		$js   = array();
+
+		$js[] = '<!--';
+		$js[] = '/* JavaScript translations */';
+		$js[] = 'g11n.debug = \'' . self::$debug . '\'';
+		$js[] = 'g11n.loadLanguageStrings(' . json_encode(self::$stringsJs) . ');';
+
+		if (self::$pluralFunctionJsStr)
+		{
+			$js[] = 'g11n.loadPluralStrings(' . json_encode(self::$stringsJsPlural) . ');';
+			$js[] = 'g11n.setPluralFunction(' . self::$pluralFunctionJsStr . ')';
+		}
+
+		$js[] = '-->';
+
+		return implode("\n", $js);
 	}
 
 	/**
