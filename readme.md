@@ -18,3 +18,8 @@ These are currently unmaintained...
 
 ##See also...
 For more information please read the corresponding [wiki article](http://wiki.joomla-nafu.de/joomla-dokumentation/Benutzer:Elkuku/Proyektz/g11n).
+
+##Use cases
+
+* The Joomla! Tracker Application - https://github.com/joomla/jissues
+    * There is also some documentation: https://github.com/joomla/jissues/blob/master/Documentation/Internationalisation/Localisation.md
