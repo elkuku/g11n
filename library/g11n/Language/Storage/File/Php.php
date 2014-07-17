@@ -49,12 +49,11 @@ class Php extends Storage\File
 	 * @param   string   $lang       E.g. de-DE, es-ES etc.
 	 * @param   string   $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string   $domain     Must be 'admin' or 'site'.
-	 * @param   integer  $mode       The file mode
 	 *
 	 * @throws \g11n\g11nException
 	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
-	public function store($lang, $extension, $domain = '', $mode = 0777)
+	public function store($lang, $extension, $domain = '')
 	{
 		$ext = $this->parser->getExt();
 
@@ -167,11 +166,20 @@ class Php extends Storage\File
 
 		if (false == is_dir(dirname($storePath)))
 		{
-			mkdir(dirname($storePath), $mode, true);
+			$tmp = umask(0);
+			$result = mkdir(dirname($storePath), 0777, true);
+			umask($tmp);
+
+			if (false == $result)
+			{
+				throw new g11nException('Can not create the cache directory');
+			}
 		}
 
-		if (!file_put_contents($storePath, $resultString))
+		if ( ! file_put_contents($storePath, $resultString))
+		{
 			throw new g11nException('Unable to write language storage file to ' . $storePath);
+		}
 
 		return $fileName;
 	}

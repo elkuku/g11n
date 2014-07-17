@@ -59,9 +59,16 @@ class ExtensionHelper
 
 		$path .= '/g11n';
 
-		if (false == is_dir($path) && false == mkdir($path, 0777))
+		if (false == is_dir($path))
 		{
-			throw new g11nException('Can not create the cache directory');
+			$tmp = umask(0);
+			$result = mkdir($path, 0777, true);
+			umask($tmp);
+
+			if (false == $result)
+			{
+				throw new g11nException('Can not create the cache directory');
+			}
 		}
 
 		self::$cacheDir = $path;
