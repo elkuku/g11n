@@ -98,7 +98,7 @@ class g11nParserLanguageNafuIni
                 continue;
             }
 
-            if($previous)ing to match
+            if($previous)
             {
                 if(preg_match('/@PLURALFORM:\s*(.*)/', $line, $matches))
                 {
@@ -115,9 +115,9 @@ class g11nParserLanguageNafuIni
                 }
 
                 //-- Found a pair :)
-                                        $e = new JObject;
-                        $e->info = '';//$info;
-                        $e->string = $line;
+                $e = new JObject;
+                $e->info = '';//$info;
+                $e->string = $line;
 
                 $fileInfo->strings[$previous] = $e;
 
