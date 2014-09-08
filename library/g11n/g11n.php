@@ -165,8 +165,6 @@ abstract class g11n
 
 		self::setPluralFunction($store->get('pluralForms'));
 
-		self::addJavaScript($store->get('stringsJs'), $store->get('stringsJsPlural'));
-
 		self::$stringsJs       = array_merge(self::$stringsJs, $store->get('stringsJs'));
 		self::$stringsJsPlural = array_merge(self::$stringsJsPlural, $store->get('stringsJsPlural'));
 
@@ -183,8 +181,8 @@ abstract class g11n
 					'$n'        => count($store->get('stringsPlural')),
 					'JS-$'      => count($store->get('stringsJs')),
 					'JS-$n'     => count($store->get('stringsJsPlural')),
-					'File'      => str_replace(JPATH_ROOT, '', $store->get('langPath')),
-					'Cache'     => str_replace(JPATH_ROOT, '', $store->get('cachePath'))
+					'File'      => defined('JPATH_ROOT') ? str_replace(JPATH_ROOT, '', $store->get('langPath')) : $store->get('langPath'),
+					'Cache'     => defined('JPATH_ROOT') ? str_replace(JPATH_ROOT, '', $store->get('cachePath')) : $store->get('cachePath')
 				)
 			);
 		}
@@ -421,17 +419,17 @@ abstract class g11n
 	 * @param string $type Parser type
 	 * @param string $name Parser name
 	 *
-	 * @deprecated Use getCodeParser() or getLanguageParser()
-	 *
 	 * @throws g11nException
-	 * @return \g11n\Language\Parser Parser of a specific type
+	 * @return \g11n\Language\Parser\Code|\g11n\Language\Parser\Language Parser of a specific type
 	 */
 	public static function getParser($type, $name)
 	{
 		$class = '\\g11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
 
 		if (!class_exists($class))
+		{
 			throw new g11nException('Required class not found: ' . $class);
+		}
 
 		return new $class;
 	}
@@ -442,20 +440,15 @@ abstract class g11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param string $type Parser type
+	 * @param string $name Parser type.
 	 *
 	 * @since  2.0
 	 * @throws g11nException
-	 * @return \g11n\Language\Parser\Code of a specific type
+	 * @return \g11n\Language\Parser\Code
 	 */
-	public static function getCodeParser($type)
+	public static function getCodeParser($name)
 	{
-		$class = '\\g11n\\Language\\Parser\\Code\\' . ucfirst($type);
-
-		if (!class_exists($class))
-			throw new g11nException('Required class not found: ' . $class);
-
-		return new $class;
+		return self::getParser('code', $name);
 	}
 
 	/**
@@ -464,20 +457,15 @@ abstract class g11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param string $type Parser type
+	 * @param string $name Parser type.
 	 *
 	 * @since  2.0
 	 * @throws g11nException
-	 * @return \g11n\Language\Parser\Language of a specific type
+	 * @return \g11n\Language\Parser\Language
 	 */
-	public static function getLanguageParser($type)
+	public static function getLanguageParser($name)
 	{
-		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
-
-		if (!class_exists($class))
-			throw new g11nException('Required class not found: ' . $class);
-
-		return new $class;
+		return self::getParser('language', $name);
 	}
 
 	/**
@@ -558,58 +546,6 @@ abstract class g11n
 		self::$pluralFunctionRaw = $expression;
 
 		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $js_func_body . "')";
-	}
-
-	/**
-	 * Add the strings designated to JavaScript to the page <head> section.
-	 *
-	 * @param array $strings       These strings will be added to the HTML source of your page
-	 * @param array $stringsPlural The plural strings
-	 *
-	 * @return void
-	 */
-	protected static function addJavaScript($strings, $stringsPlural)
-	{
-		// @todo disabled.
-
-		return;
-
-		static $hasBeenAdded = false;
-
-		// To be called only once
-		if (!$hasBeenAdded)
-		{
-			$path     = 'libraries/g11n/language/javascript';
-			$document = null; //self::getApplication()->getDocument();
-
-			$document->addScript(JURI::root(true) . '/' . $path . '/methods.js');
-			$document->addScript(JURI::root(true) . '/' . $path . '/language.js');
-			$document->addScript(JURI::root(true) . '/' . $path . '/phpjs.js');
-
-			$document->addScriptDeclaration("g11n.debug = '" . self::$debug . "'\n");
-
-			$hasBeenAdded = true;
-		}
-
-		// Add the strings to the page <head> section
-		$js   = array();
-		$js[] = '<!--';
-		$js[] = '/* JavaScript translations */';
-		$js[] = 'g11n.loadLanguageStrings(' . json_encode($strings) . ');';
-
-		if (self::$pluralFunctionJsStr)
-		{
-			$js[] = 'g11n.loadPluralStrings(' . json_encode($stringsPlural) . ');';
-
-			if (!$hasBeenAdded)
-			{
-				$js[] = 'g11n.setPluralFunction(' . self::$pluralFunctionJsStr . ')';
-			}
-		}
-
-		$js[] = '-->';
-
-		// @ self::getApplication()->getDocument()->addScriptDeclaration(implode("\n", $js));
 	}
 
 	/**
