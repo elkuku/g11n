@@ -120,7 +120,7 @@ class Po extends Parser\Language
 					}
 					elseif (preg_match('/^"(.*)"$/', $line, $match))
 					{
-						$msgid = stripcslashes($match[1]);
+						$msgid .= stripcslashes($match[1]);
 					}
 					break;
 
@@ -128,7 +128,7 @@ class Po extends Parser\Language
 					// Reading msgstr, waiting for blank
 					if (preg_match('/^"(.*)"$/', $line, $match))
 					{
-						$msgstr = stripcslashes($match[1]);
+						$msgstr .= stripcslashes($match[1]);
 					}
 					elseif (empty($line))
 					{
