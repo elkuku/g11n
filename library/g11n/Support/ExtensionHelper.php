@@ -6,9 +6,10 @@
 
 namespace g11n\Support;
 
-use Joomla\Filesystem\Folder;
-
 use g11n\g11nException;
+
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 
 /**
  * Extension helper class.
@@ -92,13 +93,19 @@ class ExtensionHelper
 	 */
 	public static function cleanCache()
 	{
-		foreach (Folder::folders(self::$cacheDir, '.', false, true) as $folder)
+		$filesystem = new Filesystem(new Local(self::$cacheDir));
+
+		foreach ($filesystem->listContents() as $path)
 		{
-			if (!Folder::delete($folder))
+			if ('dir' == $path['type'])
 			{
-				throw new \DomainException('Can not clean the cache.');
+				if (false == $filesystem->deleteDir($path['path']))
+				{
+					throw new \DomainException('Can not clean the cache.');
+				}
 			}
 		}
+
 	}
 
 	/**
