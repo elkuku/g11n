@@ -8,7 +8,7 @@ The library is installed using [Composer](http://getcomposer.org/)
 
 ```
 "require": {
-	"elkuku/g11n": "dev-master"
+	"elkuku/g11n": "2.*"
 }
 ```
 
