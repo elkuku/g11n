@@ -1,19 +1,21 @@
 {
-    "name": "elkuku/g11n",
-    "description": "The g11n language library",
-    "license": "GPL",
-    "authors": [
-        {
-            "name": "Nikolai Plath",
-            "email": "der.el.kuku@gmail.com"
-        }
-    ],
-    "require": {
-		"php": ">=5.3.10"
-    },
-	"autoload": {
-		"psr-0": {
-			"g11n": "library/"
-		}
-	}
+  "name": "elkuku/g11n",
+  "description": "The g11n language library",
+  "version": "2.4",
+  "license": "GPL",
+  "authors": [
+    {
+      "name": "Nikolai Plath",
+      "email": "der.el.kuku@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.10",
+    "league/flysystem": "1.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "g11n": "library/"
+    }
+  }
 }
