@@ -109,6 +109,40 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	public function testPluralExistent()
+	{
+		$this->assertThat(
+			g11n4t('There is One fine plural test.', 'There are %d fine plural tests.', 0),
+			$this->equalTo('Es gibt %d feine Pluraltests.')
+		);
+		$this->assertThat(
+			g11n4t('There is One fine plural test.', 'There are %d fine plural tests.', 1),
+			$this->equalTo('Es gibt Einen feinen Pluraltest.')
+		);
+	}
+
+	public function testPluralExistentWithParameters()
+	{
+		$this->assertThat(
+			g11n4t(
+				'There is One %param% plural test.',
+				'There are %d %param% plural tests.',
+				0,
+				['%param%' => 'TEST']
+			),
+			$this->equalTo('Es gibt %d TEST Pluraltests.')
+		);
+		$this->assertThat(
+			g11n4t(
+				'There is One %param% plural test.',
+				'There are %d %param% plural tests.',
+				1,
+				['%param%' => 'TEST']
+			),
+			$this->equalTo('Es gibt Einen TEST Pluraltest.')
+		);
+	}
+
 	public function testPlural0()
 	{
 		$this->assertThat(

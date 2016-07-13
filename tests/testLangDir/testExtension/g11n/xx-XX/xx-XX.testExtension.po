@@ -7,3 +7,13 @@ msgstr "HHHH"
 
 msgid "Hello %test% case"
 msgstr "Hällo %test% Foo"
+
+msgid "There is One fine plural test."
+msgid_plural "There are %d fine plural tests."
+msgstr[0] "Es gibt Einen feinen Pluraltest."
+msgstr[1] "Es gibt %d feine Pluraltests."
+
+msgid "There is One %param% plural test."
+msgid_plural "There are %d %param% plural tests."
+msgstr[0] "Es gibt Einen %param% Pluraltest."
+msgstr[1] "Es gibt %d %param% Pluraltests."
