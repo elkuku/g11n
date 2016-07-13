@@ -1,4 +1,3 @@
 /vendor
 /build/coverage
 /build/logs
-/tests/cache
