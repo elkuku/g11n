@@ -16,6 +16,8 @@ require_once __DIR__ . '/Language/methods.php';
  * The g11n - "globalization" class.
  *
  * Language handling class.
+ * 
+ * @since  1.0
  */
 abstract class g11n
 {
