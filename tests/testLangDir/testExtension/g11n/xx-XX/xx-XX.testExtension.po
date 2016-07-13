@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: xx_XX\n"
+
+msgid "Hello test"
+msgstr "HHHH"
+
+msgid "Hello %test% case"
+msgstr "Hällo %test% Foo"
