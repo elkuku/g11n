@@ -46,14 +46,14 @@ class Po extends Parser\Language
 
 		$lines = file($fileName);
 
-		// Add an empty line. Otherwise the last translation will be lost :(
-		$lines[] = '';
-
 		if (!$lines)
 		{
 			// @todo throw exception
 			return $fileInfo;
 		}
+
+		// Add an empty line. Otherwise the last translation will be lost :(
+		$lines[] = '';
 
 		$msgid       = '';
 		$msgstr      = '';
