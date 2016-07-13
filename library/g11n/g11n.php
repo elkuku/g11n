@@ -137,10 +137,10 @@ abstract class g11n
 	/**
 	 * Load the language.
 	 *
-	 * @param string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param string $domain      The language domain.
-	 * @param string $inputType   The input type e.g. "ini" or "po"
-	 * @param string $storageType The store type - e.g. 'file_php'
+	 * @param   string  $extension    E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain       The language domain.
+	 * @param   string  $inputType    The input type e.g. "ini" or "po"
+	 * @param   string  $storageType  The store type - e.g. 'file_php'
 	 *
 	 * @throws g11nException
 	 * @return void
@@ -150,13 +150,19 @@ abstract class g11n
 		$key = $extension . '.' . $domain;
 
 		if (array_key_exists($key, self::$extensionsLoaded))
+		{
 			return;
+		}
 
 		if (!self::$lang)
+		{
 			self::detectLanguage();
+		}
 
 		if (!self::$docType)
+		{
 			self::detectDocType();
+		}
 
 		$handler = Storage::getHandler($inputType, $storageType);
 
