@@ -119,7 +119,7 @@ abstract class g11n
 	 *
 	 * Provided for 3pd use or whatever..
 	 *
-	 * @param   string $property Property name
+	 * @param   string  $property  Property name
 	 *
 	 * @throws \UnexpectedValueException
 	 * @return mixed
@@ -211,7 +211,7 @@ abstract class g11n
 	/**
 	 * Set the default language tag.
 	 *
-	 * @param string $lang The language tag.
+	 * @param   string  $lang  The language tag.
 	 *
 	 * @return string
 	 */
@@ -229,7 +229,9 @@ abstract class g11n
 	public static function getCurrent()
 	{
 		if (!self::$lang)
+		{
 			self::detectLanguage();
+		}
 
 		return self::$lang;
 	}
@@ -237,7 +239,7 @@ abstract class g11n
 	/**
 	 * Set the current language.
 	 *
-	 * @param string $lang The language tag.
+	 * @param   string  $lang  The language tag.
 	 *
 	 * @since  2.0
 	 * @return void
@@ -259,17 +261,23 @@ abstract class g11n
 	public static function translate($original, array $parameters = [])
 	{
 		if (self::$debug)
+		{
 			return self::debugTranslate($original, $parameters);
+		}
 
 		$key = md5($original);
 
 		// Translation found
 		if (isset(self::$strings[$key]) && self::$strings[$key])
+		{
 			return self::process(self::$strings[$key], $parameters);
+		}
 
 		// No translation found !
 		if ('html' == self::$docType)
+		{
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
+		}
 
 		return $parameters ? strtr($original, $parameters) : $original;
 	}
@@ -299,7 +307,9 @@ abstract class g11n
 		self::recordTranslated($original, '-');
 
 		if ('html' == self::$docType)
+		{
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
+		}
 
 		$original = $parameters ? strtr($original, $parameters) : $original;
 
@@ -331,8 +341,7 @@ abstract class g11n
 		$index = (int) call_user_func(self::$pluralFunction, $count);
 
 		if (array_key_exists($key, self::$stringsPlural)
-			&& array_key_exists($index, self::$stringsPlural[$key])
-		)
+			&& array_key_exists($index, self::$stringsPlural[$key]))
 		{
 			if (self::$debug)
 			{
@@ -362,10 +371,10 @@ abstract class g11n
 	/**
 	 * Clean the storage device.
 	 *
-	 * @param string      $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param bool|string $domain      Set true for administrator
-	 * @param string      $inputType   The input type e.g. "ini" or "po"
-	 * @param string      $storageType The story type
+	 * @param   string       $extension    E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   bool|string  $domain       Set true for administrator
+	 * @param   string       $inputType    The input type e.g. "ini" or "po"
+	 * @param   string       $storageType  The story type
 	 *
 	 * @throws g11nException
 	 * @return void
@@ -373,7 +382,9 @@ abstract class g11n
 	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php')
 	{
 		if (!self::$lang)
+		{
 			self::detectLanguage();
+		}
 
 		Storage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $domain);
 	}
@@ -383,7 +394,7 @@ abstract class g11n
 	 *
 	 * Provided for 3pd use ore whatever..
 	 *
-	 * @param boolean $bool Set true to turn the debugger on
+	 * @param   boolean  $bool  Set true to turn the debugger on
 	 *
 	 * @return void
 	 */
@@ -395,7 +406,7 @@ abstract class g11n
 	/**
 	 * Debug output translated and untranslated items.
 	 *
-	 * @param boolean $untranslatedOnly Set true to output only untranslated strings
+	 * @param   boolean  $untranslatedOnly  Set true to output only untranslated strings
 	 *
 	 * @return void
 	 */
@@ -434,8 +445,8 @@ abstract class g11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param string $type Parser type
-	 * @param string $name Parser name
+	 * @param   string  $type  Parser type
+	 * @param   string  $name  Parser name
 	 *
 	 * @throws g11nException
 	 * @return \g11n\Language\Parser\Code|\g11n\Language\Parser\Language Parser of a specific type
@@ -458,7 +469,7 @@ abstract class g11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param string $name Parser type.
+	 * @param   string  $name  Parser type.
 	 *
 	 * @since  2.0
 	 * @throws g11nException
@@ -475,7 +486,7 @@ abstract class g11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param string $name Parser type.
+	 * @param   string  $name  Parser type.
 	 *
 	 * @since  2.0
 	 * @throws g11nException
@@ -489,8 +500,8 @@ abstract class g11n
 	/**
 	 * Add a path to search for language files.
 	 *
-	 * @param   string $domain The domain name.
-	 * @param   string $path   A path to search for language files.
+	 * @param   string  $domain  The domain name.
+	 * @param   string  $path    A path to search for language files.
 	 *
 	 * @since  2.0
 	 * @return void
@@ -503,7 +514,7 @@ abstract class g11n
 	/**
 	 * Set the cache directory.
 	 *
-	 * @param   string $path A valid path.
+	 * @param   string  $path  A valid path.
 	 *
 	 * @since  2.0
 	 * @return void
@@ -527,7 +538,7 @@ abstract class g11n
 	/**
 	 * Set a plural function.
 	 *
-	 * @param string $pcrePluralForm The PCRE plural form to be parsed.
+	 * @param   string  $pcrePluralForm  The PCRE plural form to be parsed.
 	 *
 	 * @return void
 	 */
@@ -596,7 +607,8 @@ abstract class g11n
 	/**
 	 * Processes the final translation. Decoding and converting \n to <br /> if necessary.
 	 *
-	 * @param string $string The string to process
+	 * @param   string  $string      The string to process
+	 * @param   array   $parameters  Replacement parameters.
 	 *
 	 * @return string
 	 */
@@ -625,25 +637,6 @@ abstract class g11n
 	 */
 	private static function detectLanguage()
 	{
-		/*		self::$lang = self::getApplication()->input->get('lang');
-
-				if (self::$lang)
-				{
-					// @todo CHECK if language exists..
-
-					self::getApplication()->getSession()->set('lang', self::$lang);
-
-					return;
-				}
-
-				// Get the language from session
-				self::$lang = self::getApplication()->getSession()->get('lang');
-
-				if (self::$lang)
-				{
-					return;
-				}*/
-
 		// Get the environment language
 		$envLang = getenv('LANG');
 
@@ -654,7 +647,9 @@ abstract class g11n
 			$envLang = str_replace('_', '-', $envLang);
 
 			if (strpos($envLang, '.'))
+			{
 				$envLang = substr($envLang, 0, strpos($envLang, '.'));
+			}
 
 			// Map with fallback languages.
 			$map = array(
@@ -662,7 +657,9 @@ abstract class g11n
 			);
 
 			if (array_key_exists($envLang, $map))
+			{
 				$envLang = $map[$envLang];
+			}
 
 			self::$lang = $envLang;
 
@@ -670,8 +667,7 @@ abstract class g11n
 		}
 
 		// Nothing found. Fall back to the default language.
-		if (!self::$lang)
-			self::$lang = self::$defaultLang;
+		self::$lang = self::$lang ?: self::$defaultLang;
 	}
 
 	/**
@@ -690,15 +686,17 @@ abstract class g11n
 		self::$docType = 'html';
 
 		if (!self::$docType)
+		{
 			throw new g11nException('Unable to detect the document type :(');
+		}
 	}
 
 	/**
 	 * Record translated and untranslated strings.
 	 *
-	 * @param string $string The string to record
-	 * @param string $mode   Parsing mode strict/legacy
-	 * @param int    $level  The level where the function has been called (A GUESS !)
+	 * @param   string   $string  The string to record
+	 * @param   string   $mode    Parsing mode strict/legacy
+	 * @param   integer  $level   The level where the function has been called (A GUESS !)
 	 *
 	 * @return void
 	 */
@@ -706,7 +704,9 @@ abstract class g11n
 	{
 		// Already recorded
 		if (array_key_exists($string, self::$processedItems))
+		{
 			return;
+		}
 
 		$info           = new \stdClass;
 		$info->status   = $mode;
@@ -740,7 +740,7 @@ abstract class g11n
 	 *
 	 * Accepts multiple arguments
 	 *
-	 * @param array $event The event.
+	 * @param   array  $event  The event.
 	 *
 	 * @return void
 	 */
