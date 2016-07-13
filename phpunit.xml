@@ -2,7 +2,7 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true" backupGlobals="false">
 	<testsuites>
 		<testsuite name="Unit">
-			<directory>tests/tracker</directory>
+			<directory>tests/G11n</directory>
 		</testsuite>
 	</testsuites>
 
