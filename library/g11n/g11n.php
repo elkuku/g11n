@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
@@ -243,36 +243,38 @@ abstract class g11n
 	/**
 	 * Try to translate a string.
 	 *
-	 * @param string $original The string to translate.
+	 * @param   string  $original    The string to translate.
+	 * @param   array   $parameters  Replacement parameters.
 	 *
 	 * @return string Translated string or original if not found.
 	 */
-	public static function translate($original)
+	public static function translate($original, array $parameters = [])
 	{
 		if (self::$debug)
-			return self::debugTranslate($original);
+			return self::debugTranslate($original, $parameters);
 
 		$key = md5($original);
 
 		// Translation found
 		if (isset(self::$strings[$key]) && self::$strings[$key])
-			return self::process(self::$strings[$key]);
+			return self::process(self::$strings[$key], $parameters);
 
 		// No translation found !
 		if ('html' == self::$docType)
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
 
-		return $original;
+		return $parameters ? strtr($original, $parameters) : $original;
 	}
 
 	/**
 	 * Translation in debug mode.
 	 *
-	 * @param string $original Original string to be translated
+	 * @param   string  $original    Original string to be translated
+	 * @param   array   $parameters  Replacement parameters.
 	 *
 	 * @return string
 	 */
-	private static function debugTranslate($original)
+	private static function debugTranslate($original, array $parameters)
 	{
 		$key = md5($original);
 
@@ -281,26 +283,32 @@ abstract class g11n
 			// Translation found
 			self::recordTranslated($original, '+');
 
-			return sprintf('+-%s-+', self::process(self::$strings[$key]));
+			return sprintf('+-%s-+', self::process(self::$strings[$key], $parameters));
 		}
 
 		// No translation found !
 
 		self::recordTranslated($original, '-');
 
-		return sprintf('¿-%s-¿', str_replace(array("\n", "\\n"), '<br />', $original));
+		if ('html' == self::$docType)
+			$original = str_replace(array("\n", "\\n"), '<br />', $original);
+
+		$original = $parameters ? strtr($original, $parameters) : $original;
+
+		return sprintf('¿-%s-¿', $original);
 	}
 
 	/**
 	 * Try to translate a plural string.
 	 *
-	 * @param string  $singular Singular form
-	 * @param string  $plural   Plural form
-	 * @param integer $count    How many times..
+	 * @param   string   $singular    Singular form
+	 * @param   string   $plural      Plural form
+	 * @param   integer  $count       How many times..
+	 * @param   array    $parameters  Replacement parameters.
 	 *
 	 * @return string
 	 */
-	public static function translatePlural($singular, $plural, $count)
+	public static function translatePlural($singular, $plural, $count, array $parameters)
 	{
 		if (!self::$pluralFunction)
 		{
@@ -322,14 +330,16 @@ abstract class g11n
 			{
 				self::recordTranslated($singular . ' / ' . $plural, '+', 2);
 
-				return sprintf('+-%s-+', self::process(self::$stringsPlural[$key][$index]));
+				return sprintf('+-%s-+', self::process(self::$stringsPlural[$key][$index], $parameters));
 			}
 
-			return self::process(self::$stringsPlural[$key][$index]);
+			return self::process(self::$stringsPlural[$key][$index], $parameters);
 		}
 
 		// Fallback - english: singular == 1
 		$retVal = ($count == 1) ? $singular : $plural;
+
+		$retVal = $parameters ? strtr($retVal, $parameters) : $retVal;
 
 		if (self::$debug)
 		{
@@ -582,13 +592,18 @@ abstract class g11n
 	 *
 	 * @return string
 	 */
-	private static function process($string)
+	private static function process($string, array $parameters)
 	{
 		$string = base64_decode($string);
 
 		if ('html' == self::$docType)
 		{
 			$string = str_replace(array("\n", '\n'), '<br />', $string);
+		}
+
+		if ($parameters)
+		{
+			$string = strtr($string, $parameters);
 		}
 
 		return $string;
