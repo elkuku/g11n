@@ -13,7 +13,7 @@ use g11n\Language\Parser;
 /**
  * The g11n storage base class.
  *
- * @package g11n
+ * @since  1
  */
 abstract class Storage
 {
@@ -30,7 +30,7 @@ abstract class Storage
 	/**
 	 * Constructor.
 	 *
-	 * @param   string $type  The input type (e.g. ini, po)
+	 * @param   string  $type  The input type (e.g. ini, po)
 	 *
 	 * @throws \g11n\g11nException
 	 */
@@ -39,7 +39,9 @@ abstract class Storage
 		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
 
 		if (!class_exists($class))
+		{
 			throw new g11nException('Required parser class not found: ' . $class);
+		}
 
 		$this->parser = new $class;
 	}
@@ -47,8 +49,8 @@ abstract class Storage
 	/**
 	 * Get a storage handler.
 	 *
-	 * @param string $inputType   A valid input type
-	 * @param string $storageType A valid storage type
+	 * @param   string  $inputType    A valid input type
+	 * @param   string  $storageType  A valid storage type
 	 *
 	 * @throws \RuntimeException
 	 * @return Storage
@@ -75,9 +77,9 @@ abstract class Storage
 	/**
 	 * Get the path of a storage file.
 	 *
-	 * @param string $lang      Language tag e.g. en-GB.
-	 * @param string $extension Extension name e.g. com_component.
-	 * @param string $domain    The domain name.
+	 * @param   string  $lang       Language tag e.g. en-GB.
+	 * @param   string  $extension  Extension name e.g. com_component.
+	 * @param   string  $domain     The domain name.
 	 *
 	 * @return string
 	 */
@@ -95,8 +97,8 @@ abstract class Storage
 	/**
 	 * Test is a language template exists.
 	 *
-	 * @param $extension
-	 * @param $scope
+	 * @param   string  $extension  The extension name.
+	 * @param   string  $scope      The scope name.
 	 *
 	 * @return bool
 	 */
@@ -108,8 +110,8 @@ abstract class Storage
 	/**
 	 * Get the language template path.
 	 *
-	 * @param   string $extension  Extension name.
-	 * @param   string $scope      Extension scope
+	 * @param   string  $extension  Extension name.
+	 * @param   string  $scope      Extension scope
 	 *
 	 * @return string
 	 */
@@ -123,7 +125,7 @@ abstract class Storage
 			return $templates[$extension][$scope];
 		}
 
-		$base = ExtensionHelper:: getDomainPath($scope);
+		$base = ExtensionHelper::getDomainPath($scope);
 
 		$fileName = $extension . '.pot';
 
@@ -138,7 +140,7 @@ abstract class Storage
 	 *
 	 * E.g.: nplurals=2; plural=(n != 1)
 	 *
-	 * @param   string $gettextPluralForms  Gettext format.
+	 * @param   string  $gettextPluralForms  Gettext format.
 	 *
 	 * @return string pcre type PluralForms
 	 */
@@ -176,9 +178,9 @@ abstract class Storage
 	/**
 	 * Stores the strings into a storage.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void
@@ -188,9 +190,9 @@ abstract class Storage
 	/**
 	 * Retrieve the storage content.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return \g11n\Support\Store
@@ -200,9 +202,9 @@ abstract class Storage
 	/**
 	 * Cleans the storage.
 	 *
-	 * @param   string $lang        E.g. de-DE, es-ES etc.
-	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string $domain      Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return void

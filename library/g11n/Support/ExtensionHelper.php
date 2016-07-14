@@ -14,9 +14,7 @@ use League\Flysystem\Filesystem;
 /**
  * Extension helper class.
  *
- * @package  g11n
- *
- * @since    1.0
+ * @since  1.0
  */
 class ExtensionHelper
 {
@@ -105,7 +103,6 @@ class ExtensionHelper
 				}
 			}
 		}
-
 	}
 
 	/**

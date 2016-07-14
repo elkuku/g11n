@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
@@ -12,9 +12,7 @@ use g11n\Support\FileInfo;
 /**
  * Parser for po language files.
  *
- * @package  g11n
- *
- * @since    1.0
+ * @since  1.0
  */
 class Po extends Parser\Language
 {
@@ -69,7 +67,9 @@ class Po extends Parser\Language
 			$line = trim($line);
 
 			if (0 === strpos($line, '#~'))
+			{
 				continue;
+			}
 
 			$match = array();
 
@@ -289,9 +289,6 @@ class Po extends Parser\Language
 				$key = str_replace("\'", "'", $key);
 			}
 
-			//            $value = '';
-			//            $info = '';
-
 			$value = (isset($string->translation) && $string->translation) ? $string->translation : '';
 
 			// ...brrrrrrr
@@ -302,27 +299,6 @@ class Po extends Parser\Language
 			}
 
 			$info = trim($string->info);
-
-			//            if(array_key_exists($key, $translations))
-			//            {
-			//                $value = $translations[$key]->string;
-			//                $info = $translations[$key]->info;
-			//            }
-			//            else
-			//            {
-			//                $test = strtoupper($key);
-			//
-			//                if(array_key_exists($test, $translations))
-			//                {
-			//                    if($options->get('markKeyDiffers'))
-			//                    {
-			//                        $content[] = '# Key is upper cased :(';
-			//                    }
-			//
-			//                    $value = $translations[$test]->string;
-			//                    $info = $translations[$key]->info;
-			//                }
-			//            }
 
 			if ($options->get('includeLineNumbers'))
 			{
@@ -340,14 +316,15 @@ class Po extends Parser\Language
 
 			if (!$value
 				&& $options->get('markFuzzy')
-				&& $lang != 'en-GB'
-			)
+				&& $lang != 'en-GB')
 			{
 				$content[] = '#, fuzzy';
 			}
 
 			if ($info)
+			{
 				$content[] = $info;
+			}
 
 			$content[] = 'msgid "' . htmlspecialchars($key) . '"';
 

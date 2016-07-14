@@ -9,7 +9,7 @@ namespace g11n\Support;
 /**
  * The g11n store description class.
  *
- * @package g11n
+ * @since  1
  */
 class Store
 {
@@ -30,7 +30,7 @@ class Store
 	/**
 	 * Get a property.
 	 *
-	 * @param string $property Property name
+	 * @param   string  $property  Property name.
 	 *
 	 * @throws \UnexpectedValueException
 	 * @return string
@@ -48,8 +48,8 @@ class Store
 	/**
 	 * Set a property.
 	 *
-	 * @param string $property Property name
-	 * @param mixed  $value    The value to set
+	 * @param   string  $property  Property name
+	 * @param   mixed   $value     The value to set
 	 *
 	 * @throws \UnexpectedValueException
 	 * @return void

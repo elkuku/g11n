@@ -8,6 +8,8 @@ namespace g11n\Support;
 
 /**
  * File info class.
+ *
+ * @since  1
  */
 class TransInfo
 {

@@ -9,7 +9,7 @@ namespace g11n\Support;
 /**
  * FileInfo description class.
  *
- * @package g11n
+ * @since  1
  */
 class FileInfo
 {
@@ -49,5 +49,3 @@ class FileInfo
 		throw new \UnexpectedValueException('Get undefined property ' . __CLASS__ . '::' . $property);
 	}
 }
-
-
