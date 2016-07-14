@@ -4,90 +4,139 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+namespace g11n\Language\Storage\File;
+
+use g11n\g11nException;
+use g11n\Language\Storage;
+
 /**
- * Enter description here ...
+ * g11nStorageFileTxt class
  *
- * @package    g11n
+ * @since  1
  */
-class g11nStorageFileTxt extends g11nStorage
+class g11nStorageFileTxt extends Storage\File
 {
-    /**
-     * Retrieve the storage content.
-     *
-     * @param string $extension Extension
-     * @param string $lang Language
-     * @param string $fileName The file name
-     *
-     * @return boolean
-     */
-    protected function retrieve($extension, $lang, $fileName)
-    {
-        if(self::$storage == 'off')
-        return false;
+	/**
+	 * @var string
+	 */
+	protected $ext = '.php';
 
-        $profiler = JProfiler::getInstance('LangDebug');//@@debug
-        $profiler->mark('start: '.$extension);//@@debug
+	/**
+	 * Retrieve the storage content.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 *
+	 * @return \g11n\Support\Store
+	 */
+	public function retrieve($lang, $extension, $domain = '')
+	{
+		if(self::$storage == 'off')
+		{
+			return false;
+		}
 
-        jimport('joomla.filesystem.file');
+		$profiler = JProfiler::getInstance('LangDebug');
+		$profiler->mark('start: ' . $extension);
 
-        $path = self::$cacheDir.'/'.$lang.'.'.$extension.'.txt';
+		jimport('joomla.filesystem.file');
 
-        if( ! JFile::exists($path))
-        return false;
+		$path = self::$cacheDir . '/' . $lang . '.' . $extension . '.txt';
 
-        $strings = JFile::read($path);
+		if ( ! JFile::exists($path))
+		{
+			return false;
+		}
 
-        if( ! $strings)
-        return false;
+		$strings = JFile::read($path);
 
-        $strings = json_decode($strings, true);
+		if ( ! $strings)
+		{
+			return false;
+		}
 
-        $profiler->mark('<span style="color: green;">*Loaded txt*</span>'.htmlentities($path));//@@debug
+		$strings = json_decode($strings, true);
 
-        $this->strings = array_merge($this->strings, $strings);
+		$profiler->mark('<span style="color: green;">*Loaded txt*</span>' . htmlentities($path));
 
-        // language overrides
-        $this->strings = array_merge($this->strings, $this->override);
+		$this->strings = array_merge($this->strings, $strings);
 
-        $this->paths[$extension][$fileName] = true;
+		// Language overrides
+		$this->strings = array_merge($this->strings, $this->override);
 
-        return true;
-    }
+		$this->paths[$extension][$fileName] = true;
 
-    /**
-     * Stores the strings into a storage.
-     *
-     * Should be moved..
-     *
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $lang E.g. de-DE, es-ES etc.
-     * @param string $fileName File name of the original (ini) file.
-     *
-     * @return boolean true on success.
-     * @throws Exception
-     */
-    protected function store($extension, $lang, $fileName)
-    {
-        if(self::$storage == 'off') return false;
+		return true;
+	}
 
-        $profiler = JProfiler::getInstance('LangDebug');//@@debug
-        $profiler->mark('store: '.$extension);//@@debug
+	/**
+	 * Stores the strings into a storage.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	public function store($lang, $extension, $domain = '')
+	{
+		if (self::$storage == 'off')
+		{
+			return false;
+		}
+
+		$profiler = JProfiler::getInstance('LangDebug');
+		$profiler->mark('store: ' . $extension);
 
 //        #		$fileNames = JFolder::files(JPATH_ADMINISTRATOR, '.sys.ini', false, true);
 
-        $strings = self::parseFile($fileName);
+		$strings = self::parseFile($fileName);
 
-        $path = self::$cacheDir.'/'.$lang.'.'.$extension.'.txt';
-        $jsonString = json_encode($strings);
+		$path = self::$cacheDir . '/' . $lang . '.' . $extension . '.txt';
+		$jsonString = json_encode($strings);
 
-        if( ! JFile::write($path, $jsonString))
-        throw new g11nException('Unable to write language storage file');
+		if ( ! JFile::write($path, $jsonString))
+		{
+			throw new g11nException('Unable to write language storage file');
+		}
 
-        $profiler->mark('<span style="color: blue;">wrote file</span>: '
-        .str_replace(JPATH_ROOT, 'J', $path));//@@debug
+		$profiler->mark('<span style="color: blue;">wrote file</span>: '
+		. str_replace(JPATH_ROOT, 'J', $path)
+		);
 
-        $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
+		$profiler->mark('store SUCCESS ++++: ' . $extension);
 
-        return true;
-    }
+		return true;
+	}
+
+	/**
+	 * Cleans the storage.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	public function clean($lang, $extension, $domain = '')
+	{
+		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
+
+		// Storage file does not exist
+		if (!file_exists($storePath))
+		{
+			return;
+		}
+
+		// @Do_NOT_Translate
+		if (!unlink($storePath))
+		{
+			throw new g11nException('Unable to clean storage in: ' . $storePath);
+		}
+	}
 }

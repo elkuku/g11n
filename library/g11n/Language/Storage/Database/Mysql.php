@@ -1,137 +1,155 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+namespace g11n\Language\Storage\Database;
+
+use g11n\Language\Storage;
+
 /**
- * Enter description here ...
+ * g11nStorageDB class
  *
- * @package    g11n
+ * @since  1
  */
-class g11nStorageDB extends g11nStorage
+class Mysql extends Storage\File
 {
-    /**
-     * Stores the strings into a storage.
-     *
-     * Should be moved..
-     *
-     * @param string $extension E.g. joomla, com_weblinks, com_easycreator etc.
-     * @param string $lang E.g. de-DE, es-ES etc.
-     * @param string $fileName File name of the original (ini) file.
-     *
-     * @return boolean true on success.
-     * @throws Exception
-     */
-    protected function store($extension, $lang, $fileName)
-    {
-        if(self::$storage == 'off')
-        return false;
+	/**
+	 * Stores the strings into a storage.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	protected function store($lang, $extension, $domain = '')
+	{
+		if (self::$storage == 'off')
+		{
+			return false;
+		}
 
-        $profiler = JProfiler::getInstance('LangDebug');//@@debug
-        $profiler->mark('store: '.$extension);//@@debug
+		$profiler = JProfiler::getInstance('LangDebug');
+		$profiler->mark('store: ' . $extension);
 
-        $strings = self::parseFile($fileName);
+		$strings = self::parseFile($fileName);
 
-        switch(self::$storage)
-        {
-            case 'db':
-                $jsonString = json_encode($strings);
+		switch (self::$storage)
+		{
+			case 'db':
+				$jsonString = json_encode($strings);
 
-                $query = $this->db->getQuery(true);
+				$query = $this->db->getQuery(true);
 
-                $query->insert('`#__language_strings`');
-                $query->set('extension = '.$this->db->quote('system'));
-                $query->set('lang = '.$this->db->quote($lang));
-                $query->set('scope = '.$this->db->quote($this->scope));
+				$query->insert('`#__language_strings`');
+				$query->set('extension = ' . $this->db->quote('system'));
+				$query->set('lang = ' . $this->db->quote($lang));
+				$query->set('scope = ' . $this->db->quote($this->scope));
 
-                // to quote or not to quote..
+				// To quote or not to quote..
 //                #$query->set("strings = '".($encoded))."'";
-                $query->set('strings = '.$this->db->quote($jsonString));
+				$query->set('strings = ' . $this->db->quote($jsonString));
 
-                $this->db->setQuery($query);
+				$this->db->setQuery($query);
 
-                $this->db->query();
+				$this->db->query();
 
-                if($this->db->getError())
-                {
-                    $this->setError($this->db->getError());
+				if ($this->db->getError())
+				{
+					$this->setError($this->db->getError());
 
-                    $profiler->mark('<span style="color: red;">store db failed **********</span>: '
-                    .$extension);//@@debug
+					$profiler->mark('<span style="color: red;">store db failed **********</span>: '
+					. $extension
+					);
 
-                    return false;
-                }
+					return false;
+				}
 
-                $profiler->mark('store query: '.htmlentities($query));//@@debug
+				$profiler->mark('store query: ' . htmlentities($query));
 
-                break;
+				break;
 
-            default:
-                throw new g11nException('Undefined storage: '.self::$storage);
+			default:
+				throw new g11nException('Undefined storage: ' . self::$storage);
 
-                break;
-        }
+				break;
+		}
 
-        $profiler->mark('store SUCCESS ++++: '.$extension);//@@debug
+		$profiler->mark('store SUCCESS ++++: ' . $extension);
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Retrieve the storage content.
-     *
-     * @param string $extension Extension
-     * @param string $lang Language
-     * @param string $fileName The file name
-     *
-     * @return boolean
-     */
-    protected function retrieve($extension, $lang, $fileName)
-    {
-        if(self::$storage == 'off')
-        return false;
+	/**
+	 * Retrieve the storage content.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return \g11n\Support\Store
+	 */
+	protected function retrieve($lang, $extension, $domain = '')
+	{
+		if (self::$storage == 'off')
+		{
+			return false;
+		}
 
-        $profiler = JProfiler::getInstance('LangDebug');//@@debug
-        $profiler->mark('start: '.$extension);//@@debug
+		$profiler = JProfiler::getInstance('LangDebug');
+		$profiler->mark('start: ' . $extension);
 
-        $this->query->clear('where');
+		$this->query->clear('where');
 
-        //we will construct a string instead of calling a function three times..
-        //		$wheres = 'WHERE extension = '.$this->db->quote($extension)
-        //		. ' AND lang = '.$this->db->quote($lang)
-        //		. ' AND scope = '.$this->db->quote($this->scope);
-        //		$this->query->where($wheres);//that does not work, gives endless recursion..2do.. :(
+		$this->query->where('extension = ' . $this->db->quote($extension));
+		$this->query->where('lang = ' . $this->db->quote($lang));
+		$this->query->where('scope = ' . $this->db->quote($this->scope));
 
-        $this->query->where('extension = '.$this->db->quote($extension));
-        $this->query->where('lang = '.$this->db->quote($lang));
-        $this->query->where('scope = '.$this->db->quote($this->scope));
+		$this->db->setQuery($this->query);
 
-        $this->db->setQuery($this->query);
+		$e = $this->db->loadObject();
 
-        $e = $this->db->loadObject();
+		if (empty($e->strings))
+		{
+			$profiler->mark('<span style="color: red;">langload db failed ****</span>'
+			. $this->query
+			);
 
-        if(empty($e->strings))
-        {
-            $profiler->mark('<span style="color: red;">langload db failed ****</span>'
-            .$this->query);//@@debug
+			$this->setError($this->db->getError());
 
-            $this->setError($this->db->getError());
+			return false;
+		}
 
-            return false;
-        }
+		$strings = json_decode($e->strings, true);
 
-        $strings = json_decode($e->strings, true);
+		$profiler->mark('<span style="color: green;">*Loaded db*</span>');
 
-        $profiler->mark('<span style="color: green;">*Loaded db*</span>');//@@debug
+		$this->strings = array_merge($this->strings, $strings);
 
-        $this->strings = array_merge($this->strings, $strings);
+		// Language overrides
+		$this->strings = array_merge($this->strings, $this->override);
 
-        // language overrides
-        $this->strings = array_merge($this->strings, $this->override);
+		$this->paths[$extension][$fileName] = true;
 
-        $this->paths[$extension][$fileName] = true;
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Cleans the storage.
+	 *
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
+	 *
+	 * @throws \g11n\g11nException
+	 * @return void
+	 */
+	public function clean($lang, $extension, $domain = '')
+	{
+		// TODO: Implement clean() method.
+	}
 }

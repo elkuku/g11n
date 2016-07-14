@@ -12,6 +12,8 @@ use g11n\Support\FileInfo;
  * Class Language.
  *
  * Base class for language file parsers.
+ *
+ * @since  1
  */
 abstract class Language
 {
@@ -39,13 +41,13 @@ abstract class Language
 	 */
 	public function __toString()
 	{
-		return (string)__CLASS__;
+		return (string) __CLASS__;
 	}
 
 	/**
 	 * Parse a po style language file.
 	 *
-	 * @param string $fileName Absolute path to the language file.
+	 * @param   string  $fileName  Absolute path to the language file.
 	 *
 	 * @return FileInfo
 	 */
@@ -54,8 +56,8 @@ abstract class Language
 	/**
 	 * Generate a language file.
 	 *
-	 * @param FileInfo $fileInfo
-	 * @param \stdClass      $options JObject
+	 * @param   FileInfo   $fileInfo  The FileInfo object.
+	 * @param   \stdClass  $options   JObject
 	 *
 	 * @return string
 	 */

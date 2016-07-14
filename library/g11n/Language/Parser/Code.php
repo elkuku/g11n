@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
@@ -9,7 +9,7 @@ namespace g11n\Language\Parser;
 /**
  * Class Code.
  *
- * @package g11n\Language\Parser
+ * @since  1
  */
 abstract class Code
 {
@@ -37,13 +37,13 @@ abstract class Code
 	 */
 	public function __toString()
 	{
-		return (string)__CLASS__;
+		return (string) __CLASS__;
 	}
 
 	/**
 	 * Set the language format.
 	 *
-	 * @param string $langFormatIn The language format e.g. ini
+	 * @param   string  $langFormatIn  The language format e.g. ini
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ abstract class Code
 	/**
 	 * Parse a file.
 	 *
-	 * @param string $fileName File to parse
+	 * @param   string  $fileName  File to parse.
 	 *
 	 * @return object g11nFileInfo
 	 */

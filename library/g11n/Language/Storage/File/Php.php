@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
@@ -46,9 +46,9 @@ class Php extends Storage\File
 	/**
 	 * Stores the strings into a storage.
 	 *
-	 * @param   string   $lang       E.g. de-DE, es-ES etc.
-	 * @param   string   $extension  E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string   $domain     Must be 'admin' or 'site'.
+	 * @param   string  $lang       E.g. de-DE, es-ES etc.
+	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws \g11n\g11nException
 	 * @return string  The path where the language file has been found / empty if it is read from cache.
@@ -208,7 +208,9 @@ class Php extends Storage\File
 
 			// Failed ?
 			if (!file_exists($path))
+			{
 				throw new g11nException('Unable to retrieve the strings');
+			}
 		}
 
 		/*
@@ -228,19 +230,29 @@ class Php extends Storage\File
 		$store->set('cachePath', $path);
 
 		if (isset($info['pluralForms']))
+		{
 			$store->set('pluralForms', $info['pluralForms']);
+		}
 
 		if (!empty($strings))
+		{
 			$store->set('strings', $strings);
+		}
 
 		if (!empty($stringsPlural))
+		{
 			$store->set('stringsPlural', $stringsPlural);
+		}
 
 		if (!empty($stringsJs))
+		{
 			$store->set('stringsJs', $stringsJs);
+		}
 
 		if (!empty($stringsJsPlural))
+		{
 			$store->set('stringsJsPlural', $stringsJsPlural);
+		}
 
 		return $store;
 	}
@@ -261,10 +273,14 @@ class Php extends Storage\File
 
 		// Storage file does not exist
 		if (!file_exists($storePath))
+		{
 			return;
+		}
 
 		// @Do_NOT_Translate
 		if (!unlink($storePath))
+		{
 			throw new g11nException('Unable to clean storage in: ' . $storePath);
+		}
 	}
 }
