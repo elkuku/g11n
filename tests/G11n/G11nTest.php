@@ -23,7 +23,6 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @since  1.0
 	 * @return void
 	 */
 	protected function setUp()
@@ -35,6 +34,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		g11n::loadLanguage('testExtension', 'testDomain');
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testHello()
 	{
 		$this->assertThat(
@@ -43,6 +47,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testNotFound()
 	{
 		$this->assertThat(
@@ -51,6 +60,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testGetsomething()
 	{
 		$this->assertThat(
@@ -60,13 +74,22 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test method.
+	 *
 	 * @expectedException \UnexpectedValueException
+	 *
+	 * @return void
 	 */
 	public function testGetsomethingInvalid()
 	{
 		g11n::get('somethingInvalid');
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testParams()
 	{
 		$this->assertThat(
@@ -75,6 +98,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testParamsNotFound()
 	{
 		$this->assertThat(
@@ -83,6 +111,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testGetDefault()
 	{
 		$this->assertThat(
@@ -91,6 +124,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testSetDefault()
 	{
 		g11n::setDefault('yy-YY');
@@ -101,6 +139,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testGetCurrent()
 	{
 		$this->assertThat(
@@ -109,6 +152,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPluralExistent()
 	{
 		$this->assertThat(
@@ -121,6 +169,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPluralExistentWithParameters()
 	{
 		$this->assertThat(
@@ -143,6 +196,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPlural0()
 	{
 		$this->assertThat(
@@ -151,6 +209,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPlural1()
 	{
 		$this->assertThat(
@@ -159,6 +222,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPlural2()
 	{
 		$this->assertThat(
@@ -167,11 +235,59 @@ class G11nTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
 	public function testPlural3()
 	{
 		$this->assertThat(
 			g11n4t('Hey', 'Ho', 3),
 			$this->equalTo('Ho')
+		);
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
+	public function testDetectLanguage()
+	{
+		g11n::setCurrent('');
+		g11n::getCurrent();
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @expectedException \g11n\g11nException
+	 *
+	 * @return void
+	 */
+	public function testInvalidCacheDir()
+	{
+		g11n::setCacheDir('INVALID');
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
+	public function testGetJavaScript()
+	{
+		$js = "<!--
+/* JavaScript translations */
+g11n.debug = ''
+g11n.loadLanguageStrings([]);
+g11n.loadPluralStrings([]);
+g11n.setPluralFunction(phpjs.create_function('n', 'plural = (n == 1 ? 0 : 1); return (plural <= 2)? plural : plural - 1;'))
+-->";
+		$this->assertThat(
+			g11n::getJavaScript(),
+			$this->equalTo($js)
 		);
 	}
 }
