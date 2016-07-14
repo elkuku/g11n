@@ -8,6 +8,8 @@ namespace g11n;
 
 /**
  * The g11n Exception class.
+ *
+ * @since  1
  */
 class g11nException extends \Exception
 {
