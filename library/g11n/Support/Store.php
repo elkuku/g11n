@@ -7,7 +7,7 @@
 namespace ElKuKu\G11n\Support;
 
 /**
- * The g11n store description class.
+ * The G11n store description class.
  *
  * @since  1
  */

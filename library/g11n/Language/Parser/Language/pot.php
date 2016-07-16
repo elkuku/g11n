@@ -211,7 +211,7 @@ msgstr \"\"
 \"Language-Team: LANGUAGE <LL@li.org>\\n\"
 \"Content-Type: text/plain; charset=CHARSET\\n\"
 \"Content-Transfer-Encoding: 8bit\\n\"
-\"X-Generator: g11n\\n\"
+\"X-Generator: G11n\\n\"
 \"MIME-Version: 1.0\\n\"
 \"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"
 ";

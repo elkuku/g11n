@@ -11,7 +11,7 @@ use ElKuKu\G11n\Support\ExtensionHelper;
 use ElKuKu\G11n\Language\Parser;
 
 /**
- * The g11n storage base class.
+ * The G11n storage base class.
  *
  * @since  1
  */
@@ -195,7 +195,7 @@ abstract class Storage
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
-	 * @return \g11n\Support\Store
+	 * @return \ElKuKu\G11n\Support\Store
 	 */
 	abstract public function retrieve($lang, $extension, $domain = '');
 

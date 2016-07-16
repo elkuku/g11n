@@ -13,7 +13,7 @@ use ElKuKu\G11n\Support\ExtensionHelper;
 require_once __DIR__ . '/Language/methods.php';
 
 /**
- * The g11n - "globalization" class.
+ * The G11n - "Globalization" class.
  *
  * Language handling class.
  * 
@@ -21,13 +21,15 @@ require_once __DIR__ . '/Language/methods.php';
  */
 abstract class G11n
 {
-	/** Language tag - e.g.en-GB, de-DE
+	/**
+	 * Language tag - e.g.en-GB, de-DE
 	 *
 	 * @var string
 	 */
 	protected static $lang = '';
 
-	/** Fallback language tag - e.g.en-GB, de-DE
+	/**
+	 * Fallback language tag - e.g.en-GB, de-DE
 	 *
 	 * @var string
 	 */
@@ -104,14 +106,25 @@ abstract class G11n
 	 */
 	protected static $processedItems = array();
 
-	/** This is for, well... debugging =;)
+	/**
+	 * This is for, well... debugging =;)
 	 *
 	 * @var boolean
 	 */
 	protected static $debug = false;
 
+	/**
+	 * Array of recorded events.
+	 *
+	 * @var array
+	 */
 	protected static $events = array();
 
+	/**
+	 * List of loaded extensions.
+	 *
+	 * @var array
+	 */
 	protected static $extensionsLoaded = array();
 
 	/**
@@ -449,11 +462,11 @@ abstract class G11n
 	 * @param   string  $name  Parser name
 	 *
 	 * @throws G11nException
-	 * @return \g11n\Language\Parser\Code|\g11n\Language\Parser\Language Parser of a specific type
+	 * @return \ElKuKu\G11n\Language\Parser\Code|\ElKuKu\G11n\Language\Parser\Language Parser of a specific type.
 	 */
 	public static function getParser($type, $name)
 	{
-		$class = '\\g11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
+		$class = '\\ElKuKu\G11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
 
 		if (!class_exists($class))
 		{
@@ -473,7 +486,7 @@ abstract class G11n
 	 *
 	 * @since  2.0
 	 * @throws G11nException
-	 * @return \g11n\Language\Parser\Code
+	 * @return \ElKuKu\G11n\Language\Parser\Code
 	 */
 	public static function getCodeParser($name)
 	{
@@ -490,7 +503,7 @@ abstract class G11n
 	 *
 	 * @since  2.0
 	 * @throws G11nException
-	 * @return \g11n\Language\Parser\Language
+	 * @return \ElKuKu\G11n\Language\Parser\Language
 	 */
 	public static function getLanguageParser($name)
 	{
@@ -502,6 +515,8 @@ abstract class G11n
 	 *
 	 * @param   string  $domain  The domain name.
 	 * @param   string  $path    A path to search for language files.
+	 *
+	 * @deprecated Use ExtensionHelper::addDomainPath($domain, $path)
 	 *
 	 * @since  2.0
 	 * @return void
@@ -516,6 +531,8 @@ abstract class G11n
 	 *
 	 * @param   string  $path  A valid path.
 	 *
+	 * @deprecated Use ExtensionHelper::setCacheDir($path)
+	 *
 	 * @since  2.0
 	 * @return void
 	 */
@@ -526,6 +543,8 @@ abstract class G11n
 
 	/**
 	 * Clean the cache directory.
+	 *
+	 * @deprecated Use ExtensionHelper::cleanCache()
 	 *
 	 * @since  2.1
 	 * @return void

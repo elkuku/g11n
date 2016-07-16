@@ -192,7 +192,7 @@ class Php extends Storage\File
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
-	 * @return \g11n\Support\Store
+	 * @return \ElKuKu\G11n\Support\Store
 	 */
 	public function retrieve($lang, $extension, $domain = '')
 	{

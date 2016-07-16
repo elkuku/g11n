@@ -9,7 +9,7 @@ namespace ElKuKu\G11n\Language;
 use ElKuKu\G11n\G11n;
 
 /**
- * g11n Language debugger class.
+ * G11n Language debugger class.
  *
  * @since  1.0
  */
