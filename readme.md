@@ -1,3 +1,8 @@
+# The G11n language library
+
+[![Build Status](https://travis-ci.org/elkuku/g11n.svg?branch=master)](https://travis-ci.org/elkuku/g11n)
+
+
 ##History
 
 The g11n project is the daughter of the [JALHoO](http://wiki.joomla-nafu.de/joomla-dokumentation/Benutzer:Elkuku/Proyektz/JALHOO) project. You should read about it if you are interested in why it was created in the first place.
