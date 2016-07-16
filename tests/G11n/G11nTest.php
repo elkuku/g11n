@@ -8,7 +8,7 @@
 
 namespace ElKuKu\G11n\Tests\G11n;
 
-use g11n\g11n;
+use g11n\G11n;
 
 use PHPUnit_Framework_TestCase;
 
@@ -27,11 +27,11 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		g11n::setCurrent('xx-XX');
-		g11n::setCacheDir(__DIR__ . '/../cache');
-		g11n::cleanCache();
-		g11n::addDomainPath('testDomain', __DIR__ . '/../testLangDir');
-		g11n::loadLanguage('testExtension', 'testDomain');
+		G11n::setCurrent('xx-XX');
+		G11n::setCacheDir(TEST_ROOT . '/tests/cache');
+		G11n::cleanCache();
+		G11n::addDomainPath('testDomain', TEST_ROOT . '/tests/testLangDir');
+		G11n::loadLanguage('testExtension', 'testDomain');
 	}
 
 	/**
@@ -68,7 +68,7 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	public function testGetsomething()
 	{
 		$this->assertThat(
-			g11n::get('lang'),
+			G11n::get('lang'),
 			$this->equalTo('xx-XX')
 		);
 	}
@@ -82,7 +82,7 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetsomethingInvalid()
 	{
-		g11n::get('somethingInvalid');
+		G11n::get('somethingInvalid');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	public function testGetDefault()
 	{
 		$this->assertThat(
-			g11n::getDefault(),
+			G11n::getDefault(),
 			$this->equalTo('en-GB')
 		);
 	}
@@ -131,10 +131,10 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDefault()
 	{
-		g11n::setDefault('yy-YY');
+		G11n::setDefault('yy-YY');
 
 		$this->assertThat(
-			g11n::getDefault(),
+			G11n::getDefault(),
 			$this->equalTo('yy-YY')
 		);
 	}
@@ -147,7 +147,7 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	public function testGetCurrent()
 	{
 		$this->assertThat(
-			g11n::getCurrent(),
+			G11n::getCurrent(),
 			$this->equalTo('xx-XX')
 		);
 	}
@@ -255,20 +255,20 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDetectLanguage()
 	{
-		g11n::setCurrent('');
-		g11n::getCurrent();
+		G11n::setCurrent('');
+		G11n::getCurrent();
 	}
 
 	/**
 	 * Test method.
 	 *
-	 * @expectedException \g11n\g11nException
+	 * @expectedException \g11n\G11nException
 	 *
 	 * @return void
 	 */
 	public function testInvalidCacheDir()
 	{
-		g11n::setCacheDir('INVALID');
+		G11n::setCacheDir('INVALID');
 	}
 
 	/**
@@ -286,7 +286,7 @@ g11n.loadPluralStrings([]);
 g11n.setPluralFunction(phpjs.create_function('n', 'plural = (n == 1 ? 0 : 1); return (plural <= 2)? plural : plural - 1;'))
 -->";
 		$this->assertThat(
-			g11n::getJavaScript(),
+			G11n::getJavaScript(),
 			$this->equalTo($js)
 		);
 	}
