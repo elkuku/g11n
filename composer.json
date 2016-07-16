@@ -24,7 +24,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "ElKuKu\\G11n\\Tests\\": "tests/G11n/"
+      "ElKuKu\\G11n\\Tests\\": "tests/"
     }
   }
 }
