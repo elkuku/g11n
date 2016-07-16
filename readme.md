@@ -14,7 +14,7 @@ The library is installed using [Composer](http://getcomposer.org/)
 ```json
 {
 	"require": {
-		"elkuku/g11n": "2.*"
+		"elkuku/g11n": "3.*"
 	}
 }
 ```
