@@ -8,17 +8,22 @@
 
 namespace ElKuKu\G11n\Tests\G11n;
 
-use g11n\G11n;
+use g11n\Support\FileInfo;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class G11nTestDebug.
+ * Class FileInfoTest.
  *
  * @since  1.0
  */
-class G11nTestDebug extends PHPUnit_Framework_TestCase
+class FileInfoTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var FileInfo
+	 */
+	private $object = null;
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -27,11 +32,7 @@ class G11nTestDebug extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		G11n::setCurrent('xx-XX');
-		G11n::setCacheDir(__DIR__ . '/../cache');
-		G11n::cleanCache();
-		G11n::addDomainPath('testDomain', __DIR__ . '/../testLangDir');
-		G11n::loadLanguage('testExtension', 'testDomain');
+		$this->object = new FileInfo;
 	}
 
 	/**
@@ -39,13 +40,25 @@ class G11nTestDebug extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testDebugYTranslate()
+	public function test()
 	{
-		G11n::setDebug(true);
+		$this->object->fileName = '{test}';
 
 		$this->assertThat(
-			g11n3t('Hello test'),
-			$this->equalTo('+-HHHH-+')
+			$this->object->get('fileName'),
+			$this->equalTo('{test}')
 		);
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @expectedException  \UnexpectedValueException
+	 *
+	 * @return void
+	 */
+	public function testFailure()
+	{
+		$this->object->get('{undefined}');
 	}
 }
