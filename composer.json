@@ -18,8 +18,8 @@
     "squizlabs/php_codesniffer": "1.*"
   },
   "autoload": {
-    "psr-0": {
-      "g11n": "library/"
+    "psr-4": {
+      "ElKuKu\\G11n\\": "library/g11n/"
     }
   },
   "autoload-dev": {
