@@ -8,8 +8,7 @@
 
 namespace ElKuKu\G11n\Tests\G11n;
 
-use ElKuKu\G11n\Tests\Support\Helper;
-use g11n\Support\ExtensionHelper;
+use ElKuKu\G11n\Support\ExtensionHelper;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -68,5 +67,4 @@ class ExtensionHelperTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(TEST_ROOT . '/tests/cache/g11n')
 		);
 	}
-
 }

@@ -8,7 +8,7 @@
 
 namespace ElKuKu\G11n\Tests\G11n;
 
-use g11n\Support\FileInfo;
+use ElKuKu\G11n\Support\FileInfo;
 
 use PHPUnit_Framework_TestCase;
 

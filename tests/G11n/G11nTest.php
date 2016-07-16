@@ -8,7 +8,7 @@
 
 namespace ElKuKu\G11n\Tests\G11n;
 
-use g11n\G11n;
+use ElKuKu\G11n\G11n;
 
 use PHPUnit_Framework_TestCase;
 
@@ -262,7 +262,7 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test method.
 	 *
-	 * @expectedException \g11n\G11nException
+	 * @expectedException \ElKuKu\G11n\G11nException
 	 *
 	 * @return void
 	 */
