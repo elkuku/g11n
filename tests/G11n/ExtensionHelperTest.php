@@ -42,12 +42,16 @@ class ExtensionHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDirName()
 	{
+		$old = ExtensionHelper::$langDirName;
+
 		ExtensionHelper::setDirName('{test}');
 
 		$this->assertThat(
 			ExtensionHelper::$langDirName,
 			$this->equalTo('{test}')
 		);
+
+		ExtensionHelper::setDirName($old);
 	}
 
 	/**

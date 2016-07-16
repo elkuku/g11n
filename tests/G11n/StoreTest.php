@@ -42,12 +42,16 @@ class StoreTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test()
 	{
+		$old = $this->object->get('langPath');
+
 		$this->object->set('langPath', '{test}');
 
 		$this->assertThat(
 			$this->object->get('langPath'),
 			$this->equalTo('{test}')
 		);
+
+		$this->object->set('langPath', $old);
 	}
 
 	/**
