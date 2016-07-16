@@ -6,10 +6,10 @@
 
 // @codingStandardsIgnoreStart
 
-namespace g11n\Language\Parser\Code;
+namespace ElKuKu\G11n\Language\Parser\Code;
 
-use g11n\Language\Parser\Code;
-use g11n\Support\FileInfo;
+use ElKuKu\G11n\Language\Parser\Code;
+use ElKuKu\G11n\Support\FileInfo;
 
 /**
  * Enter description here ...

@@ -4,7 +4,7 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n;
+namespace ElKuKu\G11n;
 
 /**
  * The G11n Exception class.

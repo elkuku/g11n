@@ -4,7 +4,7 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language\Parser;
+namespace ElKuKu\G11n\Language\Parser;
 
 /**
  * Class Code.

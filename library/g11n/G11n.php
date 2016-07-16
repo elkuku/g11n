@@ -4,11 +4,11 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n;
+namespace ElKuKu\G11n;
 
-use g11n\Language\Debugger;
-use g11n\Language\Storage;
-use g11n\Support\ExtensionHelper;
+use ElKuKu\G11n\Language\Debugger;
+use ElKuKu\G11n\Language\Storage;
+use ElKuKu\G11n\Support\ExtensionHelper;
 
 require_once __DIR__ . '/Language/methods.php';
 

@@ -4,7 +4,7 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Support;
+namespace ElKuKu\G11n\Support;
 
 /**
  * The g11n store description class.

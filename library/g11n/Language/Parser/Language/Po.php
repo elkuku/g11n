@@ -4,10 +4,10 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language\Parser\Language;
+namespace ElKuKu\G11n\Language\Parser\Language;
 
-use g11n\Language\Parser;
-use g11n\Support\FileInfo;
+use ElKuKu\G11n\Language\Parser;
+use ElKuKu\G11n\Support\FileInfo;
 
 /**
  * Parser for po language files.

@@ -4,10 +4,10 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language\Storage\Database;
+namespace ElKuKu\G11n\Language\Storage\Database;
 
-use g11n\G11nException;
-use g11n\Language\Storage;
+use ElKuKu\G11n\G11nException;
+use ElKuKu\G11n\Language\Storage;
 
 /**
  * g11nStorageDB class

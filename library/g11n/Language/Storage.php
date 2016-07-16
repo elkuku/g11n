@@ -4,11 +4,11 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language;
+namespace ElKuKu\G11n\Language;
 
-use g11n\G11nException;
-use g11n\Support\ExtensionHelper;
-use g11n\Language\Parser;
+use ElKuKu\G11n\G11nException;
+use ElKuKu\G11n\Support\ExtensionHelper;
+use ElKuKu\G11n\Language\Parser;
 
 /**
  * The g11n storage base class.
@@ -36,7 +36,7 @@ abstract class Storage
 	 */
 	protected function __construct($type)
 	{
-		$class = '\\g11n\\Language\\Parser\\Language\\' . ucfirst($type);
+		$class = '\\ElKuKu\\G11n\\Language\\Parser\\Language\\' . ucfirst($type);
 
 		if (!class_exists($class))
 		{
@@ -64,7 +64,7 @@ abstract class Storage
 			throw new \RuntimeException('Storage type must be in format [type][_subtype]');
 		}
 
-		$className = '\\g11n\\Language\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
+		$className = '\\ElKuKu\\G11n\\Language\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
 
 		if (false == class_exists($className))
 		{

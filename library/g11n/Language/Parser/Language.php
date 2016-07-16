@@ -4,9 +4,9 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language\Parser;
+namespace ElKuKu\G11n\Language\Parser;
 
-use g11n\Support\FileInfo;
+use ElKuKu\G11n\Support\FileInfo;
 
 /**
  * Class Language.

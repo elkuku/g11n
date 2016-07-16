@@ -4,9 +4,9 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Support;
+namespace ElKuKu\G11n\Support;
 
-use g11n\G11nException;
+use ElKuKu\G11n\G11nException;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;

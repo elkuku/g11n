@@ -6,10 +6,10 @@
 
 // @codingStandardsIgnoreStart
 
-namespace g11n\Language\Storage\File;
+namespace ElKuKu\G11n\Language\Storage\File;
 
-use g11n\G11nException;
-use g11n\Language\Storage;
+use ElKuKu\G11n\G11nException;
+use ElKuKu\G11n\Language\Storage;
 
 /**
  * g11nStorageFileTxt class

@@ -4,9 +4,9 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language;
+namespace ElKuKu\G11n\Language;
 
-use g11n\G11n;
+use ElKuKu\G11n\G11n;
 
 /**
  * g11n Language debugger class.

@@ -4,13 +4,13 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-namespace g11n\Language\Storage\File;
+namespace ElKuKu\G11n\Language\Storage\File;
 
-use g11n\Language\Storage;
-use g11n\Support\ExtensionHelper;
-use g11n\Support\FileInfo;
-use g11n\Support\Store;
-use g11n\G11nException;
+use ElKuKu\G11n\Language\Storage;
+use ElKuKu\G11n\Support\ExtensionHelper;
+use ElKuKu\G11n\Support\FileInfo;
+use ElKuKu\G11n\Support\Store;
+use ElKuKu\G11n\G11nException;
 
 /**
  * Storage handler for PHP files.
