@@ -8,3 +8,6 @@ php:
 before_script:
   - composer self-update
   - composer install
+
+script:
+   - php vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary -np
