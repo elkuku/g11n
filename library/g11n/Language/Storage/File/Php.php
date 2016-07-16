@@ -10,7 +10,7 @@ use g11n\Language\Storage;
 use g11n\Support\ExtensionHelper;
 use g11n\Support\FileInfo;
 use g11n\Support\Store;
-use g11n\g11nException;
+use g11n\G11nException;
 
 /**
  * Storage handler for PHP files.
@@ -34,7 +34,7 @@ class Php extends Storage\File
 	 *
 	 * @param   string  $type  The input type
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 */
 	public function __construct($type)
 	{
@@ -50,7 +50,7 @@ class Php extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
 	public function store($lang, $extension, $domain = '')
@@ -172,13 +172,13 @@ class Php extends Storage\File
 
 			if (false == $result)
 			{
-				throw new g11nException('Can not create the cache directory');
+				throw new G11nException('Can not create the cache directory');
 			}
 		}
 
 		if ( ! file_put_contents($storePath, $resultString))
 		{
-			throw new g11nException('Unable to write language storage file to ' . $storePath);
+			throw new G11nException('Unable to write language storage file to ' . $storePath);
 		}
 
 		return $fileName;
@@ -191,7 +191,7 @@ class Php extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return \g11n\Support\Store
 	 */
 	public function retrieve($lang, $extension, $domain = '')
@@ -209,7 +209,7 @@ class Php extends Storage\File
 			// Failed ?
 			if (!file_exists($path))
 			{
-				throw new g11nException('Unable to retrieve the strings');
+				throw new G11nException('Unable to retrieve the strings');
 			}
 		}
 
@@ -264,7 +264,7 @@ class Php extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public function clean($lang, $extension, $domain = '')
@@ -280,7 +280,7 @@ class Php extends Storage\File
 		// @Do_NOT_Translate
 		if (!unlink($storePath))
 		{
-			throw new g11nException('Unable to clean storage in: ' . $storePath);
+			throw new G11nException('Unable to clean storage in: ' . $storePath);
 		}
 	}
 }

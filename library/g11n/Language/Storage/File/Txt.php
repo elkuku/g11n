@@ -1,12 +1,14 @@
 <?php
 /**
- * @copyright  2010-2013 Nikolai Plath
+ * @copyright  since 2010 Nikolai Plath
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+// @codingStandardsIgnoreStart
+
 namespace g11n\Language\Storage\File;
 
-use g11n\g11nException;
+use g11n\G11nException;
 use g11n\Language\Storage;
 
 /**
@@ -14,7 +16,7 @@ use g11n\Language\Storage;
  *
  * @since  1
  */
-class g11nStorageFileTxt extends Storage\File
+class G11nStorageFileTxt extends Storage\File
 {
 	/**
 	 * @var string
@@ -28,13 +30,13 @@ class g11nStorageFileTxt extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 *
 	 * @return \g11n\Support\Store
 	 */
 	public function retrieve($lang, $extension, $domain = '')
 	{
-		if(self::$storage == 'off')
+		if (self::$storage == 'off')
 		{
 			return false;
 		}
@@ -79,8 +81,8 @@ class g11nStorageFileTxt extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
-	 * @return void
+	 * @throws G11nException
+	 * @return boolean
 	 */
 	public function store($lang, $extension, $domain = '')
 	{
@@ -101,7 +103,7 @@ class g11nStorageFileTxt extends Storage\File
 
 		if ( ! JFile::write($path, $jsonString))
 		{
-			throw new g11nException('Unable to write language storage file');
+			throw new G11nException('Unable to write language storage file');
 		}
 
 		$profiler->mark('<span style="color: blue;">wrote file</span>: '
@@ -120,7 +122,7 @@ class g11nStorageFileTxt extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public function clean($lang, $extension, $domain = '')
@@ -136,7 +138,7 @@ class g11nStorageFileTxt extends Storage\File
 		// @Do_NOT_Translate
 		if (!unlink($storePath))
 		{
-			throw new g11nException('Unable to clean storage in: ' . $storePath);
+			throw new G11nException('Unable to clean storage in: ' . $storePath);
 		}
 	}
 }

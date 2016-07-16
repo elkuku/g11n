@@ -6,6 +6,7 @@
 
 namespace g11n\Language\Storage\Database;
 
+use g11n\G11nException;
 use g11n\Language\Storage;
 
 /**
@@ -22,10 +23,10 @@ class Mysql extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
-	 * @return void
+	 * @throws G11nException
+	 * @return boolean
 	 */
-	protected function store($lang, $extension, $domain = '')
+	public function store($lang, $extension, $domain = '')
 	{
 		if (self::$storage == 'off')
 		{
@@ -73,7 +74,7 @@ class Mysql extends Storage\File
 				break;
 
 			default:
-				throw new g11nException('Undefined storage: ' . self::$storage);
+				throw new G11nException('Undefined storage: ' . self::$storage);
 
 				break;
 		}
@@ -90,10 +91,10 @@ class Mysql extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return \g11n\Support\Store
 	 */
-	protected function retrieve($lang, $extension, $domain = '')
+	public function retrieve($lang, $extension, $domain = '')
 	{
 		if (self::$storage == 'off')
 		{
@@ -145,7 +146,7 @@ class Mysql extends Storage\File
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public function clean($lang, $extension, $domain = '')

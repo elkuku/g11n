@@ -6,7 +6,7 @@
 
 namespace g11n\Language;
 
-use g11n\g11nException;
+use g11n\G11nException;
 use g11n\Support\ExtensionHelper;
 use g11n\Language\Parser;
 
@@ -32,7 +32,7 @@ abstract class Storage
 	 *
 	 * @param   string  $type  The input type (e.g. ini, po)
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 */
 	protected function __construct($type)
 	{
@@ -40,7 +40,7 @@ abstract class Storage
 
 		if (!class_exists($class))
 		{
-			throw new g11nException('Required parser class not found: ' . $class);
+			throw new G11nException('Required parser class not found: ' . $class);
 		}
 
 		$this->parser = new $class;
@@ -182,7 +182,7 @@ abstract class Storage
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	abstract public function store($lang, $extension, $domain = '');
@@ -194,7 +194,7 @@ abstract class Storage
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return \g11n\Support\Store
 	 */
 	abstract public function retrieve($lang, $extension, $domain = '');
@@ -206,7 +206,7 @@ abstract class Storage
 	 * @param   string  $extension  E.g. joomla, com_weblinks, com_easycreator etc.
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
-	 * @throws \g11n\g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	abstract public function clean($lang, $extension, $domain = '');

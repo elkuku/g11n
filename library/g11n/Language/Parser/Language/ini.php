@@ -4,6 +4,8 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+// @codingStandardsIgnoreStart
+
 /**
  * Enter description here ...
  *
@@ -126,7 +128,7 @@ class g11nParserLanguageIni
     /**
      * Generate a language file.
      *
-     * @return void
+     * @return string
      */
     #public function generate(LanguageCheckerHelper $checker, JObject $options)
     public function generate(g11nFileInfo $fileInfo, JObject $options)

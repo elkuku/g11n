@@ -251,7 +251,7 @@ class Po extends Parser\Language
 			if (!$value
 				&& $options->get('markFuzzy'))
 			{
-				// echo '#, fuzzy'.NL;
+				// @ echo '#, fuzzy'.NL;
 			}
 
 			$content[] = 'msgid "' . htmlspecialchars($key) . '"';

@@ -6,7 +6,7 @@
 
 namespace g11n\Support;
 
-use g11n\g11nException;
+use g11n\G11nException;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
@@ -16,7 +16,7 @@ use League\Flysystem\Filesystem;
  *
  * @since  1.0
  */
-class ExtensionHelper
+abstract class ExtensionHelper
 {
 	/**
 	 * Known domain paths.
@@ -46,14 +46,14 @@ class ExtensionHelper
 	 *
 	 * @param   string  $path  A valid path.
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public static function setCacheDir($path)
 	{
 		if (false == is_dir($path))
 		{
-			throw new g11nException('Invalid cache dir');
+			throw new G11nException('Invalid cache dir');
 		}
 
 		$path .= '/g11n';
@@ -66,7 +66,7 @@ class ExtensionHelper
 
 			if (false == $result)
 			{
-				throw new g11nException('Can not create the cache directory');
+				throw new G11nException('Can not create the cache directory');
 			}
 		}
 
@@ -171,7 +171,7 @@ class ExtensionHelper
 	 *
 	 * @param   string  $domain  The extension domain.
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return string
 	 */
 	public static function getDomainPath($domain)
@@ -181,7 +181,7 @@ class ExtensionHelper
 			return self::$domainPaths[$domain];
 		}
 
-		throw new g11nException('Undefined domain: ' . $domain);
+		throw new G11nException('Undefined domain: ' . $domain);
 	}
 
 	/**
@@ -242,7 +242,7 @@ class ExtensionHelper
 	 * @param   string  $string     The string to split
 	 * @param   string  $delimiter  The delimiter character
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return array
 	 */
 	public static function split($string, $delimiter = '.')
@@ -252,7 +252,7 @@ class ExtensionHelper
 		if (count($parts) < 1
 			|| count($parts) > 2)
 		{
-			throw new g11nException('Invalid type - must be xx' . $delimiter . '[xx]: ' . $string);
+			throw new G11nException('Invalid type - must be xx' . $delimiter . '[xx]: ' . $string);
 		}
 
 		return $parts;

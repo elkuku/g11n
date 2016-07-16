@@ -19,7 +19,7 @@ require_once __DIR__ . '/Language/methods.php';
  * 
  * @since  1.0
  */
-abstract class g11n
+abstract class G11n
 {
 	/** Language tag - e.g.en-GB, de-DE
 	 *
@@ -142,7 +142,7 @@ abstract class g11n
 	 * @param   string  $inputType    The input type e.g. "ini" or "po"
 	 * @param   string  $storageType  The store type - e.g. 'file_php'
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public static function loadLanguage($extension, $domain, $inputType = 'po', $storageType = 'file_php')
@@ -376,7 +376,7 @@ abstract class g11n
 	 * @param   string       $inputType    The input type e.g. "ini" or "po"
 	 * @param   string       $storageType  The story type
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php')
@@ -448,7 +448,7 @@ abstract class g11n
 	 * @param   string  $type  Parser type
 	 * @param   string  $name  Parser name
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return \g11n\Language\Parser\Code|\g11n\Language\Parser\Language Parser of a specific type
 	 */
 	public static function getParser($type, $name)
@@ -457,7 +457,7 @@ abstract class g11n
 
 		if (!class_exists($class))
 		{
-			throw new g11nException('Required class not found: ' . $class);
+			throw new G11nException('Required class not found: ' . $class);
 		}
 
 		return new $class;
@@ -472,7 +472,7 @@ abstract class g11n
 	 * @param   string  $name  Parser type.
 	 *
 	 * @since  2.0
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return \g11n\Language\Parser\Code
 	 */
 	public static function getCodeParser($name)
@@ -489,7 +489,7 @@ abstract class g11n
 	 * @param   string  $name  Parser type.
 	 *
 	 * @since  2.0
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return \g11n\Language\Parser\Language
 	 */
 	public static function getLanguageParser($name)
@@ -632,7 +632,7 @@ abstract class g11n
 	/**
 	 * Try to detect the current language.
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	private static function detectLanguage()
@@ -675,7 +675,7 @@ abstract class g11n
 	 *
 	 * This is done with a little help .. from JFactory::getLanguage()
 	 *
-	 * @throws g11nException
+	 * @throws G11nException
 	 * @return void
 	 */
 	private static function detectDocType()
@@ -687,7 +687,7 @@ abstract class g11n
 
 		if (!self::$docType)
 		{
-			throw new g11nException('Unable to detect the document type :(');
+			throw new G11nException('Unable to detect the document type :(');
 		}
 	}
 

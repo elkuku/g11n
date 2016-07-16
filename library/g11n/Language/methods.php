@@ -4,7 +4,7 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-use \g11n\g11n;
+use \g11n\G11n;
 
 /**
  * Small multilanguaging function =;).
@@ -16,7 +16,7 @@ use \g11n\g11n;
  */
 function g11n3t($original, array $parameters = [])
 {
-	return g11n::translate($original, $parameters);
+	return G11n::translate($original, $parameters);
 }
 
 /**
@@ -31,5 +31,5 @@ function g11n3t($original, array $parameters = [])
  */
 function g11n4t($singular, $plural, $count, array $parameters = [])
 {
-	return g11n::translatePlural($singular, $plural, $count, $parameters);
+	return G11n::translatePlural($singular, $plural, $count, $parameters);
 }

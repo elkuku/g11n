@@ -4,6 +4,8 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
+// @codingStandardsIgnoreStart
+
 /**
  * Parse XML files.
  *

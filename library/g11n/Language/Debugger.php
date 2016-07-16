@@ -6,7 +6,7 @@
 
 namespace g11n\Language;
 
-use g11n\g11n;
+use g11n\G11n;
 
 /**
  * g11n Language debugger class.
@@ -18,13 +18,13 @@ abstract class Debugger
 	/**
 	 * Prints out translated and untranslated strings.
 	 *
-	 * @param boolean $untranslatedOnly Set true to print out only untranslated strings
+	 * @param   boolean  $untranslatedOnly  Set true to print out only untranslated strings
 	 *
 	 * @return void
 	 */
 	public static function debugPrintTranslateds($untranslatedOnly = false)
 	{
-		if (!g11n::get('debug'))
+		if (!G11n::get('debug'))
 		{
 			echo 'Debugging is disabled<br />';
 
@@ -36,10 +36,12 @@ abstract class Debugger
 
 		echo '<h2>' . $title . '</h2>';
 
-		$items = g11n::get('processedItems');
+		$items = G11n::get('processedItems');
 
 		if ($untranslatedOnly)
+		{
 			self::drawDesignTable();
+		}
 
 		/*
 		 * Develop
@@ -67,7 +69,9 @@ abstract class Debugger
 			}
 
 			if ($item->status != '-' && $untranslatedOnly)
+			{
 				continue;
+			}
 
 			echo '<tr class="row' . $k . '">';
 			echo '<td style="' . $col . '">' . $item->status . '</td>';
@@ -80,7 +84,9 @@ abstract class Debugger
 				{
 					// Skip first element
 					if (!$i)
+					{
 						continue;
+					}
 
 					echo $arg . '<br />';
 				}
@@ -105,7 +111,7 @@ abstract class Debugger
 	 */
 	private static function drawDesignTable()
 	{
-		$items = g11n::get('processedItems');
+		$items = G11n::get('processedItems');
 		$file  = '';
 		$count = 0;
 
@@ -116,7 +122,9 @@ abstract class Debugger
 		foreach ($items as $string => $item)
 		{
 			if ($item->status != '-')
+			{
 				continue;
+			}
 
 			$f = self::JReplace($item->file);
 
@@ -143,7 +151,7 @@ abstract class Debugger
 	/**
 	 * Replaces the JPATH_ROOT by the string "J" in a path.
 	 *
-	 * @param string $path The path to replace
+	 * @param   string  $path  The path to replace
 	 *
 	 * @return string
 	 */
