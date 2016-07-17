@@ -55,7 +55,7 @@ echo g11n3t('Hello test');
 ```po
 msgid ""
 msgstr ""
-"Language: xx_XX\n"
+"Language: de-DE\n"
 
 msgid "Hello test"
 msgstr "Hallo Test"
