@@ -17,6 +17,16 @@ use ElKuKu\G11n\Support\FileInfo;
 class Po extends Parser\Language
 {
 	/**
+	 * @var boolean
+	 */
+	public $markFuzzy = false;
+
+	/**
+	 * @var boolean
+	 */
+	public $includeLineNumbers = true;
+
+	/**
 	 * File extension.
 	 *
 	 * @var string
@@ -163,8 +173,9 @@ class Po extends Parser\Language
 					}
 
 					$msg_plural  = '';
-					$msg_plurals = array();
+					$msg_plurals = [];
 					$state       = 0;
+					$info        = '';
 				}
 			}
 		}
@@ -182,7 +193,7 @@ class Po extends Parser\Language
 	/**
 	 * Generate a language file.
 	 *
-	 * @param   FileInfo   $fileInfo  Fileinfo object
+	 * @param   FileInfo   $fileInfo  FileInfo object
 	 * @param   \stdClass  $options   JObject
 	 *
 	 * @return string
@@ -199,81 +210,13 @@ class Po extends Parser\Language
 		}
 		else
 		{
-			$content[] = '# @version SVN: $I' . 'd$';
 			$content[] = 'msgid ""';
 			$content[] = 'msgstr ""';
 		}
 
 		$content[] = '';
 
-		$lang = $fileInfo->langTag;
-
-		$pluralStrings = $fileInfo->stringsPlural;
-
-		foreach ($pluralStrings as $key => $string)
-		{
-			// $key;//@TODO
-			$value = '';
-			$info  = '';
-
-			if (array_key_exists($key, $checker->getTranslations()))
-			{
-				$value = $this->translations[$key]->string;
-				$info  = $this->translations[$key]->info;
-			}
-			else
-			{
-				$test = strtoupper($key);
-
-				if (array_key_exists($test, $checker->getTranslations()))
-				{
-					if ($this->buildOpts->get('markKeyDiffers'))
-					{
-						$content[] = '# Key is upper cased :(';
-					}
-
-					$value = $this->translations[$test]->string;
-					$info  = $this->translations[$key]->info;
-				}
-			}
-
-			if ($options->get('includeLineNumbers'))
-			{
-				foreach ($string->files as $f => $locs)
-				{
-					foreach ($locs as $loc)
-					{
-						$content[] = '#: ' . str_replace(JPATH_ROOT . DS, '', $f) . ':' . $loc;
-					}
-				}
-			}
-
-			if (!$value
-				&& $options->get('markFuzzy'))
-			{
-				// @ echo '#, fuzzy'.NL;
-			}
-
-			$content[] = 'msgid "' . htmlspecialchars($key) . '"';
-			$content[] = 'msgid_plural "' . htmlspecialchars($string->plural) . '"';
-
-			foreach ($string->pluralForms as $k => $v)
-			{
-				$content[] = 'msgstr[' . $k . '] "' . $v . '"';
-			}
-
-			$content[] = '';
-		}
-
-		//        $translations = $checker->getTranslations();
-		//        $strings = $checker->getStrings();
-
-		//        echo '# '.count($translations).' translations'.NL;
-		//        echo '# '.count($strings).' strings'.NL;
-
-		$checkStrings = $fileInfo->strings;
-
-		foreach ($checkStrings as $key => $string)
+		foreach ($fileInfo->strings as $key => $string)
 		{
 			$key = html_entity_decode($key);
 
@@ -300,46 +243,39 @@ class Po extends Parser\Language
 
 			$info = trim($string->info);
 
-			if ($options->get('includeLineNumbers'))
-			{
-				if (isset($string->files))
-				{
-					foreach ($string->files as $f => $locs)
-					{
-						foreach ($locs as $loc)
-						{
-							$content[] = '#: ' . str_replace(JPATH_ROOT . DS, '', $f) . ':' . $loc;
-						}
-					}
-				}
-			}
-
-			if (!$value
-				&& $options->get('markFuzzy')
-				&& $lang != 'en-GB')
-			{
-				$content[] = '#, fuzzy';
-			}
-
 			if ($info)
 			{
 				$content[] = $info;
 			}
 
-			$content[] = 'msgid "' . htmlspecialchars($key) . '"';
-
-			if ($lang == 'en-GB')
+			if (!$value && $this->markFuzzy)
 			{
-				$content[] = 'msgstr "' . htmlspecialchars($key) . '"';
+				$content[] = '#, fuzzy';
 			}
-			else
+
+			$content[] = 'msgid "' . htmlspecialchars($key) . '"';
+			$content[] = 'msgstr "' . htmlspecialchars($value) . '"';
+			$content[] = '';
+		}
+
+		foreach ($fileInfo->stringsPlural as $key => $string)
+		{
+			if ($string->info)
 			{
-				$content[] = 'msgstr "' . htmlspecialchars($value) . '"';
+				$content[] = trim($string->info);
+			}
+
+			$content[] = 'msgid "' . htmlspecialchars($key) . '"';
+			$content[] = 'msgid_plural "' . htmlspecialchars($string->plural) . '"';
+
+			foreach ($string->forms as $k => $v)
+			{
+				$content[] = 'msgstr[' . $k . '] "' . $v . '"';
 			}
 
 			$content[] = '';
 		}
 
-		return implode(NL, $content);
+		return implode("\n", $content);
 	}
 }
