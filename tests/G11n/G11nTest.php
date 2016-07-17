@@ -10,6 +10,7 @@ namespace ElKuKu\G11n\Tests\G11n;
 
 use ElKuKu\G11n\G11n;
 
+use ElKuKu\G11n\Support\ExtensionHelper;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -27,11 +28,25 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		ExtensionHelper::setCacheDir(TEST_ROOT . '/tests/cache');
+		ExtensionHelper::cleanCache();
+		ExtensionHelper::addDomainPath('testDomain', TEST_ROOT . '/tests/testLangDir');
+		ExtensionHelper::addDomainPath('testDomain1', TEST_ROOT . '/tests/testLangDir');
+		ExtensionHelper::addDomainPath('testDomain2', TEST_ROOT . '/tests/testLangDir');
+
 		G11n::setCurrent('xx-XX');
-		G11n::setCacheDir(TEST_ROOT . '/tests/cache');
-		G11n::cleanCache();
-		G11n::addDomainPath('testDomain', TEST_ROOT . '/tests/testLangDir');
 		G11n::loadLanguage('testExtension', 'testDomain');
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
+		ExtensionHelper::cleanCache();
 	}
 
 	/**
@@ -283,11 +298,43 @@ class G11nTest extends PHPUnit_Framework_TestCase
 g11n.debug = ''
 g11n.loadLanguageStrings([]);
 g11n.loadPluralStrings([]);
-g11n.setPluralFunction(phpjs.create_function('n', 'plural = (n == 1 ? 0 : 1); return (plural <= 2)? plural : plural - 1;'))
+g11n.setPluralFunction(phpjs.create_function('n', 'plural = ((n != 1)); return (plural <= 2)? plural : plural - 1;'))
 -->";
 		$this->assertThat(
 			G11n::getJavaScript(),
 			$this->equalTo($js)
+		);
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
+	public function testDomain2()
+	{
+		G11n::setCurrent('yy-YY');
+		G11n::loadLanguage('testExtension', 'testDomain1');
+
+		$this->assertThat(
+			g11n3t('Hello test Y'),
+			$this->equalTo('Hallo Test Y')
+		);
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
+	public function testDomain3()
+	{
+		G11n::setCurrent('zz-ZZ');
+		G11n::loadLanguage('testExtension', 'testDomain2');
+
+		$this->assertThat(
+			g11n3t('Hello test Z'),
+			$this->equalTo('Hallo Test Z')
 		);
 	}
 }

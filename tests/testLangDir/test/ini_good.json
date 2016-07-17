@@ -1,0 +1,24 @@
+{
+  "fileName": "\/home\/elkuku\/repos\/g11n\/tests\/testLangDir\/test\/ini_good.ini",
+  "mode": "",
+  "head": "# test ini file\n",
+  "pluralForms": "",
+  "strings": {
+    "Hello test": {
+      "info": "",
+      "string": "HHHH"
+    },
+    "Hello test second line": {
+      "info": "# infoTest\n",
+      "string": "Hallo Test Zweite Zeile"
+    },
+    "Hello %test% case": {
+      "info": "#: hello:123\n#: hello:456\n",
+      "string": "H\u00e4llo %test% Foo"
+    }
+  },
+  "stringsPlural": [],
+  "isCore": false,
+  "lines": "",
+  "langTag": ""
+}

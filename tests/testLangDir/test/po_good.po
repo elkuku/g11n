@@ -6,13 +6,9 @@ msgstr ""
 msgid "Hello test"
 msgstr "HHHH"
 
-#~ test
-
 # infoTest
-msgid "Hello test "
-"second line"
-msgstr "Hallo Test "
-"Zweite Zeile"
+msgid "Hello test second line"
+msgstr "Hallo Test Zweite Zeile"
 
 #: hello:123
 #: hello:456

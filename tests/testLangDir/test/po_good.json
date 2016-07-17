@@ -1,0 +1,41 @@
+{
+  "fileName": "\/home\/elkuku\/repos\/g11n\/tests\/testLangDir\/testExtension\/g11n\/xx-XX\/xx-XX.testExtension.po",
+  "mode": "",
+  "head": "msgid \"\"\nmsgstr \"\"\n\"Plural-Forms: nplurals=2; plural=(n != 1);\\n\"\n\"Language: xx_XX\\n\"\n",
+  "pluralForms": "nplurals=2; plural=(n != 1);\\n\"",
+  "strings": {
+    "Hello test": {
+      "info": "",
+      "string": "HHHH"
+    },
+    "Hello test second line": {
+      "info": "\n# infoTest\n",
+      "string": "Hallo Test Zweite Zeile"
+    },
+    "Hello %test% case": {
+      "info": "#: hello:123\n#: hello:456\n",
+      "string": "H\u00e4llo %test% Foo"
+    }
+  },
+  "stringsPlural": {
+    "There is One fine plural test.": {
+      "plural": "There are %d fine plural tests.",
+      "forms": [
+        "Es gibt Einen feinen Pluraltest.",
+        "Es gibt %d feine Pluraltests."
+      ],
+      "info": "#: hello:789\n"
+    },
+    "There is One %param% plural test.": {
+      "plural": "There are %d %param% plural tests.",
+      "forms": [
+        "Es gibt Einen %param% Pluraltest.",
+        "Es gibt %d %param% Pluraltests."
+      ],
+      "info": "#: hello:789555\n"
+    }
+  },
+  "isCore": false,
+  "lines": "",
+  "langTag": ""
+}

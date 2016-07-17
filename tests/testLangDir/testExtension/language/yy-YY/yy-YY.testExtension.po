@@ -1,0 +1,6 @@
+msgid ""
+msgstr ""
+"Language: yy_YY\n"
+
+msgid "Hello test Y"
+msgstr "Hallo Test Y"
