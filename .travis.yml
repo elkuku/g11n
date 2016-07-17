@@ -10,4 +10,5 @@ before_script:
   - composer install
 
 script:
-   - php vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary --extensions=php -np
+  - phpunit
+  - php vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary --extensions=php -np
