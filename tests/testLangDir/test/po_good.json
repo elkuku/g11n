@@ -1,5 +1,5 @@
 {
-  "fileName": "\/home\/elkuku\/repos\/g11n\/tests\/testLangDir\/testExtension\/g11n\/xx-XX\/xx-XX.testExtension.po",
+  "fileName": "\/tests\/testLangDir\/testExtension\/g11n\/xx-XX\/xx-XX.testExtension.po",
   "mode": "",
   "head": "msgid \"\"\nmsgstr \"\"\n\"Plural-Forms: nplurals=2; plural=(n != 1);\\n\"\n\"Language: xx_XX\\n\"\n",
   "pluralForms": "nplurals=2; plural=(n != 1);\\n\"",

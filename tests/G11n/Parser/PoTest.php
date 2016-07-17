@@ -83,6 +83,8 @@ class PoTest extends PHPUnit_Framework_TestCase
 	{
 		$test = $this->object->parse($this->testFile);
 
+		$test->fileName = str_replace(TEST_ROOT, '', $test->fileName);
+
 		$this->assertThat(
 			$test,
 			$this->equalTo($this->testObject)
