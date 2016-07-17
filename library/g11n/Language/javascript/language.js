@@ -122,14 +122,14 @@
          *
          */
         log:function (string, type) {
-
             var add = '%s';
 
             switch (type) {
                 case 'info':// legacy
                     add = 'L-%s-L';
-                    if (typeof (console) != 'undefined')
+                    if (typeof (console) != 'undefined') {
                         console.info(string);
+                    }
                     break;// untranslated
                 case 'warn':
                     add = '¿-%s-¿';
@@ -139,20 +139,20 @@
                     }
                     break;
                 case 'trace':
-                    if (typeof (console) != 'undefined')
+                    if (typeof (console) != 'undefined') {
                         console.trace('Trace');
+                    }
                     break;
                 case undefined:// translated/other
                 default:
                     add = '+-%s-+';
-                    if (typeof (console) != 'undefined')
+                    if (typeof (console) != 'undefined') {
                         console.log(string);
+                    }
                     break;
-
             }
 
             return add;
         }
     };
-
 })();
