@@ -12,14 +12,14 @@ use ElKuKu\G11n\G11n;
 use ElKuKu\G11n\Language\Parser\Language\Po;
 
 use ElKuKu\G11n\Support\FileInfo;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PoTest
  *
  * @since  1
  */
-class PoTest extends PHPUnit_Framework_TestCase
+class PoTest extends TestCase
 {
 	/**
 	 * @var Po

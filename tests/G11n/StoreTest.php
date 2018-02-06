@@ -10,14 +10,14 @@ namespace ElKuKu\G11n\Tests\G11n;
 
 use ElKuKu\G11n\Support\Store;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class FileInfoTest.
  *
  * @since  1.0
  */
-class StoreTest extends PHPUnit_Framework_TestCase
+class StoreTest extends TestCase
 {
 	/**
 	 * @var Store

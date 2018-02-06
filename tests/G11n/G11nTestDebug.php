@@ -10,14 +10,14 @@ namespace ElKuKu\G11n\Tests\G11n;
 
 use ElKuKu\G11n\G11n;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class G11nTestDebug.
  *
  * @since  1.0
  */
-class G11nTestDebug extends PHPUnit_Framework_TestCase
+class G11nTestDebug extends TestCase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

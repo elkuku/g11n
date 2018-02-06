@@ -12,14 +12,14 @@ use ElKuKu\G11n\G11n;
 use ElKuKu\G11n\Language\Parser\Language\Ini;
 
 use ElKuKu\G11n\Support\FileInfo;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class IniTest
  *
  * @since  1
  */
-class IniTest extends PHPUnit_Framework_TestCase
+class IniTest extends TestCase
 {
 	/**
 	 * @var Ini

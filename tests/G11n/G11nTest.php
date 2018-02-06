@@ -11,14 +11,14 @@ namespace ElKuKu\G11n\Tests\G11n;
 use ElKuKu\G11n\G11n;
 
 use ElKuKu\G11n\Support\ExtensionHelper;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class G11nTest.
  *
  * @since  1.0
  */
-class G11nTest extends PHPUnit_Framework_TestCase
+class G11nTest extends TestCase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -270,8 +270,12 @@ class G11nTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDetectLanguage()
 	{
-		G11n::setCurrent('');
-		G11n::getCurrent();
+		G11n::setCurrent('xyz');
+
+		$this->assertThat(
+			G11n::getCurrent(),
+			$this->equalTo('xyz')
+		);
 	}
 
 	/**
