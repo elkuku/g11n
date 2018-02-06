@@ -2,7 +2,7 @@
   "name": "elkuku/g11n",
   "description": "The g11n language library",
   "version": "3.0",
-  "license": "GPL",
+  "license": "WTFPL",
   "authors": [
     {
       "name": "Nikolai Plath",
