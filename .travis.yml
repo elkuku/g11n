@@ -3,12 +3,12 @@ language: php
 php:
   - 5.6
   - 7.0
+  - 7.1
   - nightly
 
 before_script:
-  - composer self-update
   - composer install
 
 script:
-  - phpunit
+  - php vendor/bin/phpunit
   - php vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary --extensions=php -np
