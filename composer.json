@@ -1,7 +1,6 @@
 {
   "name": "elkuku/g11n",
   "description": "The g11n language library",
-  "version": "3.1",
   "license": "WTFPL",
   "authors": [
     {
@@ -14,7 +13,7 @@
     "league/flysystem": "1.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.*",
+    "phpunit/phpunit": "7.*",
     "squizlabs/php_codesniffer": "1.*"
   },
   "autoload": {
@@ -29,10 +28,11 @@
   },
   "scripts": {
     "ci": [
+      "@composer validate --no-check-all --strict",
       "@phpcs",
       "@test"
     ],
-    "phpcs": "vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary --extensions=php -np",
+    "phpcs": "vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --extensions=php -p",
     "test": "vendor/bin/phpunit"
   }
 }
