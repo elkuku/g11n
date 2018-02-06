@@ -2,7 +2,7 @@ language: php
 
 php:
   - 7.1
-  - 7.2
+#  - 7.2 ### not ready yet @todo remove create_function
 #  - nightly
 
 before_script:
