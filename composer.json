@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.1",
     "league/flysystem": "1.*"
   },
   "require-dev": {
@@ -26,5 +26,13 @@
     "psr-4": {
       "ElKuKu\\G11n\\Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "ci": [
+      "@phpcs",
+      "@test"
+    ],
+    "phpcs": "vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --report=summary --extensions=php -np",
+    "test": "vendor/bin/phpunit"
   }
 }
