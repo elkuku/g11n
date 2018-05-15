@@ -231,6 +231,8 @@ abstract class G11n
 	public static function setDefault($lang)
 	{
 		self::$defaultLang = $lang;
+
+        return $lang;
 	}
 
 	/**
@@ -582,15 +584,18 @@ abstract class G11n
 			$PHPexpression = '$' . $expression;
 		}
 
-		$func_body = '$plural = (' . $PHPexpression . ');'
-			. ' return ($plural <= ' . $nplurals . ')? $plural : $plural - 1;';
-
 		$js_func_body = 'plural = (' . $expression . ');'
 			. ' return (plural <= ' . $nplurals . ')? plural : plural - 1;';
 
 		self::$pluralForms = $nplurals;
 
-		self::$pluralFunction    = create_function('$n', $func_body);
+		self::$pluralFunction = function ($n) use ($nplurals, $PHPexpression)
+        {
+            $plural = 0;
+            eval('$plural = '.$PHPexpression.';');
+			return ($plural <= $nplurals ) ? $plural : $plural - 1;
+        };
+
 		self::$pluralFunctionRaw = $expression;
 
 		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $js_func_body . "')";
@@ -651,7 +656,6 @@ abstract class G11n
 	/**
 	 * Try to detect the current language.
 	 *
-	 * @throws G11nException
 	 * @return void
 	 */
 	private static function detectLanguage()
