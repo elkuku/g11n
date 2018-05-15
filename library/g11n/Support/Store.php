@@ -33,7 +33,7 @@ class Store
 	 * @param   string  $property  Property name.
 	 *
 	 * @throws \UnexpectedValueException
-	 * @return string
+	 * @return mixed
 	 */
 	public function get($property)
 	{
