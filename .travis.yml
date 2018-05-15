@@ -2,8 +2,8 @@ language: php
 
 php:
   - 7.1
-#  - 7.2 ### not ready yet @todo remove create_function
-#  - nightly
+  - 7.2
+  - nightly
 
 before_script:
   - composer install
