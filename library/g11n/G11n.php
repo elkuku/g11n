@@ -232,7 +232,7 @@ abstract class G11n
 	{
 		self::$defaultLang = $lang;
 
-        return $lang;
+		return $lang;
 	}
 
 	/**
@@ -590,11 +590,12 @@ abstract class G11n
 		self::$pluralForms = $nplurals;
 
 		self::$pluralFunction = function ($n) use ($nplurals, $PHPexpression)
-        {
-            $plural = 0;
-            eval('$plural = '.$PHPexpression.';');
+		{
+			$plural = 0;
+			eval('$plural = ' . $PHPexpression . ';');
+
 			return ($plural <= $nplurals ) ? $plural : $plural - 1;
-        };
+		};
 
 		self::$pluralFunctionRaw = $expression;
 
