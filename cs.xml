@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="G11n">
+
+    <arg name="report" value="full"/>
+    <arg name="tab-width" value="4"/>
+    <arg name="encoding" value="utf-8"/>
+    <arg value="sp"/>
+    <arg name="colors" />
+
+    <rule ref="vendor/joomla/coding-standards/Joomla"/>
+
+    <rule ref="Joomla">
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+
+    <rule ref="Joomla.Classes.InstantiateNewClasses">
+        <properties>
+            <property name="shortArraySyntax" value="true"/>
+        </properties>
+    </rule>
+</ruleset>
