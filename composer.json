@@ -33,7 +33,7 @@
       "@phpcs",
       "@test"
     ],
-    "phpcs": "vendor/bin/phpcs library tests --standard=cs.xml --extensions=php -p",
+    "phpcs": "vendor/bin/phpcs library tests --standard=ruleset.xml",
     "test": "vendor/bin/phpunit"
   }
 }
