@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ElKuKu\\G11n\\": "library/g11n/"
+      "ElKuKu\\G11n\\": "src/"
     }
   },
   "autoload-dev": {
@@ -33,7 +33,7 @@
       "@phpcs",
       "@test"
     ],
-    "phpcs": "vendor/bin/phpcs library tests --standard=ruleset.xml",
+    "phpcs": "vendor/bin/phpcs src tests --standard=ruleset.xml",
     "test": "vendor/bin/phpunit"
   }
 }
