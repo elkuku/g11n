@@ -14,7 +14,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "7.*",
-    "squizlabs/php_codesniffer": "1.*"
+    "squizlabs/php_codesniffer": "2.*",
+    "joomla/coding-standards": "~2.0@alpha"
   },
   "autoload": {
     "psr-4": {
@@ -32,7 +33,7 @@
       "@phpcs",
       "@test"
     ],
-    "phpcs": "vendor/bin/phpcs library tests --standard=build/phpcs/Joomla --extensions=php -p",
+    "phpcs": "vendor/bin/phpcs library tests --standard=cs.xml --extensions=php -p",
     "test": "vendor/bin/phpunit"
   }
 }
