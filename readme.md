@@ -1,11 +1,8 @@
-# The G11n language library
-
 [![Build Status](https://travis-ci.org/elkuku/g11n.svg?branch=master)](https://travis-ci.org/elkuku/g11n)
 
+# G11n
 
-## History
-
-The g11n project is the daughter of the [JALHoO](http://wiki.joomla-nafu.de/joomla-dokumentation/Benutzer:Elkuku/Proyektz/JALHOO) project. You should read about it if you are interested in why it was created in the first place.
+The G11n language library brings multilanguage functionality for "small to mid-sized" PHP projects.
 
 ## Installation
 
@@ -17,7 +14,7 @@ The library is installed using [Composer](http://getcomposer.org/)
 }
 ```
 
-## Usage
+## Usage example
 
 At a very minimal do the following:
 
