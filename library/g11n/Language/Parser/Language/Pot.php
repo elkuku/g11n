@@ -33,22 +33,22 @@ class Pot extends Parser\Language
 
 		$fileInfo->fileName = $fileName;
 
-		if ( ! file_exists($fileName))
+		if (! file_exists($fileName))
 		{
 			return $fileInfo;
 		}
 
 		$lines = file($fileName);
 
-		if ( ! $lines)
+		if (! $lines)
 		{
 			return $fileInfo;
 		}
 
 		$msgid = '';
 		$msgstr = '';
-		$msg_plural = '';
-		$msg_plurals = array();
+		$msgPlural = '';
+		$msgPlurals = [];
 
 		$head = '';
 
@@ -60,13 +60,13 @@ class Pot extends Parser\Language
 		{
 			$line = trim($line);
 
-			$match = array();
+			$match = [];
 
 			switch ($state)
 			{
 				case - 1 :
 					// Start parsing
-					if ( ! $line)
+					if (! $line)
 					{
 						// First empty line stops header
 						$state = 0;
@@ -97,12 +97,12 @@ class Pot extends Parser\Language
 					}
 					elseif (preg_match('/^msgid_plural "(.*)"$/', $line, $match))
 					{
-						$msg_plural = stripcslashes($match[1]);
+						$msgPlural = stripcslashes($match[1]);
 						$state = 1;
 					}
 					elseif (preg_match('/^msgstr\[(\d+)\] "(.*)"$/', $line, $match))
 					{
-						$msg_plurals[stripcslashes($match[1])] = stripcslashes($match[2]);
+						$msgPlurals[stripcslashes($match[1])] = stripcslashes($match[2]);
 						$state = 1;
 					}
 					elseif (preg_match('/^"(.*)"$/', $line, $match))
@@ -134,16 +134,16 @@ class Pot extends Parser\Language
 			if (empty($line)
 				|| preg_match('/^#/', $line))
 			{
-				if ($msg_plural)
+				if ($msgPlural)
 				{
 					$t = new \stdClass;
-					$t->plural = $msg_plural;
-					$t->forms = $msg_plurals;
+					$t->plural = $msgPlural;
+					$t->forms = $msgPlurals;
 					$t->info = $info;
 					$fileInfo->stringsPlural[$msgid] = $t;
 
-					$msg_plural = '';
-					$msg_plurals = array();
+					$msgPlural = '';
+					$msgPlurals = [];
 					$state = 0;
 				}
 			}
@@ -169,7 +169,7 @@ class Pot extends Parser\Language
 
 		$timeOffset = $dateTimeZone->getOffset($dateTime) / 3600;
 
-		$contents = array();
+		$contents = [];
 		$strings = $checker->strings;
 
 		$stringsPlural = $checker->stringsPlural;

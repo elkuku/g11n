@@ -65,8 +65,8 @@ class Po extends Parser\Language
 
 		$msgid       = '';
 		$msgstr      = '';
-		$msg_plural  = '';
-		$msg_plurals = array();
+		$msgPlural  = '';
+		$msgPlurals = [];
 
 		$head  = '';
 		$info  = '';
@@ -81,7 +81,7 @@ class Po extends Parser\Language
 				continue;
 			}
 
-			$match = array();
+			$match = [];
 
 			switch ($state)
 			{
@@ -120,12 +120,12 @@ class Po extends Parser\Language
 					}
 					elseif (preg_match('/^msgid_plural "(.*)"$/', $line, $match))
 					{
-						$msg_plural = stripcslashes($match[1]);
+						$msgPlural = stripcslashes($match[1]);
 						$state      = 1;
 					}
 					elseif (preg_match('/^msgstr\[(\d+)\] "(.*)"$/', $line, $match))
 					{
-						$msg_plurals[stripcslashes($match[1])] = stripcslashes($match[2]);
+						$msgPlurals[stripcslashes($match[1])] = stripcslashes($match[2]);
 						$state                                 = 1;
 					}
 					elseif (preg_match('/^"(.*)"$/', $line, $match))
@@ -161,19 +161,19 @@ class Po extends Parser\Language
 			if (empty($line)
 				|| preg_match('/^#/', $line))
 			{
-				if ($msg_plural)
+				if ($msgPlural)
 				{
-					if ($msg_plurals[0])
+					if ($msgPlurals[0])
 					{
 						$t                               = new \stdClass;
-						$t->plural                       = $msg_plural;
-						$t->forms                        = $msg_plurals;
+						$t->plural                       = $msgPlural;
+						$t->forms                        = $msgPlurals;
 						$t->info                         = $info;
 						$fileInfo->stringsPlural[$msgid] = $t;
 					}
 
-					$msg_plural  = '';
-					$msg_plurals = [];
+					$msgPlural  = '';
+					$msgPlurals = [];
 					$state       = 0;
 					$info        = '';
 				}
@@ -200,7 +200,7 @@ class Po extends Parser\Language
 	 */
 	public function generate(FileInfo $fileInfo, $options)
 	{
-		$content = array();
+		$content = [];
 
 		$head = trim($fileInfo->head);
 

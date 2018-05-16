@@ -15,5 +15,9 @@ use ElKuKu\G11n\Language\Storage;
  */
 abstract class File extends Storage
 {
+	/**
+	 * The cache directory
+	 * @var string
+	 */
 	public static $cacheDir = '/tmp';
 }

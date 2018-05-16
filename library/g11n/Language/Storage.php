@@ -34,7 +34,7 @@ abstract class Storage
 	 *
 	 * @throws G11nException
 	 */
-	protected function __construct($type)
+	protected function __construct(string $type)
 	{
 		$class = '\\ElKuKu\\G11n\\Language\\Parser\\Language\\' . ucfirst($type);
 
@@ -100,7 +100,7 @@ abstract class Storage
 	 * @param   string  $extension  The extension name.
 	 * @param   string  $scope      The scope name.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function templateExists($extension, $scope)
 	{
@@ -117,7 +117,7 @@ abstract class Storage
 	 */
 	public static function getTemplatePath($extension, $scope)
 	{
-		static $templates = array();
+		static $templates = [];
 
 		if (array_key_exists($extension, $templates)
 			&& array_key_exists($scope, $templates[$extension]))

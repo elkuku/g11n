@@ -33,6 +33,7 @@ class G11nTest extends TestCase
 		ExtensionHelper::addDomainPath('testDomain', TEST_ROOT . '/tests/testLangDir');
 		ExtensionHelper::addDomainPath('testDomain1', TEST_ROOT . '/tests/testLangDir');
 		ExtensionHelper::addDomainPath('testDomain2', TEST_ROOT . '/tests/testLangDir');
+		ExtensionHelper::addDomainPath('testDomain3', TEST_ROOT . '/tests/testLangDir');
 
 		G11n::setCurrent('xx-XX');
 		G11n::loadLanguage('testExtension', 'testDomain');
@@ -339,6 +340,20 @@ g11n.setPluralFunction(phpjs.create_function('n', 'plural = ((n != 1)); return (
 		$this->assertThat(
 			g11n3t('Hello test Z'),
 			$this->equalTo('Hallo Test Z')
+		);
+	}
+
+	/**
+	 * Test method.
+	 *
+	 * @return void
+	 */
+	public function testGetCurrentWithEmpty()
+	{
+		G11n::setCurrent('');
+
+		$this->assertNotEmpty(
+			G11n::getCurrent()
 		);
 	}
 }

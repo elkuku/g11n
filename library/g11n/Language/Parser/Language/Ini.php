@@ -41,14 +41,14 @@ class Ini extends Language
 			return $fileInfo;
 		}
 
-		if ( ! file_exists($fileName))
+		if (! file_exists($fileName))
 		{
 			return $fileInfo;
 		}
 
 		$lines = file($fileName);
 
-		if ( ! $lines)
+		if (! $lines)
 		{
 			return $fileInfo;
 		}
@@ -62,7 +62,7 @@ class Ini extends Language
 		{
 			$line = trim($line);
 
-			if ( ! $line)
+			if (! $line)
 			{
 				// First empty line stops head parsing
 				$parsing = true;
@@ -87,7 +87,7 @@ class Ini extends Language
 
 			$pos = strpos($line, '=');
 
-			if ( ! $pos)
+			if (! $pos)
 			{
 				$info .= $line . "\n";
 
@@ -119,7 +119,7 @@ class Ini extends Language
 	 */
 	public function generate(FileInfo $fileInfo, $options)
 	{
-		$out = array();
+		$out = [];
 
 		if ($fileInfo->head)
 		{

@@ -70,7 +70,7 @@ class Php extends Storage\File
 		 * "Normal" strings
 		 */
 
-		$stringsArray = array();
+		$stringsArray = [];
 		$value        = '';
 
 		foreach ($fileInfo->strings as $key => $value)
@@ -85,12 +85,12 @@ class Php extends Storage\File
 		 * Plural strings
 		 */
 
-		$pluralsArray = array();
+		$pluralsArray = [];
 
 		foreach ($fileInfo->stringsPlural as $key => $plurals)
 		{
 			$key = md5($key);
-			$ps  = array();
+			$ps  = [];
 
 			foreach ($plurals->forms as $keyP => $plural)
 			{
@@ -106,8 +106,8 @@ class Php extends Storage\File
 		 * JavaScript strings
 		 */
 
-		$jsArray        = array();
-		$jsPluralsArray = array();
+		$jsArray        = [];
+		$jsPluralsArray = [];
 
 		try
 		{
@@ -122,12 +122,12 @@ class Php extends Storage\File
 				$jsArray[] = "'" . $key . "'=>'" . $value . "'";
 			}
 
-			$jsPluralsArray = array();
+			$jsPluralsArray = [];
 
 			foreach ($jsInfo->stringsPlural as $key => $plurals)
 			{
 				$key = md5($key);
-				$ps  = array();
+				$ps  = [];
 
 				foreach ($plurals as $keyP => $plural)
 				{
@@ -176,7 +176,7 @@ class Php extends Storage\File
 			}
 		}
 
-		if ( ! file_put_contents($storePath, $resultString))
+		if (! file_put_contents($storePath, $resultString))
 		{
 			throw new G11nException('Unable to write language storage file to ' . $storePath);
 		}

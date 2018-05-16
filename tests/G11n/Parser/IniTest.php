@@ -111,7 +111,9 @@ class IniTest extends TestCase
 
 		$this->assertThat(
 			$test->strings['Hello test second line']->string,
-			$this->equalTo('Hallo Test Zweite Zeile')
+			$this->equalTo(
+				'Hallo Test Zweite Zeile'
+			)
 		);
 
 		$this->assertThat(

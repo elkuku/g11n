@@ -16,7 +16,7 @@ require_once __DIR__ . '/Language/methods.php';
  * The G11n - "Globalization" class.
  *
  * Language handling class.
- * 
+ *
  * @since  1.0
  */
 abstract class G11n
@@ -38,30 +38,30 @@ abstract class G11n
 	/**
 	 * Array of defined strings for PHP and their translations
 	 *
-	 * @var array()
+	 * @var []
 	 */
-	protected static $strings = array();
+	protected static $strings = [];
 
 	/**
 	 * Array of defined strings for JavaScript and their translations
 	 *
-	 * @var array()
+	 * @var []
 	 */
-	protected static $stringsJs = array();
+	protected static $stringsJs = [];
 
 	/**
 	 * Array of defined plural strings for JavaScript and their translations
 	 *
-	 * @var array()
+	 * @var []
 	 */
-	protected static $stringsJsPlural = array();
+	protected static $stringsJsPlural = [];
 
 	/**
 	 * Array of defined plural forms for PHP and their translations
 	 *
 	 * @var array
 	 */
-	protected static $stringsPlural = array();
+	protected static $stringsPlural = [];
 
 	/**
 	 * Number of plural forms for a specific language.
@@ -102,9 +102,9 @@ abstract class G11n
 	/**
 	 *  For debugging purpose
 	 *
-	 * @var array()
+	 * @var []
 	 */
-	protected static $processedItems = array();
+	protected static $processedItems = [];
 
 	/**
 	 * This is for, well... debugging =;)
@@ -118,14 +118,14 @@ abstract class G11n
 	 *
 	 * @var array
 	 */
-	protected static $events = array();
+	protected static $events = [];
 
 	/**
 	 * List of loaded extensions.
 	 *
 	 * @var array
 	 */
-	protected static $extensionsLoaded = array();
+	protected static $extensionsLoaded = [];
 
 	/**
 	 * Provide access to everything we have inside ;).
@@ -137,7 +137,7 @@ abstract class G11n
 	 * @throws \UnexpectedValueException
 	 * @return mixed
 	 */
-	public static function get($property)
+	public static function get(string $property)
 	{
 		if (isset(self::$$property))
 		{
@@ -158,7 +158,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function loadLanguage($extension, $domain, $inputType = 'po', $storageType = 'file_php')
+	public static function loadLanguage(string $extension, string $domain, string $inputType = 'po', string $storageType = 'file_php') : void
 	{
 		$key = $extension . '.' . $domain;
 
@@ -216,7 +216,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function getDefault()
+	public static function getDefault() : string
 	{
 		return self::$defaultLang;
 	}
@@ -228,7 +228,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function setDefault($lang)
+	public static function setDefault($lang) : string
 	{
 		self::$defaultLang = $lang;
 
@@ -241,7 +241,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return string
 	 */
-	public static function getCurrent()
+	public static function getCurrent() : string
 	{
 		if (!self::$lang)
 		{
@@ -257,12 +257,14 @@ abstract class G11n
 	 * @param   string  $lang  The language tag.
 	 *
 	 * @since  2.0
-	 * @return void
+	 * @return string
 	 */
-	public static function setCurrent($lang)
+	public static function setCurrent($lang) : string
 	{
 		// @todo check if language "exists"
 		self::$lang = $lang;
+
+		return $lang;
 	}
 
 	/**
@@ -273,7 +275,7 @@ abstract class G11n
 	 *
 	 * @return string Translated string or original if not found.
 	 */
-	public static function translate($original, array $parameters = [])
+	public static function translate($original, array $parameters = []) : string
 	{
 		if (self::$debug)
 		{
@@ -305,7 +307,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	private static function debugTranslate($original, array $parameters)
+	private static function debugTranslate($original, array $parameters) : string
 	{
 		$key = md5($original);
 
@@ -341,7 +343,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function translatePlural($singular, $plural, $count, array $parameters)
+	public static function translatePlural($singular, $plural, $count, array $parameters) : string
 	{
 		if (!self::$pluralFunction)
 		{
@@ -394,14 +396,15 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php')
+	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php') : void
 	{
 		if (!self::$lang)
 		{
 			self::detectLanguage();
 		}
 
-		Storage::getHandler($inputType, $storageType)->clean(self::$lang, $extension, $domain);
+		Storage::getHandler($inputType, $storageType)
+			->clean(self::$lang, $extension, $domain);
 	}
 
 	/**
@@ -413,7 +416,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	public static function setDebug($bool)
+	public static function setDebug($bool) : void
 	{
 		self::$debug = (bool) $bool;
 	}
@@ -425,7 +428,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	public static function debugPrintTranslateds($untranslatedOnly = false)
+	public static function debugPrintTranslateds($untranslatedOnly = false) : void
 	{
 		Debugger::debugPrintTranslateds($untranslatedOnly);
 	}
@@ -435,7 +438,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	public static function printEvents()
+	public static function printEvents() : void
 	{
 		foreach (self::$events as $e)
 		{
@@ -449,7 +452,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return array
 	 */
-	public static function getEvents()
+	public static function getEvents() : array
 	{
 		return self::$events;
 	}
@@ -523,7 +526,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return void
 	 */
-	public static function addDomainPath($domain, $path)
+	public static function addDomainPath($domain, $path) : void
 	{
 		ExtensionHelper::addDomainPath($domain, $path);
 	}
@@ -538,7 +541,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return void
 	 */
-	public static function setCacheDir($path)
+	public static function setCacheDir($path) : void
 	{
 		ExtensionHelper::setCacheDir($path);
 	}
@@ -551,7 +554,7 @@ abstract class G11n
 	 * @since  2.1
 	 * @return void
 	 */
-	public static function cleanCache()
+	public static function cleanCache() : void
 	{
 		ExtensionHelper::cleanCache();
 	}
@@ -563,7 +566,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	protected static function setPluralFunction($pcrePluralForm)
+	protected static function setPluralFunction($pcrePluralForm) : void
 	{
 		if (!$pcrePluralForm || ';' == $pcrePluralForm)
 		{
@@ -584,7 +587,7 @@ abstract class G11n
 			$PHPexpression = '$' . $expression;
 		}
 
-		$js_func_body = 'plural = (' . $expression . ');'
+		$jsFuncBody = 'plural = (' . $expression . ');'
 			. ' return (plural <= ' . $nplurals . ')? plural : plural - 1;';
 
 		self::$pluralForms = $nplurals;
@@ -599,7 +602,7 @@ abstract class G11n
 
 		self::$pluralFunctionRaw = $expression;
 
-		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $js_func_body . "')";
+		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $jsFuncBody . "')";
 	}
 
 	/**
@@ -609,9 +612,9 @@ abstract class G11n
 	 *
 	 * @since  2.1
 	 */
-	public static function getJavaScript()
+	public static function getJavaScript() : string
 	{
-		$js   = array();
+		$js   = [];
 
 		$js[] = '<!--';
 		$js[] = '/* JavaScript translations */';
@@ -637,7 +640,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	private static function process($string, array $parameters)
+	private static function process($string, array $parameters) : string
 	{
 		$string = base64_decode($string);
 
@@ -659,7 +662,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	private static function detectLanguage()
+	private static function detectLanguage() : void
 	{
 		// Get the environment language
 		$envLang = getenv('LANG');
@@ -702,7 +705,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return void
 	 */
-	private static function detectDocType()
+	private static function detectDocType() : void
 	{
 		// @todo hard set to HTML
 
@@ -724,7 +727,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	private static function recordTranslated($string, $mode, $level = 3)
+	private static function recordTranslated($string, $mode, $level = 3) : void
 	{
 		// Already recorded
 		if (array_key_exists($string, self::$processedItems))
@@ -737,7 +740,7 @@ abstract class G11n
 		$info->file     = '';
 		$info->line     = 0;
 		$info->function = '';
-		$info->args     = array();
+		$info->args     = [];
 		$info->trace    = null;
 
 		if (function_exists('debug_backtrace'))
@@ -768,7 +771,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	private static function logEvent(array $event)
+	private static function logEvent(array $event) : void
 	{
 		$e = new \stdClass;
 

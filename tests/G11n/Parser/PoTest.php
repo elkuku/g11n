@@ -102,7 +102,8 @@ class PoTest extends TestCase
 
 		$this->assertThat(
 			$test->strings['Hello test second line']->string,
-			$this->equalTo('Hallo Test Zweite Zeile')
+			$this->equalTo('Hallo Test Zweite Zeile'
+			)
 		);
 
 		$this->assertThat(
@@ -111,7 +112,8 @@ class PoTest extends TestCase
 msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: xx_XX\n"
-')
+'
+			)
 		);
 	}
 

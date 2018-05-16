@@ -13,22 +13,49 @@ namespace ElKuKu\G11n\Support;
  */
 class FileInfo
 {
+	/**
+	 * @var string
+	 */
 	public $fileName = '';
 
+	/**
+	 * @var string
+	 */
 	public $mode = '';
 
+	/**
+	 * @var string
+	 */
 	public $head = '';
 
+	/**
+	 * @var string
+	 */
 	public $pluralForms = '';
 
-	public $strings = array();
+	/**
+	 * @var array
+	 */
+	public $strings = [];
 
-	public $stringsPlural = array();
+	/**
+	 * @var array
+	 */
+	public $stringsPlural = [];
 
+	/**
+	 * @var boolean
+	 */
 	public $isCore = false;
 
+	/**
+	 * @var string
+	 */
 	public $lines = '';
 
+	/**
+	 * @var string
+	 */
 	public $langTag = '';
 
 	/**
@@ -39,7 +66,7 @@ class FileInfo
 	 * @throws \UnexpectedValueException
 	 * @return mixed
 	 */
-	public function get($property)
+	public function get(string $property)
 	{
 		if (isset($this->$property))
 		{

@@ -51,7 +51,6 @@ class Mysql extends Storage\File
 				$query->set('scope = ' . $this->db->quote($this->scope));
 
 				// To quote or not to quote..
-//                #$query->set("strings = '".($encoded))."'";
 				$query->set('strings = ' . $this->db->quote($jsonString));
 
 				$this->db->setQuery($query);
@@ -63,7 +62,7 @@ class Mysql extends Storage\File
 					$this->setError($this->db->getError());
 
 					$profiler->mark('<span style="color: red;">store db failed **********</span>: '
-					. $extension
+						. $extension
 					);
 
 					return false;
@@ -117,7 +116,7 @@ class Mysql extends Storage\File
 		if (empty($e->strings))
 		{
 			$profiler->mark('<span style="color: red;">langload db failed ****</span>'
-			. $this->query
+				. $this->query
 			);
 
 			$this->setError($this->db->getError());

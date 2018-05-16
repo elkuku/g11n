@@ -13,18 +13,39 @@ namespace ElKuKu\G11n\Support;
  */
 class Store
 {
-	private $strings = array();
+	/**
+	 * @var array
+	 */
+	private $strings = [];
 
-	private $stringsPlural = array();
+	/**
+	 * @var array
+	 */
+	private $stringsPlural = [];
 
-	private $stringsJs = array();
+	/**
+	 * @var array
+	 */
+	private $stringsJs = [];
 
-	private $stringsJsPlural = array();
+	/**
+	 * @var array
+	 */
+	private $stringsJsPlural = [];
 
+	/**
+	 * @var string
+	 */
 	private $pluralForms = '';
 
+	/**
+	 * @var string
+	 */
 	private $langPath = '';
 
+	/**
+	 * @var string
+	 */
 	private $cachePath = '';
 
 	/**
@@ -35,7 +56,7 @@ class Store
 	 * @throws \UnexpectedValueException
 	 * @return mixed
 	 */
-	public function get($property)
+	public function get(string $property)
 	{
 		if (isset($this->$property))
 		{
@@ -54,7 +75,7 @@ class Store
 	 * @throws \UnexpectedValueException
 	 * @return void
 	 */
-	public function set($property, $value)
+	public function set(string $property, $value) : void
 	{
 		if (!isset($this->$property))
 		{

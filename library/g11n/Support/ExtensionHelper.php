@@ -23,10 +23,16 @@ abstract class ExtensionHelper
 	 *
 	 * @var array
 	 */
-	protected static $domainPaths = array();
+	protected static $domainPaths = [];
 
+	/**
+	 * @var string
+	 */
 	protected static $cacheDir = '/tmp';
 
+	/**
+	 * @var string
+	 */
 	public static $langDirName = 'g11n';
 
 	/**
@@ -36,7 +42,7 @@ abstract class ExtensionHelper
 	 *
 	 * @return void
 	 */
-	public static function setDirName($name)
+	public static function setDirName(string $name) : void
 	{
 		self::$langDirName = $name;
 	}
@@ -49,7 +55,7 @@ abstract class ExtensionHelper
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function setCacheDir($path)
+	public static function setCacheDir(string $path) : void
 	{
 		if (false == is_dir($path))
 		{
@@ -78,7 +84,7 @@ abstract class ExtensionHelper
 	 *
 	 * @return string
 	 */
-	public static function getCacheDir()
+	public static function getCacheDir() : string
 	{
 		return self::$cacheDir;
 	}
@@ -89,7 +95,7 @@ abstract class ExtensionHelper
 	 * @throws \DomainException
 	 * @return void
 	 */
-	public static function cleanCache()
+	public static function cleanCache() : void
 	{
 		$filesystem = new Filesystem(new Local(self::$cacheDir));
 
@@ -112,9 +118,9 @@ abstract class ExtensionHelper
 	 *
 	 * @return string
 	 */
-	public static function getExtensionPath($extension)
+	public static function getExtensionPath(string $extension) : string
 	{
-		static $dirs = array();
+		static $dirs = [];
 
 		if (array_key_exists($extension, $dirs))
 		{
@@ -143,7 +149,7 @@ abstract class ExtensionHelper
 	 *
 	 * @return string
 	 */
-	public static function getExtensionLanguagePath($extension)
+	public static function getExtensionLanguagePath(string $extension) : string
 	{
 		$path = self::getExtensionPath($extension);
 
@@ -156,9 +162,9 @@ abstract class ExtensionHelper
 	 * @param   string  $extension  The extension name, e.g. com_easycreator
 	 * @param   string  $domain     The extension scope, e.g. admin
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
-	public static function isExtension($extension, $domain = '')
+	public static function isExtension(string $extension, string $domain = '') : bool
 	{
 		$extensionPath = self::getExtensionPath($extension);
 		$scopePath     = self::getDomainPath($domain);
@@ -174,7 +180,7 @@ abstract class ExtensionHelper
 	 * @throws G11nException
 	 * @return string
 	 */
-	public static function getDomainPath($domain)
+	public static function getDomainPath(string $domain) : string
 	{
 		if (array_key_exists($domain, self::$domainPaths))
 		{
@@ -194,7 +200,7 @@ abstract class ExtensionHelper
 	 *
 	 * @return mixed Full path to file | false if none found
 	 */
-	public static function findLanguageFile($lang, $extension, $domain = '', $type = 'po')
+	public static function findLanguageFile(string $lang, string $extension, string $domain = '', string $type = 'po')
 	{
 		$base = self::getDomainPath($domain);
 
@@ -245,7 +251,7 @@ abstract class ExtensionHelper
 	 * @throws G11nException
 	 * @return array
 	 */
-	public static function split($string, $delimiter = '.')
+	public static function split(string $string, string $delimiter = '.') : array
 	{
 		$parts = explode($delimiter, $string);
 
@@ -266,7 +272,7 @@ abstract class ExtensionHelper
 	 *
 	 * @return void
 	 */
-	public static function addDomainPath($domain, $path)
+	public static function addDomainPath(string $domain, string $path) : void
 	{
 		self::$domainPaths[$domain] = $path;
 	}

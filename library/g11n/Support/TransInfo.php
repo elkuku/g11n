@@ -13,7 +13,13 @@ namespace ElKuKu\G11n\Support;
  */
 class TransInfo
 {
+	/**
+	 * @var string
+	 */
 	public $info = '';
 
+	/**
+	 * @var string
+	 */
 	public $string = '';
 }
