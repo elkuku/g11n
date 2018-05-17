@@ -22,7 +22,7 @@ class StoreTest extends TestCase
 	/**
 	 * @var Store
 	 */
-	private $object = null;
+	private $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

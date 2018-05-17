@@ -24,12 +24,12 @@ class IniTest extends TestCase
 	/**
 	 * @var Ini
 	 */
-	private $object = null;
+	private $object;
 
 	/**
 	 * @var FileInfo
 	 */
-	private $testObject = null;
+	private $testObject;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -37,7 +37,7 @@ class IniTest extends TestCase
 	 *
 	 * @return void
 	 */
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->object = new Ini;
 
@@ -47,7 +47,7 @@ class IniTest extends TestCase
 
 		foreach ($testObject as $k => $v)
 		{
-			if (is_object($v))
+			if (\is_object($v))
 			{
 				$val = [];
 
@@ -75,7 +75,7 @@ class IniTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testGenerate()
+	public function testGenerate() : void
 	{
 		$this->assertThat(
 			$this->object->generate($this->testObject, new \stdClass),
@@ -88,7 +88,7 @@ class IniTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testParse()
+	public function testParse() : void
 	{
 		$test = $this->object->parse(TEST_ROOT . '/tests/testLangDir/test/ini_good.ini');
 
@@ -100,12 +100,12 @@ class IniTest extends TestCase
 		);
 
 		$this->assertThat(
-			count($test->strings),
+			\count($test->strings),
 			$this->equalTo(3)
 		);
 
 		$this->assertThat(
-			count($test->stringsPlural),
+			\count($test->stringsPlural),
 			$this->equalTo(0)
 		);
 
@@ -127,11 +127,11 @@ class IniTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testEmpty1()
+	public function testEmpty1() : void
 	{
 		$test = $this->object->parse(TEST_ROOT . '/tests/testLangDir/test/{notfound}');
 		$this->assertThat(
-			count($test->strings),
+			\count($test->strings),
 			$this->equalTo(0)
 		);
 	}
@@ -141,12 +141,12 @@ class IniTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testEmpty2()
+	public function testEmpty2() : void
 	{
 		$test = $this->object->parse(TEST_ROOT . '/tests/testLangDir/test/ini_empty.ini');
 
 		$this->assertThat(
-			count($test->strings),
+			\count($test->strings),
 			$this->equalTo(0)
 		);
 	}

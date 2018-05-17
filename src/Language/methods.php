@@ -14,7 +14,7 @@ use \ElKuKu\G11n\G11n;
  *
  * @return string Translated text or original if not found.
  */
-function g11n3t($original, array $parameters = [])
+function g11n3t(string $original, array $parameters = []) : string
 {
 	return G11n::translate($original, $parameters);
 }
@@ -29,7 +29,7 @@ function g11n3t($original, array $parameters = [])
  *
  * @return string Translated text.
  */
-function g11n4t($singular, $plural, $count, array $parameters = [])
+function g11n4t(string $singular, string $plural, int $count, array $parameters = []) : string
 {
 	return G11n::translatePlural($singular, $plural, $count, $parameters);
 }

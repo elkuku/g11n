@@ -22,7 +22,7 @@ class Php extends Storage\File
 	/**
 	 * @var FileInfo
 	 */
-	public $fileInfo = null;
+	public $fileInfo;
 
 	/**
 	 * @var string
@@ -53,7 +53,7 @@ class Php extends Storage\File
 	 * @throws G11nException
 	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
-	public function store($lang, $extension, $domain = '')
+	public function store(string $lang, string $extension, string $domain = '') : string
 	{
 		$ext = $this->parser->getExt();
 
@@ -99,7 +99,7 @@ class Php extends Storage\File
 			}
 
 			$value          = base64_encode($value);
-			$pluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ")";
+			$pluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ')';
 		}
 
 		/*
@@ -136,7 +136,7 @@ class Php extends Storage\File
 				}
 
 				$value            = base64_encode($value);
-				$jsPluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ")";
+				$jsPluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ')';
 			}
 		}
 		catch (\Exception $e)
@@ -156,7 +156,7 @@ class Php extends Storage\File
 			. '$info=array('
 			. "'mode'=>'" . $fileInfo->mode . "'"
 			. ",'pluralForms'=>'" . $this->translatePluralForms($fileInfo->pluralForms) . "'"
-			. ");"
+			. ');'
 			. ' $strings=array(' . implode(',', $stringsArray) . ');'
 			. ' $stringsPlural=array(' . implode(',', $pluralsArray) . ');'
 			. ' $stringsJs=array(' . implode(',', $jsArray) . ');'
@@ -164,13 +164,13 @@ class Php extends Storage\File
 
 		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 
-		if (false == is_dir(dirname($storePath)))
+		if (false === is_dir(\dirname($storePath)))
 		{
 			$tmp = umask(0);
-			$result = mkdir(dirname($storePath), 0777, true);
+			$result = mkdir(\dirname($storePath), 0777, true);
 			umask($tmp);
 
-			if (false == $result)
+			if (false === $result)
 			{
 				throw new G11nException('Can not create the cache directory');
 			}
@@ -192,9 +192,10 @@ class Php extends Storage\File
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
-	 * @return \ElKuKu\G11n\Support\Store
+	 *
+	 * @return Store
 	 */
-	public function retrieve($lang, $extension, $domain = '')
+	public function retrieve(string $lang, string $extension, string $domain = '') : Store
 	{
 		$path = $this->getPath($lang, $extension, $domain) . $this->ext;
 
@@ -219,9 +220,16 @@ class Php extends Storage\File
 		 * # $info[]
 		 * # $strings[]
 		 * # $stringsPlural[]
-		 * # $jsStrings[]
+		 * # $stringsJs[]
 		 * # $stringsJsPlural[]
 		 */
+
+		$info = [];
+		$strings = [];
+		$stringsPlural = [];
+		$stringsJs = [];
+		$stringsJsPlural = [];
+
 		include $path;
 
 		$store = new Store;
@@ -265,9 +273,10 @@ class Php extends Storage\File
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
+	 *
 	 * @return void
 	 */
-	public function clean($lang, $extension, $domain = '')
+	public function clean(string $lang, string $extension, string $domain = '') : void
 	{
 		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 

@@ -121,9 +121,9 @@ class Php extends Code
      *
      * @param string $fileName File to parse
      *
-     * @return object g11nFileInfo
+     * @return FileInfo
      */
-    public function parse($fileName)
+    public function parse(string $fileName) : FileInfo
     {
         $fileInfo = new FileInfo;
 

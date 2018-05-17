@@ -57,20 +57,20 @@ abstract class ExtensionHelper
 	 */
 	public static function setCacheDir(string $path) : void
 	{
-		if (false == is_dir($path))
+		if (false === is_dir($path))
 		{
 			throw new G11nException('Invalid cache dir');
 		}
 
 		$path .= '/g11n';
 
-		if (false == is_dir($path))
+		if (false === is_dir($path))
 		{
 			$tmp = umask(0);
 			$result = mkdir($path, 0777, true);
 			umask($tmp);
 
-			if (false == $result)
+			if (false === $result)
 			{
 				throw new G11nException('Can not create the cache directory');
 			}
@@ -101,12 +101,9 @@ abstract class ExtensionHelper
 
 		foreach ($filesystem->listContents() as $path)
 		{
-			if ('dir' == $path['type'])
+			if ('dir' === $path['type'] && false === $filesystem->deleteDir($path['path']))
 			{
-				if (false == $filesystem->deleteDir($path['path']))
-				{
-					throw new \DomainException('Can not clean the cache.');
-				}
+				throw new \DomainException('Can not clean the cache.');
 			}
 		}
 	}
@@ -114,9 +111,10 @@ abstract class ExtensionHelper
 	/**
 	 * Get the extension path.
 	 *
-	 * @param   string  $extension  The extension name, e.g. com_easycreator
+	 * @param   string $extension The extension name, e.g. com_easycreator
 	 *
 	 * @return string
+	 * @throws G11nException
 	 */
 	public static function getExtensionPath(string $extension) : string
 	{
@@ -131,7 +129,7 @@ abstract class ExtensionHelper
 
 		$parts = self::split($extension);
 
-		if (count($parts) > 1)
+		if (\count($parts) > 1)
 		{
 			// We have a subType
 			$extensionDir = $parts[0];
@@ -145,9 +143,10 @@ abstract class ExtensionHelper
 	/**
 	 * Get the extensions language path.
 	 *
-	 * @param   string  $extension  The extension name, e.g. com_easycreator
+	 * @param   string $extension The extension name, e.g. com_easycreator
 	 *
 	 * @return string
+	 * @throws G11nException
 	 */
 	public static function getExtensionLanguagePath(string $extension) : string
 	{
@@ -159,10 +158,11 @@ abstract class ExtensionHelper
 	/**
 	 * Check that the extension is valid.
 	 *
-	 * @param   string  $extension  The extension name, e.g. com_easycreator
-	 * @param   string  $domain     The extension scope, e.g. admin
+	 * @param   string $extension The extension name, e.g. com_easycreator
+	 * @param   string $domain    The extension scope, e.g. admin
 	 *
 	 * @return boolean
+	 * @throws G11nException
 	 */
 	public static function isExtension(string $extension, string $domain = '') : bool
 	{
@@ -193,12 +193,13 @@ abstract class ExtensionHelper
 	/**
 	 * Searches the system for language files.
 	 *
-	 * @param   string  $lang       Language
-	 * @param   string  $extension  Extension
-	 * @param   string  $domain     The extension scope, e.g. admin
-	 * @param   string  $type       Language file type - e.g. 'ini', 'po' etc.
+	 * @param   string $lang      Language
+	 * @param   string $extension Extension
+	 * @param   string $domain    The extension scope, e.g. admin
+	 * @param   string $type      Language file type - e.g. 'ini', 'po' etc.
 	 *
 	 * @return mixed Full path to file | false if none found
+	 * @throws G11nException
 	 */
 	public static function findLanguageFile(string $lang, string $extension, string $domain = '', string $type = 'po')
 	{
@@ -255,8 +256,9 @@ abstract class ExtensionHelper
 	{
 		$parts = explode($delimiter, $string);
 
-		if (count($parts) < 1
-			|| count($parts) > 2)
+		$c = \count($parts);
+
+		if ($c < 1 || $c > 2)
 		{
 			throw new G11nException('Invalid type - must be xx' . $delimiter . '[xx]: ' . $string);
 		}

@@ -6,7 +6,8 @@
 
 namespace ElKuKu\G11n;
 
-use ElKuKu\G11n\Language\Debugger;
+use ElKuKu\G11n\Language\Parser\Code;
+use ElKuKu\G11n\Language\Parser\Language;
 use ElKuKu\G11n\Language\Storage;
 use ElKuKu\G11n\Support\ExtensionHelper;
 
@@ -38,21 +39,21 @@ abstract class G11n
 	/**
 	 * Array of defined strings for PHP and their translations
 	 *
-	 * @var []
+	 * @var array
 	 */
 	protected static $strings = [];
 
 	/**
 	 * Array of defined strings for JavaScript and their translations
 	 *
-	 * @var []
+	 * @var array
 	 */
 	protected static $stringsJs = [];
 
 	/**
 	 * Array of defined plural strings for JavaScript and their translations
 	 *
-	 * @var []
+	 * @var array
 	 */
 	protected static $stringsJsPlural = [];
 
@@ -75,7 +76,7 @@ abstract class G11n
 	 *
 	 * @var callable
 	 */
-	protected static $pluralFunction = null;
+	protected static $pluralFunction;
 
 	/**
 	 * Cache function that chooses plural forms (human readable).
@@ -102,7 +103,7 @@ abstract class G11n
 	/**
 	 *  For debugging purpose
 	 *
-	 * @var []
+	 * @var array
 	 */
 	protected static $processedItems = [];
 
@@ -198,12 +199,12 @@ abstract class G11n
 					'Extension' => $extension,
 					'Ext'       => $inputType,
 					'Store'     => $storageType,
-					'$'         => count($store->get('strings')),
-					'$n'        => count($store->get('stringsPlural')),
-					'JS-$'      => count($store->get('stringsJs')),
-					'JS-$n'     => count($store->get('stringsJsPlural')),
-					'File'      => defined('JPATH_ROOT') ? str_replace(JPATH_ROOT, '', $store->get('langPath')) : $store->get('langPath'),
-					'Cache'     => defined('JPATH_ROOT') ? str_replace(JPATH_ROOT, '', $store->get('cachePath')) : $store->get('cachePath')
+					'$'         => \count($store->get('strings')),
+					'$n'        => \count($store->get('stringsPlural')),
+					'JS-$'      => \count($store->get('stringsJs')),
+					'JS-$n'     => \count($store->get('stringsJsPlural')),
+					'File'      => $store->get('langPath'),
+					'Cache'     => $store->get('cachePath')
 				)
 			);
 		}
@@ -291,7 +292,7 @@ abstract class G11n
 		}
 
 		// No translation found !
-		if ('html' == self::$docType)
+		if ('html' === self::$docType)
 		{
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
 		}
@@ -323,7 +324,7 @@ abstract class G11n
 
 		self::recordTranslated($original, '-');
 
-		if ('html' == self::$docType)
+		if ('html' === self::$docType)
 		{
 			$original = str_replace(array("\n", "\\n"), '<br />', $original);
 		}
@@ -355,7 +356,7 @@ abstract class G11n
 
 		$key = md5($key);
 
-		$index = (int) call_user_func(self::$pluralFunction, $count);
+		$index = (int) \call_user_func(self::$pluralFunction, $count);
 
 		if (array_key_exists($key, self::$stringsPlural)
 			&& array_key_exists($index, self::$stringsPlural[$key]))
@@ -371,7 +372,7 @@ abstract class G11n
 		}
 
 		// Fallback - english: singular == 1
-		$retVal = ($count == 1) ? $singular : $plural;
+		$retVal = ($count === 1) ? $singular : $plural;
 
 		$retVal = $parameters ? strtr($retVal, $parameters) : $retVal;
 
@@ -422,31 +423,6 @@ abstract class G11n
 	}
 
 	/**
-	 * Debug output translated and untranslated items.
-	 *
-	 * @param   boolean  $untranslatedOnly  Set true to output only untranslated strings
-	 *
-	 * @return void
-	 */
-	public static function debugPrintTranslateds($untranslatedOnly = false) : void
-	{
-		Debugger::debugPrintTranslateds($untranslatedOnly);
-	}
-
-	/**
-	 * Print out recorded events.
-	 *
-	 * @return void
-	 */
-	public static function printEvents() : void
-	{
-		foreach (self::$events as $e)
-		{
-			var_dump($e);
-		}
-	}
-
-	/**
 	 * Get recorded events.
 	 *
 	 * @since  2.0
@@ -491,9 +467,9 @@ abstract class G11n
 	 *
 	 * @since  2.0
 	 * @throws G11nException
-	 * @return \ElKuKu\G11n\Language\Parser\Code
+	 * @return Code
 	 */
-	public static function getCodeParser($name)
+	public static function getCodeParser($name) : Code
 	{
 		return self::getParser('code', $name);
 	}
@@ -508,9 +484,9 @@ abstract class G11n
 	 *
 	 * @since  2.0
 	 * @throws G11nException
-	 * @return \ElKuKu\G11n\Language\Parser\Language
+	 * @return Language
 	 */
-	public static function getLanguageParser($name)
+	public static function getLanguageParser(string $name) : Language
 	{
 		return self::getParser('language', $name);
 	}
@@ -534,12 +510,13 @@ abstract class G11n
 	/**
 	 * Set the cache directory.
 	 *
-	 * @param   string  $path  A valid path.
+	 * @param   string $path A valid path.
 	 *
 	 * @deprecated Use ExtensionHelper::setCacheDir($path)
 	 *
-	 * @since  2.0
+	 * @since      2.0
 	 * @return void
+	 * @throws G11nException
 	 */
 	public static function setCacheDir($path) : void
 	{
@@ -568,7 +545,7 @@ abstract class G11n
 	 */
 	protected static function setPluralFunction($pcrePluralForm) : void
 	{
-		if (!$pcrePluralForm || ';' == $pcrePluralForm)
+		if (!$pcrePluralForm || ';' === $pcrePluralForm)
 		{
 			return;
 		}
@@ -594,7 +571,10 @@ abstract class G11n
 
 		self::$pluralFunction = function ($n) use ($nplurals, $PHPexpression)
 		{
-			$plural = 0;
+			// This is a foo line...
+			$plural = $n;
+
+			// Note: eval is evil...
 			eval('$plural = ' . $PHPexpression . ';');
 
 			return ($plural <= $nplurals ) ? $plural : $plural - 1;
@@ -644,7 +624,7 @@ abstract class G11n
 	{
 		$string = base64_decode($string);
 
-		if ('html' == self::$docType)
+		if ('html' === self::$docType)
 		{
 			$string = str_replace(array("\n", '\n'), '<br />', $string);
 		}
@@ -667,7 +647,7 @@ abstract class G11n
 		// Get the environment language
 		$envLang = getenv('LANG');
 
-		$envLang = ('POSIX' != $envLang) ? $envLang : '';
+		$envLang = ('POSIX' !== $envLang) ? $envLang : '';
 
 		if ($envLang)
 		{
@@ -743,7 +723,7 @@ abstract class G11n
 		$info->args     = [];
 		$info->trace    = null;
 
-		if (function_exists('debug_backtrace'))
+		if (\function_exists('debug_backtrace'))
 		{
 			$trace = debug_backtrace();
 

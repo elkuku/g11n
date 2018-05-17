@@ -9,6 +9,7 @@ namespace ElKuKu\G11n\Language;
 use ElKuKu\G11n\G11nException;
 use ElKuKu\G11n\Support\ExtensionHelper;
 use ElKuKu\G11n\Language\Parser;
+use ElKuKu\G11n\Support\Store;
 
 /**
  * The G11n storage base class.
@@ -25,7 +26,7 @@ abstract class Storage
 	/**
 	 * @var Parser\Language
 	 */
-	protected $parser = null;
+	protected $parser;
 
 	/**
 	 * Constructor.
@@ -53,20 +54,21 @@ abstract class Storage
 	 * @param   string  $storageType  A valid storage type
 	 *
 	 * @throws \RuntimeException
+	 *
 	 * @return Storage
 	 */
-	public static function getHandler($inputType, $storageType)
+	public static function getHandler(string $inputType, string $storageType) : Storage
 	{
 		$parts = explode('_', $storageType);
 
-		if (count($parts) != 2)
+		if (\count($parts) !== 2)
 		{
 			throw new \RuntimeException('Storage type must be in format [type][_subtype]');
 		}
 
 		$className = '\\ElKuKu\\G11n\\Language\\Storage\\' . ucfirst($parts[0]) . '\\' . ucfirst($parts[1]);
 
-		if (false == class_exists($className))
+		if (false === class_exists($className))
 		{
 			throw new \RuntimeException('Invalid storage class: ' . $className);
 		}
@@ -81,13 +83,15 @@ abstract class Storage
 	 * @param   string  $extension  Extension name e.g. com_component.
 	 * @param   string  $domain     The domain name.
 	 *
+	 * @throws G11nException
+	 *
 	 * @return string
 	 */
-	protected function getPath($lang, $extension, $domain)
+	protected function getPath(string $lang, string $extension, string $domain) : string
 	{
 		$parts = ExtensionHelper::split($extension, '.');
 
-		$dirName = (1 == count($parts))
+		$dirName = (1 === \count($parts))
 			? $extension
 			: $parts[0];
 
@@ -100,11 +104,13 @@ abstract class Storage
 	 * @param   string  $extension  The extension name.
 	 * @param   string  $scope      The scope name.
 	 *
+	 * @throws G11nException
+	 *
 	 * @return boolean
 	 */
-	public static function templateExists($extension, $scope)
+	public static function templateExists(string $extension, string $scope) : bool
 	{
-		return (file_exists(self::getTemplatePath($extension, $scope))) ? true : false;
+		return file_exists(self::getTemplatePath($extension, $scope)) ? true : false;
 	}
 
 	/**
@@ -113,9 +119,11 @@ abstract class Storage
 	 * @param   string  $extension  Extension name.
 	 * @param   string  $scope      Extension scope
 	 *
+	 * @throws G11nException
+	 *
 	 * @return string
 	 */
-	public static function getTemplatePath($extension, $scope)
+	public static function getTemplatePath(string $extension, string $scope) : string
 	{
 		static $templates = [];
 
@@ -131,8 +139,7 @@ abstract class Storage
 
 		$extensionDir = ExtensionHelper::getExtensionPath($extension);
 
-		return "$base/$extensionDir/"
-		. ExtensionHelper::$langDirName . "/templates/$fileName";
+		return "$base/$extensionDir/{" . ExtensionHelper::$langDirName . "/templates/$fileName";
 	}
 
 	/**
@@ -144,13 +151,14 @@ abstract class Storage
 	 *
 	 * @return string pcre type PluralForms
 	 */
-	protected static function translatePluralForms($gettextPluralForms)
+	protected static function translatePluralForms(string $gettextPluralForms) : string
 	{
 		$expr = $gettextPluralForms . ';';
+		$exprLen = \strlen($expr);
 		$res  = '';
 		$p    = 0;
 
-		for ($i = 0; $i < strlen($expr); $i++)
+		for ($i = 0; $i < $exprLen; $i++)
 		{
 			$ch = $expr[$i];
 
@@ -183,9 +191,10 @@ abstract class Storage
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
-	 * @return void
+	 *
+	 * @return string  The path where the language file has been found / empty if it is read from cache.
 	 */
-	abstract public function store($lang, $extension, $domain = '');
+	abstract public function store(string $lang, string $extension, string $domain = '') : string;
 
 	/**
 	 * Retrieve the storage content.
@@ -195,9 +204,10 @@ abstract class Storage
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
-	 * @return \ElKuKu\G11n\Support\Store
+	 *
+	 * @return Store
 	 */
-	abstract public function retrieve($lang, $extension, $domain = '');
+	abstract public function retrieve(string $lang, string $extension, string $domain = '') : Store;
 
 	/**
 	 * Cleans the storage.
@@ -207,7 +217,8 @@ abstract class Storage
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
+	 *
 	 * @return void
 	 */
-	abstract public function clean($lang, $extension, $domain = '');
+	abstract public function clean(string $lang, string $extension, string $domain = '') : void;
 }

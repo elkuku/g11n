@@ -27,11 +27,12 @@ class Po extends Parser\Language
 	public $includeLineNumbers = true;
 
 	/**
-	 * File extension.
-	 *
-	 * @var string
+	 * Constructor.
 	 */
-	protected $ext = 'po';
+	public function __construct()
+	{
+		$this->ext = 'po';
+	}
 
 	/**
 	 * Parse a po style language file.
@@ -40,7 +41,7 @@ class Po extends Parser\Language
 	 *
 	 * @return FileInfo
 	 */
-	public function parse($fileName)
+	public function parse(string $fileName) : FileInfo
 	{
 		$fileInfo = new FileInfo;
 
@@ -198,7 +199,7 @@ class Po extends Parser\Language
 	 *
 	 * @return string
 	 */
-	public function generate(FileInfo $fileInfo, $options)
+	public function generate(FileInfo $fileInfo, $options) : string
 	{
 		$content = [];
 
@@ -222,12 +223,12 @@ class Po extends Parser\Language
 
 			$key = addcslashes($key, '"');
 
-			while (strpos($key, "\\\\") != false)
+			while (strpos($key, "\\\\") !== false)
 			{
 				$key = str_replace('\\\\', '\\', $key);
 			}
 
-			while (strpos($key, "\'") != false)
+			while (strpos($key, "\'") !== false)
 			{
 				$key = str_replace("\'", "'", $key);
 			}

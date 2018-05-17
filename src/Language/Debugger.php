@@ -22,7 +22,7 @@ abstract class Debugger
 	 *
 	 * @return void
 	 */
-	public static function debugPrintTranslateds($untranslatedOnly = false)
+	public static function debugPrintTranslateds(bool $untranslatedOnly = false) : void
 	{
 		if (!G11n::get('debug'))
 		{
@@ -31,8 +31,7 @@ abstract class Debugger
 			return;
 		}
 
-		$title = ($untranslatedOnly)
-			? 'Untranslated strings' : 'All strings';
+		$title = $untranslatedOnly ? 'Untranslated strings' : 'All strings';
 
 		echo '<h2>' . $title . '</h2>';
 
@@ -68,7 +67,7 @@ abstract class Debugger
 					break;
 			}
 
-			if ($item->status != '-' && $untranslatedOnly)
+			if ($item->status !== '-' && $untranslatedOnly)
 			{
 				continue;
 			}
@@ -78,7 +77,7 @@ abstract class Debugger
 			echo '<td>' . htmlentities($string) . '</td>';
 			echo '<td>';
 
-			if (count($item->args) > 1)
+			if (\count($item->args) > 1)
 			{
 				foreach ($item->args as $i => $arg)
 				{
@@ -93,7 +92,7 @@ abstract class Debugger
 			}
 
 			echo '</td>';
-			echo '<td>' . self::JReplace($item->file) . ' (' . $item->line . ')</td>';
+			echo '<td>' . $item->file . ' (' . $item->line . ')</td>';
 			echo '</tr>';
 
 			$k = 1 - $k;
@@ -109,7 +108,7 @@ abstract class Debugger
 	 *
 	 * @deprecated
 	 */
-	private static function drawDesignTable()
+	private static function drawDesignTable() : void
 	{
 		$items = G11n::get('processedItems');
 		$file  = '';
@@ -121,17 +120,15 @@ abstract class Debugger
 
 		foreach ($items as $string => $item)
 		{
-			if ($item->status != '-')
+			if ($item->status !== '-')
 			{
 				continue;
 			}
 
-			$f = self::JReplace($item->file);
-
-			if ($f != $file)
+			if ($item->file !== $file)
 			{
-				$file = $f;
-				echo '# From file: <strong>' . $f . '</strong>';
+				$file = $item->file;
+				echo '# From file: <strong>' . $item->file . '</strong>';
 			}
 
 			echo "\n";
@@ -143,20 +140,8 @@ abstract class Debugger
 
 		echo '</pre>';
 
-		echo ($count)
+		echo $count
 			? sprintf('<h3>Found <b>%d</b> untranslated items</h3>', $count)
 			: '<h3 style="color: green;">Everything\'s translated <tt>=:)</tt></h3>';
-	}
-
-	/**
-	 * Replaces the JPATH_ROOT by the string "J" in a path.
-	 *
-	 * @param   string  $path  The path to replace
-	 *
-	 * @return string
-	 */
-	public static function JReplace($path)
-	{
-		return str_replace(JPATH_ROOT, 'J', $path);
 	}
 }

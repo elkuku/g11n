@@ -18,9 +18,12 @@ use ElKuKu\G11n\Support\FileInfo;
 class Ini extends Language
 {
 	/**
-	 * @var string
+	 * Constructor.
 	 */
-	protected $ext = 'ini';
+	public function __construct()
+	{
+		$this->ext = 'ini';
+	}
 
 	/**
 	 * Parse an ini style language file with *few restrictions*.
@@ -32,7 +35,7 @@ class Ini extends Language
 	 *
 	 * @return FileInfo
 	 */
-	public function parse($fileName)
+	public function parse(string $fileName) : FileInfo
 	{
 		$fileInfo = new FileInfo;
 
@@ -117,7 +120,7 @@ class Ini extends Language
 	 *
 	 * @return string
 	 */
-	public function generate(FileInfo $fileInfo, $options)
+	public function generate(FileInfo $fileInfo, $options) : string
 	{
 		$out = [];
 

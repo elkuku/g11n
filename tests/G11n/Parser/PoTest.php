@@ -24,7 +24,7 @@ class PoTest extends TestCase
 	/**
 	 * @var Po
 	 */
-	private $object = null;
+	private $object;
 
 	/**
 	 * @var string
@@ -34,7 +34,7 @@ class PoTest extends TestCase
 	/**
 	 * @var FileInfo
 	 */
-	private $testObject = null;
+	private $testObject;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -91,12 +91,12 @@ class PoTest extends TestCase
 		);
 
 		$this->assertThat(
-			count($test->strings),
+			\count($test->strings),
 			$this->equalTo(3)
 		);
 
 		$this->assertThat(
-			count($test->stringsPlural),
+			\count($test->stringsPlural),
 			$this->equalTo(2)
 		);
 
@@ -181,7 +181,7 @@ msgstr ""
 	{
 		$this->assertThat(
 			(string) $this->object,
-			$this->equalTo('ElKuKu\G11n\Language\Parser\Language')
+			$this->equalTo(\ElKuKu\G11n\Language\Parser\Language::class)
 		);
 	}
 }

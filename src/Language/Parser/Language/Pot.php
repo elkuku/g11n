@@ -9,16 +9,19 @@ namespace ElKuKu\G11n\Language\Parser\Language;
 use ElKuKu\G11n\Support\FileInfo;
 
 /**
- * Enter description here ...
+ * Parser for pot language files.
  *
  * @since  1
  */
 class Pot extends Parser\Language
 {
 	/**
-	 * @var string
+	 * Constructor.
 	 */
-	protected $ext = 'pot';
+	public function __construct()
+	{
+		$this->ext = 'pot';
+	}
 
 	/**
 	 * Parse a language file.

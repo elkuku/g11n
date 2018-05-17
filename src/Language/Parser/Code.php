@@ -6,6 +6,8 @@
 
 namespace ElKuKu\G11n\Language\Parser;
 
+use ElKuKu\G11n\Support\FileInfo;
+
 /**
  * Class Code.
  *
@@ -25,7 +27,7 @@ abstract class Code
 	 *
 	 * @return string
 	 */
-	public function getExt()
+	public function getExt() : string
 	{
 		return $this->ext;
 	}
@@ -37,7 +39,7 @@ abstract class Code
 	 */
 	public function __toString()
 	{
-		return (string) __CLASS__;
+		return  __CLASS__;
 	}
 
 	/**
@@ -47,14 +49,14 @@ abstract class Code
 	 *
 	 * @return void
 	 */
-	abstract public function setLangFormat($langFormatIn);
+	abstract public function setLangFormat(string $langFormatIn) : void;
 
 	/**
 	 * Parse a file.
 	 *
 	 * @param   string  $fileName  File to parse.
 	 *
-	 * @return object g11nFileInfo
+	 * @return FileInfo
 	 */
-	abstract public function parse($fileName);
+	abstract public function parse(string $fileName) : FileInfo;
 }

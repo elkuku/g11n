@@ -4,19 +4,18 @@
  * @license    GNU/GPL http://www.gnu.org/licenses/gpl.html
  */
 
-// @codingStandardsIgnoreStart
-
 namespace ElKuKu\G11n\Language\Storage\File;
 
 use ElKuKu\G11n\G11nException;
 use ElKuKu\G11n\Language\Storage;
+use ElKuKu\G11n\Support\Store;
 
 /**
  * g11nStorageFileTxt class
  *
  * @since  1
  */
-class G11nStorageFileTxt extends Storage\File
+class Txt extends Storage\File
 {
 	/**
 	 * @var string
@@ -32,37 +31,33 @@ class G11nStorageFileTxt extends Storage\File
 	 *
 	 * @throws G11nException
 	 *
-	 * @return \g11n\Support\Store
+	 * @return Store
 	 */
-	public function retrieve($lang, $extension, $domain = '')
+	public function retrieve(string $lang, string $extension, string $domain = '') : Store
 	{
-		if (self::$storage == 'off')
+		$path = $this->getPath($lang, $extension, $domain) . $this->ext;
+
+		// File has not being cached
+		if (!file_exists($path))
 		{
-			return false;
-		}
+			// Try to store
+			$langPath = $this->store($lang, $extension, $domain);
 
-		$profiler = JProfiler::getInstance('LangDebug');
-		$profiler->mark('start: ' . $extension);
-
-		jimport('joomla.filesystem.file');
-
-		$path = self::$cacheDir . '/' . $lang . '.' . $extension . '.txt';
-
-		if ( ! JFile::exists($path))
-		{
-			return false;
+			// Failed ?
+			if (!file_exists($path))
+			{
+				throw new G11nException('Unable to retrieve the strings');
+			}
 		}
 
 		$strings = JFile::read($path);
 
-		if ( ! $strings)
+		if (! $strings)
 		{
 			return false;
 		}
 
 		$strings = json_decode($strings, true);
-
-		$profiler->mark('<span style="color: green;">*Loaded txt*</span>' . htmlentities($path));
 
 		$this->strings = array_merge($this->strings, $strings);
 
@@ -82,35 +77,20 @@ class G11nStorageFileTxt extends Storage\File
 	 * @param   string  $domain     Must be 'admin' or 'site'.
 	 *
 	 * @throws G11nException
+	 *
 	 * @return boolean
 	 */
-	public function store($lang, $extension, $domain = '')
+	public function store(string $lang, string $extension, string $domain = '') : string
 	{
-		if (self::$storage == 'off')
-		{
-			return false;
-		}
-
-		$profiler = JProfiler::getInstance('LangDebug');
-		$profiler->mark('store: ' . $extension);
-
-//        #		$fileNames = JFolder::files(JPATH_ADMINISTRATOR, '.sys.ini', false, true);
-
 		$strings = self::parseFile($fileName);
 
 		$path = self::$cacheDir . '/' . $lang . '.' . $extension . '.txt';
 		$jsonString = json_encode($strings);
 
-		if ( ! JFile::write($path, $jsonString))
+		if (! JFile::write($path, $jsonString))
 		{
 			throw new G11nException('Unable to write language storage file');
 		}
-
-		$profiler->mark('<span style="color: blue;">wrote file</span>: '
-		. str_replace(JPATH_ROOT, 'J', $path)
-		);
-
-		$profiler->mark('store SUCCESS ++++: ' . $extension);
 
 		return true;
 	}

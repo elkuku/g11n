@@ -29,7 +29,7 @@ abstract class Language
 	 *
 	 * @return string
 	 */
-	public function getExt()
+	public function getExt() : string
 	{
 		return $this->ext;
 	}
@@ -39,9 +39,9 @@ abstract class Language
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
-		return (string) __CLASS__;
+		return  __CLASS__;
 	}
 
 	/**
@@ -51,7 +51,7 @@ abstract class Language
 	 *
 	 * @return FileInfo
 	 */
-	abstract public function parse($fileName);
+	abstract public function parse(string $fileName) : FileInfo;
 
 	/**
 	 * Generate a language file.
@@ -61,5 +61,5 @@ abstract class Language
 	 *
 	 * @return string
 	 */
-	abstract public function generate(FileInfo $fileInfo, $options);
+	abstract public function generate(FileInfo $fileInfo, $options) : string;
 }
