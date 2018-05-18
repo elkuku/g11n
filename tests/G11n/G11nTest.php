@@ -25,6 +25,7 @@ class G11nTest extends TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
+	 * @throws \ElKuKu\G11n\G11nException
 	 */
 	protected function setUp()
 	{
@@ -277,18 +278,6 @@ class G11nTest extends TestCase
 			G11n::getCurrent(),
 			$this->equalTo('xyz')
 		);
-	}
-
-	/**
-	 * Test method.
-	 *
-	 * @expectedException \ElKuKu\G11n\G11nException
-	 *
-	 * @return void
-	 */
-	public function testInvalidCacheDir()
-	{
-		G11n::setCacheDir('INVALID');
 	}
 
 	/**

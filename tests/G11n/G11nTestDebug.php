@@ -9,7 +9,7 @@
 namespace ElKuKu\G11n\Tests\G11n;
 
 use ElKuKu\G11n\G11n;
-
+use ElKuKu\G11n\Support\ExtensionHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,14 +24,27 @@ class G11nTestDebug extends TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
+	 * @throws \ElKuKu\G11n\G11nException
 	 */
 	protected function setUp()
 	{
+		ExtensionHelper::setCacheDir(TEST_ROOT . '/tests/cache');
+		ExtensionHelper::cleanCache();
+		ExtensionHelper::addDomainPath('testDomain', TEST_ROOT . '/tests/testLangDir');
+
 		G11n::setCurrent('xx-XX');
-		G11n::setCacheDir(__DIR__ . '/../cache');
-		G11n::cleanCache();
-		G11n::addDomainPath('testDomain', __DIR__ . '/../testLangDir');
 		G11n::loadLanguage('testExtension', 'testDomain');
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
+		ExtensionHelper::cleanCache();
 	}
 
 	/**

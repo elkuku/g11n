@@ -105,7 +105,7 @@ class Txt extends Storage\File
 	 * @throws G11nException
 	 * @return void
 	 */
-	public function clean($lang, $extension, $domain = '')
+	public function clean(string $lang, string $extension, string $domain = '') : void
 	{
 		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 

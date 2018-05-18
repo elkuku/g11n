@@ -99,7 +99,7 @@ class Php extends Storage\File
 			}
 
 			$value          = base64_encode($value);
-			$pluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ')';
+			$pluralsArray[] = "'" . $key . "'=> [" . implode(',', $ps) . ']';
 		}
 
 		/*
@@ -136,7 +136,7 @@ class Php extends Storage\File
 				}
 
 				$value            = base64_encode($value);
-				$jsPluralsArray[] = "'" . $key . "'=> array(" . implode(',', $ps) . ')';
+				$jsPluralsArray[] = "'" . $key . "'=> [" . implode(',', $ps) . ']';
 			}
 		}
 		catch (\Exception $e)
@@ -153,14 +153,14 @@ class Php extends Storage\File
 		 */
 
 		$resultString = '<?php '
-			. '$info=array('
+			. '$info=['
 			. "'mode'=>'" . $fileInfo->mode . "'"
 			. ",'pluralForms'=>'" . $this->translatePluralForms($fileInfo->pluralForms) . "'"
-			. ');'
-			. ' $strings=array(' . implode(',', $stringsArray) . ');'
-			. ' $stringsPlural=array(' . implode(',', $pluralsArray) . ');'
-			. ' $stringsJs=array(' . implode(',', $jsArray) . ');'
-			. ' $stringsJsPlural=array(' . implode(',', $jsPluralsArray) . ');';
+			. '];'
+			. ' $strings=[' . implode(',', $stringsArray) . '];'
+			. ' $stringsPlural=[' . implode(',', $pluralsArray) . '];'
+			. ' $stringsJs=[' . implode(',', $jsArray) . '];'
+			. ' $stringsJsPlural=[' . implode(',', $jsPluralsArray) . '];';
 
 		$storePath = $this->getPath($lang, $extension, $domain) . $this->ext;
 
@@ -232,34 +232,33 @@ class Php extends Storage\File
 
 		include $path;
 
-		$store = new Store;
-
-		$store->set('langPath', $langPath);
-		$store->set('cachePath', $path);
+		$store = (new Store)
+			->setLangPath($langPath)
+			->setCachePath($path);
 
 		if (isset($info['pluralForms']))
 		{
-			$store->set('pluralForms', $info['pluralForms']);
+			$store->setPluralForms($info['pluralForms']);
 		}
 
 		if (!empty($strings))
 		{
-			$store->set('strings', $strings);
+			$store->setStrings($strings);
 		}
 
 		if (!empty($stringsPlural))
 		{
-			$store->set('stringsPlural', $stringsPlural);
+			$store->setStringsPlural($stringsPlural);
 		}
 
 		if (!empty($stringsJs))
 		{
-			$store->set('stringsJs', $stringsJs);
+			$store->setStringsJs($stringsJs);
 		}
 
 		if (!empty($stringsJsPlural))
 		{
-			$store->set('stringsJsPlural', $stringsJsPlural);
+			$store->setStringsJsPlural($stringsJsPlural);
 		}
 
 		return $store;

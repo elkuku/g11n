@@ -9,7 +9,6 @@ namespace ElKuKu\G11n;
 use ElKuKu\G11n\Language\Parser\Code;
 use ElKuKu\G11n\Language\Parser\Language;
 use ElKuKu\G11n\Language\Storage;
-use ElKuKu\G11n\Support\ExtensionHelper;
 
 require_once __DIR__ . '/Language/methods.php';
 
@@ -101,13 +100,6 @@ abstract class G11n
 	protected static $docType = '';
 
 	/**
-	 *  For debugging purpose
-	 *
-	 * @var array
-	 */
-	protected static $processedItems = [];
-
-	/**
 	 * This is for, well... debugging =;)
 	 *
 	 * @var boolean
@@ -127,6 +119,13 @@ abstract class G11n
 	 * @var array
 	 */
 	protected static $extensionsLoaded = [];
+
+	/**
+	 *  For debugging purpose
+	 *
+	 * @var array
+	 */
+	private static $processedItems = [];
 
 	/**
 	 * Provide access to everything we have inside ;).
@@ -182,13 +181,13 @@ abstract class G11n
 
 		$store = $handler->retrieve(self::$lang, $extension, $domain);
 
-		self::$strings       = array_merge(self::$strings, $store->get('strings'));
-		self::$stringsPlural = array_merge(self::$stringsPlural, $store->get('stringsPlural'));
+		self::$strings       = array_merge(self::$strings, $store->getStrings());
+		self::$stringsPlural = array_merge(self::$stringsPlural, $store->getStringsPlural());
 
-		self::setPluralFunction($store->get('pluralForms'));
+		self::setPluralFunction($store->getPluralForms());
 
-		self::$stringsJs       = array_merge(self::$stringsJs, $store->get('stringsJs'));
-		self::$stringsJsPlural = array_merge(self::$stringsJsPlural, $store->get('stringsJsPlural'));
+		self::$stringsJs       = array_merge(self::$stringsJs, $store->getStringsJs());
+		self::$stringsJsPlural = array_merge(self::$stringsJsPlural, $store->getStringsJsPlural());
 
 		if (self::$debug)
 		{
@@ -199,12 +198,12 @@ abstract class G11n
 					'Extension' => $extension,
 					'Ext'       => $inputType,
 					'Store'     => $storageType,
-					'$'         => \count($store->get('strings')),
-					'$n'        => \count($store->get('stringsPlural')),
-					'JS-$'      => \count($store->get('stringsJs')),
-					'JS-$n'     => \count($store->get('stringsJsPlural')),
-					'File'      => $store->get('langPath'),
-					'Cache'     => $store->get('cachePath')
+					'$'         => \count($store->getStrings()),
+					'$n'        => \count($store->getStringsPlural()),
+					'JS-$'      => \count($store->getStringsJs()),
+					'JS-$n'     => \count($store->getStringsJsPlural()),
+					'File'      => $store->getLangPath(),
+					'Cache'     => $store->getCachePath()
 				)
 			);
 		}
@@ -229,7 +228,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function setDefault($lang) : string
+	public static function setDefault(string $lang) : string
 	{
 		self::$defaultLang = $lang;
 
@@ -260,7 +259,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return string
 	 */
-	public static function setCurrent($lang) : string
+	public static function setCurrent(string $lang) : string
 	{
 		// @todo check if language "exists"
 		self::$lang = $lang;
@@ -276,7 +275,7 @@ abstract class G11n
 	 *
 	 * @return string Translated string or original if not found.
 	 */
-	public static function translate($original, array $parameters = []) : string
+	public static function translate(string $original, array $parameters = []) : string
 	{
 		if (self::$debug)
 		{
@@ -308,7 +307,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	private static function debugTranslate($original, array $parameters) : string
+	private static function debugTranslate(string $original, array $parameters) : string
 	{
 		$key = md5($original);
 
@@ -344,7 +343,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function translatePlural($singular, $plural, $count, array $parameters) : string
+	public static function translatePlural(string $singular, string $plural, int $count, array $parameters) : string
 	{
 		if (!self::$pluralFunction)
 		{
@@ -397,7 +396,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function cleanStorage($extension, $domain = '', $inputType = 'po', $storageType = 'file_php') : void
+	public static function cleanStorage(string $extension, $domain = '', string $inputType = 'po', string $storageType = 'file_php') : void
 	{
 		if (!self::$lang)
 		{
@@ -413,13 +412,13 @@ abstract class G11n
 	 *
 	 * Provided for 3pd use ore whatever..
 	 *
-	 * @param   boolean  $bool  Set true to turn the debugger on
+	 * @param   boolean $debug Set true to turn the debugger on
 	 *
 	 * @return void
 	 */
-	public static function setDebug($bool) : void
+	public static function setDebug(bool $debug) : void
 	{
-		self::$debug = (bool) $bool;
+		self::$debug = $debug;
 	}
 
 	/**
@@ -445,7 +444,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return \ElKuKu\G11n\Language\Parser\Code|\ElKuKu\G11n\Language\Parser\Language Parser of a specific type.
 	 */
-	public static function getParser($type, $name)
+	public static function getParser(string $type, string $name)
 	{
 		$class = '\\ElKuKu\G11n\\Language\\Parser\\' . ucfirst($type) . '\\' . ucfirst($name);
 
@@ -463,15 +462,15 @@ abstract class G11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param   string  $name  Parser type.
+	 * @param   string $type Parser type.
 	 *
 	 * @since  2.0
 	 * @throws G11nException
 	 * @return Code
 	 */
-	public static function getCodeParser($name) : Code
+	public static function getCodeParser(string $type) : Code
 	{
-		return self::getParser('code', $name);
+		return self::getParser('code', $type);
 	}
 
 	/**
@@ -480,60 +479,15 @@ abstract class G11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param   string  $name  Parser type.
+	 * @param   string $type Parser type.
 	 *
 	 * @since  2.0
 	 * @throws G11nException
 	 * @return Language
 	 */
-	public static function getLanguageParser(string $name) : Language
+	public static function getLanguageParser(string $type) : Language
 	{
-		return self::getParser('language', $name);
-	}
-
-	/**
-	 * Add a path to search for language files.
-	 *
-	 * @param   string  $domain  The domain name.
-	 * @param   string  $path    A path to search for language files.
-	 *
-	 * @deprecated Use ExtensionHelper::addDomainPath($domain, $path)
-	 *
-	 * @since  2.0
-	 * @return void
-	 */
-	public static function addDomainPath($domain, $path) : void
-	{
-		ExtensionHelper::addDomainPath($domain, $path);
-	}
-
-	/**
-	 * Set the cache directory.
-	 *
-	 * @param   string $path A valid path.
-	 *
-	 * @deprecated Use ExtensionHelper::setCacheDir($path)
-	 *
-	 * @since      2.0
-	 * @return void
-	 * @throws G11nException
-	 */
-	public static function setCacheDir($path) : void
-	{
-		ExtensionHelper::setCacheDir($path);
-	}
-
-	/**
-	 * Clean the cache directory.
-	 *
-	 * @deprecated Use ExtensionHelper::cleanCache()
-	 *
-	 * @since  2.1
-	 * @return void
-	 */
-	public static function cleanCache() : void
-	{
-		ExtensionHelper::cleanCache();
+		return self::getParser('language', $type);
 	}
 
 	/**
@@ -543,7 +497,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	protected static function setPluralFunction($pcrePluralForm) : void
+	protected static function setPluralFunction(string $pcrePluralForm) : void
 	{
 		if (!$pcrePluralForm || ';' === $pcrePluralForm)
 		{
@@ -620,7 +574,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	private static function process($string, array $parameters) : string
+	private static function process(string $string, array $parameters) : string
 	{
 		$string = base64_decode($string);
 
@@ -707,7 +661,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	private static function recordTranslated($string, $mode, $level = 3) : void
+	private static function recordTranslated(string $string, string $mode, int $level = 3) : void
 	{
 		// Already recorded
 		if (array_key_exists($string, self::$processedItems))
