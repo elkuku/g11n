@@ -22,7 +22,7 @@ At a very minimal do the following:
 1. Create a language file `de-DE.someExtension.po` (see screen shot)
 1. Create a `/cache` directory
 
-![files-1](https://user-images.githubusercontent.com/33978/41871475-aa2367a2-7884-11e8-8771-4cb5ae0e150f.png)
+![files-2](https://user-images.githubusercontent.com/33978/41873132-b88f4572-7889-11e8-92d3-d802d03e7e72.png)
 
 #### `test.php`
 
