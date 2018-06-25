@@ -18,8 +18,8 @@ At a very minimal do the following:
 1. Create a composer project
 1. Add the library
 1. Create a `/test.php` file at the root of your repository (for demo purpose)
-1. Create the directories `/languageDir/testExtension/g11n/de-DE`
-1. Create a language file `de-DE.testExtension.po` (see screen shot)
+1. Create the directories `/someDir/someExtension/g11n/de-DE`
+1. Create a language file `de-DE.someExtension.po` (see screen shot)
 1. Create a `/cache` directory
 
 ![files-1](https://user-images.githubusercontent.com/33978/41871475-aa2367a2-7884-11e8-8771-4cb5ae0e150f.png)
@@ -38,15 +38,15 @@ use ElKuKu\G11n\Support\ExtensionHelper;
 include 'vendor/autoload.php';
 
 ExtensionHelper::setCacheDir('cache');
-ExtensionHelper::addDomainPath('someName', 'languageDir');
+ExtensionHelper::addDomainPath('someName', 'someDir');
 
 G11n::setCurrent('de-DE');
-G11n::loadLanguage('testExtension', 'someName');
+G11n::loadLanguage('someExtension', 'someName');
 
 echo g11n3t('Hello test');
 ```
 
-#### `de-DE.testExtension.po`
+#### `de-DE.someExtension.po`
 
 ```po
 msgid ""
@@ -57,7 +57,12 @@ msgid "Hello test"
 msgstr "Hallo Test"
 ```
 
-Run the script.<br />
+Run the script.
+
+```
+$ ./test.php
+Hallo Test
+```
 The output should be: `Hallo Test`
 
 **Note** that language files will be parsed and cached, so you have to run the command
