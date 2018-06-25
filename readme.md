@@ -17,12 +17,15 @@ At a very minimal do the following:
 
 1. Create a composer project
 1. Add the library
-1. Create a `test.php` at the root of your repository (for demo purpose)
+1. Create a `/test.php` file at the root of your repository (for demo purpose)
+1. Create the directories `/languageDir/testExtension/g11n/de-DE`
 1. Create a language file `de-DE.testExtension.po` (see screen shot)
+1. Create a `/cache` directory
 
-![2016-07-16-175321_1366x768_scrot](https://cloud.githubusercontent.com/assets/33978/16897693/bcf573dc-4b7e-11e6-8a4e-999349e1bb3f.png)
+![files-1](https://user-images.githubusercontent.com/33978/41871475-aa2367a2-7884-11e8-8771-4cb5ae0e150f.png)
 
-`test.php`
+#### `test.php`
+
 ```php
 #!/usr/bin/env php
 <?php
@@ -43,7 +46,8 @@ G11n::loadLanguage('testExtension', 'someName');
 echo g11n3t('Hello test');
 ```
 
-`de-DE.testExtension.po`
+#### `de-DE.testExtension.po`
+
 ```po
 msgid ""
 msgstr ""
