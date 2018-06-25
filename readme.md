@@ -8,11 +8,8 @@ The G11n language library brings multilanguage functionality for "small to mid-s
 
 The library is installed using [Composer](http://getcomposer.org/)
 
-```
-"require": {
-	"elkuku/g11n": "3.*"
-}
-```
+
+    composer require elkuku/g11n
 
 ## Usage example
 
