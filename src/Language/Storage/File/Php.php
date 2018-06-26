@@ -129,7 +129,7 @@ class Php extends Storage\File
 				$key = md5($key);
 				$ps  = [];
 
-				foreach ($plurals as $keyP => $plural)
+				foreach ($plurals->forms as $keyP => $plural)
 				{
 					$value = base64_encode($plural);
 					$ps[]  = "'" . $keyP . "'=>'" . $value . "'";
