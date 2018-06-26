@@ -550,18 +550,15 @@ abstract class G11n
 	{
 		$js   = [];
 
-		$js[] = '<!--';
 		$js[] = '/* JavaScript translations */';
-		$js[] = 'g11n.debug = \'' . self::$debug . '\'';
+		$js[] = 'g11n.debug = \'' . self::$debug . '\';';
 		$js[] = 'g11n.loadLanguageStrings(' . json_encode(self::$stringsJs) . ');';
 
 		if (self::$pluralFunctionJsStr)
 		{
 			$js[] = 'g11n.loadPluralStrings(' . json_encode(self::$stringsJsPlural) . ');';
-			$js[] = 'g11n.setPluralFunction(' . self::$pluralFunctionJsStr . ')';
+			$js[] = 'g11n.setPluralFunction(' . self::$pluralFunctionJsStr . ');';
 		}
-
-		$js[] = '-->';
 
 		return implode("\n", $js);
 	}
