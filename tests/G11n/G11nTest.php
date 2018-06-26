@@ -287,13 +287,11 @@ class G11nTest extends TestCase
 	 */
 	public function testGetJavaScript()
 	{
-		$js = "<!--
-/* JavaScript translations */
-g11n.debug = ''
+		$js = "/* JavaScript translations */
+g11n.debug = '';
 g11n.loadLanguageStrings([]);
 g11n.loadPluralStrings([]);
-g11n.setPluralFunction(phpjs.create_function('n', 'plural = ((n != 1)); return (plural <= 2)? plural : plural - 1;'))
--->";
+g11n.setPluralFunction(phpjs.create_function('n', 'plural = ((n != 1)); return (plural <= 2)? plural : plural - 1;'));";
 		$this->assertThat(
 			G11n::getJavaScript(),
 			$this->equalTo($js)
