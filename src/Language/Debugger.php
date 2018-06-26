@@ -37,21 +37,11 @@ abstract class Debugger
 
 		$items = G11n::get('processedItems');
 
-		if ($untranslatedOnly)
-		{
-			self::drawDesignTable();
-		}
-
-		/*
-		 * Develop
-		 */
-		echo '<table class="adminlist">';
+		echo '<table>';
 		echo '<tr>';
 		echo '<th>Status</th><th>String</th><th>Args</th><th>File (line)</th>';
 
-		$k = 0;
-
-		foreach ($items as $string => $item)
+		foreach ($items as $item)
 		{
 			switch ($item->status)
 			{
@@ -72,30 +62,41 @@ abstract class Debugger
 				continue;
 			}
 
-			echo '<tr class="row' . $k . '">';
+			echo '<tr>';
 			echo '<td style="' . $col . '">' . $item->status . '</td>';
-			echo '<td>' . htmlentities($string) . '</td>';
+			echo '<td>' . htmlentities($item->string) . '</td>';
 			echo '<td>';
 
-			if (\count($item->args) > 1)
+			switch (\count($item->args))
 			{
-				foreach ($item->args as $i => $arg)
-				{
-					// Skip first element
-					if (!$i)
-					{
-						continue;
-					}
+				case 1:
+					break;
 
-					echo $arg . '<br />';
-				}
+				case 2:
+					if (is_array($item->args[1]))
+					{
+						foreach ($item->args[1] as $k => $v)
+						{
+							echo "$k => $v <br>";
+						}
+					}
+					else
+					{
+						echo $item->args[1];
+					}
+					break;
+
+				case 3:
+					echo $item->args[2];
+					break;
+
+				default:
+					dump($item->args);
 			}
 
 			echo '</td>';
 			echo '<td>' . $item->file . ' (' . $item->line . ')</td>';
 			echo '</tr>';
-
-			$k = 1 - $k;
 		}
 
 		echo '</table>';
@@ -108,7 +109,7 @@ abstract class Debugger
 	 *
 	 * @deprecated
 	 */
-	private static function drawDesignTable() : void
+	public static function drawDesignTable() : void
 	{
 		$items = G11n::get('processedItems');
 		$file  = '';
@@ -142,6 +143,6 @@ abstract class Debugger
 
 		echo $count
 			? sprintf('<h3>Found <b>%d</b> untranslated items</h3>', $count)
-			: '<h3 style="color: green;">Everything\'s translated <tt>=:)</tt></h3>';
+			: '<h3 style="color: green;">Everything\'s translated <code>=:)</code></h3>';
 	}
 }

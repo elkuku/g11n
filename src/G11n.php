@@ -660,13 +660,8 @@ abstract class G11n
 	 */
 	private static function recordTranslated(string $string, string $mode, int $level = 3) : void
 	{
-		// Already recorded
-		if (array_key_exists($string, self::$processedItems))
-		{
-			return;
-		}
-
 		$info           = new \stdClass;
+		$info->string   = $string;
 		$info->status   = $mode;
 		$info->file     = '';
 		$info->line     = 0;
@@ -690,7 +685,7 @@ abstract class G11n
 			$info->args     = $trace['args'];
 		}
 
-		self::$processedItems[$string] = $info;
+		self::$processedItems[] = $info;
 	}
 
 	/**
