@@ -92,14 +92,6 @@ abstract class G11n
 	protected static $pluralFunctionJsStr = '';
 
 	/**
-	 * The type of the document to be rendered. E.g. html, json, console, etc.
-	 * According to the doctype \n will be converted to <br /> - or not.
-	 *
-	 * @var string
-	 */
-	protected static $docType = '';
-
-	/**
 	 * This is for, well... debugging =;)
 	 *
 	 * @var boolean
@@ -170,11 +162,6 @@ abstract class G11n
 		if (!self::$lang)
 		{
 			self::detectLanguage();
-		}
-
-		if (!self::$docType)
-		{
-			self::detectDocType();
 		}
 
 		$handler = Storage::getHandler($inputType, $storageType);
@@ -284,16 +271,9 @@ abstract class G11n
 
 		$key = md5($original);
 
-		// Translation found
 		if (isset(self::$strings[$key]) && self::$strings[$key])
 		{
 			return self::process(self::$strings[$key], $parameters);
-		}
-
-		// No translation found !
-		if ('html' === self::$docType)
-		{
-			$original = str_replace(array("\n", "\\n"), '<br />', $original);
 		}
 
 		return $parameters ? strtr($original, $parameters) : $original;
@@ -313,20 +293,12 @@ abstract class G11n
 
 		if (isset(self::$strings[$key]) && self::$strings[$key])
 		{
-			// Translation found
 			self::recordTranslated($original, '+');
 
 			return sprintf('+-%s-+', self::process(self::$strings[$key], $parameters));
 		}
 
-		// No translation found !
-
 		self::recordTranslated($original, '-');
-
-		if ('html' === self::$docType)
-		{
-			$original = str_replace(array("\n", "\\n"), '<br />', $original);
-		}
 
 		$original = $parameters ? strtr($original, $parameters) : $original;
 
@@ -575,11 +547,6 @@ abstract class G11n
 	{
 		$string = base64_decode($string);
 
-		if ('html' === self::$docType)
-		{
-			$string = str_replace(array("\n", '\n'), '<br />', $string);
-		}
-
 		if ($parameters)
 		{
 			$string = strtr($string, $parameters);
@@ -626,27 +593,6 @@ abstract class G11n
 
 		// Nothing found. Fall back to the default language.
 		self::$lang = self::$lang ?: self::$defaultLang;
-	}
-
-	/**
-	 * Try to detect the current document type.
-	 *
-	 * This is done with a little help .. from JFactory::getLanguage()
-	 *
-	 * @throws G11nException
-	 * @return void
-	 */
-	private static function detectDocType() : void
-	{
-		// @todo hard set to HTML
-
-		// JFactory::getDocument()->getType();
-		self::$docType = 'html';
-
-		if (!self::$docType)
-		{
-			throw new G11nException('Unable to detect the document type :(');
-		}
 	}
 
 	/**
