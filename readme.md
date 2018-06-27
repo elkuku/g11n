@@ -10,7 +10,7 @@ The G11n language library brings multilanguage functionality for "small to mid-s
 
 ## Documentation
 
-See the [Project Wiki}(https://github.com/elkuku/g11n/wiki)
+See the [Project Wiki](https://github.com/elkuku/g11n/wiki)
 
 ## Use cases
 
