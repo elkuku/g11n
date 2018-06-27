@@ -15,4 +15,4 @@ See the [Project Wiki](https://github.com/elkuku/g11n/wiki)
 ## Use cases
 
 * The Joomla! Tracker Application - https://github.com/joomla/jissues
-    * There is also some documentation: https://github.com/joomla/jissues/blob/master/Documentation/Internationalisation/Localisation.md
+    * There is also some [documentation](https://github.com/joomla/jissues/blob/master/Documentation/Internationalisation/Localisation.md)
