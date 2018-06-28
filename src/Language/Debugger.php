@@ -70,27 +70,26 @@ abstract class Debugger
 			switch (\count($item->args))
 			{
 				case 1:
+					// Simple translation
 					break;
 
 				case 2:
-					if (is_array($item->args[1]))
-					{
-						foreach ($item->args[1] as $k => $v)
-						{
-							echo "$k => $v <br>";
-						}
-					}
-					else
-					{
-						echo $item->args[1];
-					}
+					// Translation with parameters
+					dump($item->args[1]);
 					break;
 
 				case 3:
-					echo $item->args[2];
+					// Plural translation
+					dump($item->args[2]);
+					break;
+
+				case 4:
+					// Plural translation with parameters
+					dump([$item->args[2], $item->args[3]]);
 					break;
 
 				default:
+					// Other ??
 					dump($item->args);
 			}
 
