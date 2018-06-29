@@ -139,7 +139,7 @@ abstract class Storage
 
 		$extensionDir = ExtensionHelper::getExtensionPath($extension);
 
-		return "$base/$extensionDir/{" . ExtensionHelper::$langDirName . "/templates/$fileName";
+		return "$base/$extensionDir/" . ExtensionHelper::$langDirName . "/templates/$fileName";
 	}
 
 	/**
