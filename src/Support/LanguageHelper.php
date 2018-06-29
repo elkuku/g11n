@@ -56,7 +56,7 @@ abstract class LanguageHelper
 	 */
 	public static function getLanguageCodes()
 	{
-		return array_keys(self::$languages);
+		return array_keys(static::$languages);
 	}
 
 	/**
@@ -66,7 +66,7 @@ abstract class LanguageHelper
 	 */
 	public static function getLanguages()
 	{
-		return self::$languages;
+		return static::$languages;
 	}
 
 	/**
@@ -77,7 +77,7 @@ abstract class LanguageHelper
 	 */
 	public static function getLanguagesSortedByDisplayName()
 	{
-		$languages = self::$languages;
+		$languages = static::$languages;
 
 		uasort(
 			$languages, function ($a, $b) {
