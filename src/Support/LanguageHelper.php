@@ -16,7 +16,7 @@ class LanguageHelper
 	 *
 	 * @var array
 	 */
-	private static $languages = [];
+	protected static $languages = [];
 
 	/**
 	 * Get the defined direction for a language.
