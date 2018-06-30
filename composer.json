@@ -10,6 +10,8 @@
   ],
   "require": {
     "php": ">=7.1",
+    "ext-pcre": "*",
+    "ext-json": "*",
     "league/flysystem": "1.*",
     "symfony/var-dumper": "^4.1"
   },
