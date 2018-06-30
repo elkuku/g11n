@@ -27,7 +27,7 @@ abstract class LanguageHelper
 	 *
 	 * @return string 'ltr' or 'rtl'. Defaults to 'ltr'
 	 */
-	public static function getDirection($languageCode)
+	public static function getDirection(string $languageCode): string
 	{
 		if (array_key_exists($languageCode, static::$languages))
 		{
@@ -44,7 +44,7 @@ abstract class LanguageHelper
 	 *
 	 * @return string
 	 */
-	public static function getLanguageTagByCode($languageCode)
+	public static function getLanguageTagByCode(string $languageCode): string
 	{
 		return array_key_exists($languageCode, static::$languages) ? static::$languages[$languageCode]['iso'] : '';
 	}
@@ -54,7 +54,7 @@ abstract class LanguageHelper
 	 *
 	 * @return array
 	 */
-	public static function getLanguageCodes()
+	public static function getLanguageCodes(): array
 	{
 		return array_keys(static::$languages);
 	}
@@ -64,7 +64,7 @@ abstract class LanguageHelper
 	 *
 	 * @return array
 	 */
-	public static function getLanguages()
+	public static function getLanguages(): array
 	{
 		return static::$languages;
 	}
@@ -75,7 +75,7 @@ abstract class LanguageHelper
 	 *
 	 * @return array
 	 */
-	public static function getLanguagesSortedByDisplayName()
+	public static function getLanguagesSortedByDisplayName(): array
 	{
 		$languages = static::$languages;
 
