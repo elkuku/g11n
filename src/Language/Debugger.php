@@ -103,7 +103,12 @@ abstract class Debugger
 		echo '</table>';
 	}
 
-	public static function debugPrintEvents()
+	/**
+	 * Print loaded language files.
+	 *
+	 * @return void
+	 */
+	public static function debugPrintEvents(): void
 	{
 		$events = G11n::getEvents();
 
@@ -112,31 +117,37 @@ abstract class Debugger
 			echo '<h3>No events recorded.</h3>';
 		}
 
-
 		echo '<h2 class="g11n-debug-table">Events</h2>';
 
 		echo '<table class="g11n-debug-table">';
 		echo '<tr>';
+
 		foreach ($events[0] as $key => $event)
 		{
 			echo "<th>$key</th>";
 		}
+
 		echo '</tr>';
+
 		foreach ($events as $event)
 		{
 			echo '<tr>';
 
 			foreach ($event as $e)
 			{
-
 				echo "<td>$e</td>";
 			}
+
 			echo '</tr>';
 		}
+
 		echo '</table>';
 
 	}
 
+	/**
+	 * @return string
+	 */
 	private static function getCSS(): string
 	{
 		$css = [];
