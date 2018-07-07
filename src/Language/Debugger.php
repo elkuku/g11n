@@ -33,11 +33,13 @@ abstract class Debugger
 
 		$title = $untranslatedOnly ? 'Untranslated strings' : 'All strings';
 
-		echo '<h2>' . $title . '</h2>';
+		echo self::getCSS();
+
+		echo '<h2 class="g11n-debug-table">' . $title . '</h2>';
 
 		$items = G11n::get('processedItems');
 
-		echo '<table>';
+		echo '<table class="g11n-debug-table">';
 		echo '<tr>';
 		echo '<th>Status</th><th>String</th><th>Args</th><th>File (line)</th>';
 
@@ -99,6 +101,52 @@ abstract class Debugger
 		}
 
 		echo '</table>';
+	}
+
+	public static function debugPrintEvents()
+	{
+		$events = G11n::getEvents();
+
+		if (!$events)
+		{
+			echo '<h3>No events recorded.</h3>';
+		}
+
+
+		echo '<h2 class="g11n-debug-table">Events</h2>';
+
+		echo '<table class="g11n-debug-table">';
+		echo '<tr>';
+		foreach ($events[0] as $key => $event)
+		{
+			echo "<th>$key</th>";
+		}
+		echo '</tr>';
+		foreach ($events as $event)
+		{
+			echo '<tr>';
+
+			foreach ($event as $e)
+			{
+
+				echo "<td>$e</td>";
+			}
+			echo '</tr>';
+		}
+		echo '</table>';
+
+	}
+
+	private static function getCSS(): string
+	{
+		$css = [];
+
+		$css[] = '<style>';
+		$css[] = '.g11n-debug-table{background-color: #333; color: lime; font-family: monospace; width: 100%}';
+		$css[] = '';
+		$css[] = '</style>';
+
+		return implode('', $css);
 	}
 
 	/**
