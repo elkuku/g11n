@@ -131,7 +131,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function loadLanguage(string $extension, string $domain = 'default', string $inputType = 'po',
+	public static function loadLanguage(string $extension = 'default', string $domain = 'default', string $inputType = 'po',
 		string $storageType = 'file_php'
 	): void
 	{

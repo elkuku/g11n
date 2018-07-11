@@ -309,7 +309,7 @@ abstract class ExtensionHelper
 	 * @return array
 	 * @throws G11nException
 	 */
-	public static function getLanguages(string $extension, string $domain = 'default'): array
+	public static function getLanguages(string $extension = 'default', string $domain = 'default'): array
 	{
 		$root = self::getDomainPath($domain);
 		$path = self::getExtensionLanguagePath($extension);
