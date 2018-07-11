@@ -37,5 +37,8 @@
     ],
     "phpcs": "vendor/bin/phpcs src tests --standard=ruleset.xml",
     "test": "vendor/bin/phpunit"
+  },
+  "config": {
+    "sort-packages": true
   }
 }
