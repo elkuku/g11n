@@ -11,6 +11,9 @@
 
     <rule ref="Joomla">
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+
+        <exclude name="Joomla.Commenting.FunctionComment.MissingParamComment"/>
+        <exclude name="Joomla.Commenting.FunctionComment.BeforeParamType"/>
     </rule>
 
     <rule ref="Joomla.Classes.InstantiateNewClasses">
