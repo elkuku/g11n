@@ -82,31 +82,6 @@ class G11nTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testGetsomething()
-	{
-		$this->assertThat(
-			G11n::get('lang'),
-			$this->equalTo('xx-XX')
-		);
-	}
-
-	/**
-	 * Test method.
-	 *
-	 * @expectedException \UnexpectedValueException
-	 *
-	 * @return void
-	 */
-	public function testGetsomethingInvalid()
-	{
-		G11n::get('somethingInvalid');
-	}
-
-	/**
-	 * Test method.
-	 *
-	 * @return void
-	 */
 	public function testParams()
 	{
 		$this->assertThat(
