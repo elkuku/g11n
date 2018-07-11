@@ -9,6 +9,7 @@ namespace ElKuKu\G11n;
 use ElKuKu\G11n\Language\Parser\Code;
 use ElKuKu\G11n\Language\Parser\Language;
 use ElKuKu\G11n\Language\Storage;
+use ElKuKu\G11n\Support\ExtensionHelper;
 
 require_once __DIR__ . '/Language/methods.php';
 
@@ -120,37 +121,19 @@ abstract class G11n
 	private static $processedItems = [];
 
 	/**
-	 * Provide access to everything we have inside ;).
-	 *
-	 * Provided for 3pd use or whatever..
-	 *
-	 * @param   string  $property  Property name
-	 *
-	 * @throws \UnexpectedValueException
-	 * @return mixed
-	 */
-	public static function get(string $property)
-	{
-		if (isset(self::$$property))
-		{
-			return self::$$property;
-		}
-
-		throw new \UnexpectedValueException('Undefined property ' . __CLASS__ . '::' . $property);
-	}
-
-	/**
 	 * Load the language.
 	 *
-	 * @param   string  $extension    E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   string  $domain       The language domain.
-	 * @param   string  $inputType    The input type e.g. "ini" or "po"
-	 * @param   string  $storageType  The store type - e.g. 'file_php'
+	 * @param   string $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   string $domain      The language domain.
+	 * @param   string $inputType   The input type e.g. "ini" or "po"
+	 * @param   string $storageType The store type - e.g. 'file_php'
 	 *
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function loadLanguage(string $extension, string $domain, string $inputType = 'po', string $storageType = 'file_php') : void
+	public static function loadLanguage(string $extension, string $domain = 'default', string $inputType = 'po',
+		string $storageType = 'file_php'
+	): void
 	{
 		$key = $extension . '.' . $domain;
 
@@ -203,7 +186,7 @@ abstract class G11n
 	 *
 	 * @return string
 	 */
-	public static function getDefault() : string
+	public static function getDefault(): string
 	{
 		return self::$defaultLang;
 	}
@@ -211,11 +194,11 @@ abstract class G11n
 	/**
 	 * Set the default language tag.
 	 *
-	 * @param   string  $lang  The language tag.
+	 * @param   string $lang The language tag.
 	 *
 	 * @return string
 	 */
-	public static function setDefault(string $lang) : string
+	public static function setDefault(string $lang): string
 	{
 		self::$defaultLang = $lang;
 
@@ -228,7 +211,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return string
 	 */
-	public static function getCurrent() : string
+	public static function getCurrent(): string
 	{
 		if (!self::$lang)
 		{
@@ -241,12 +224,12 @@ abstract class G11n
 	/**
 	 * Set the current language.
 	 *
-	 * @param   string  $lang  The language tag.
+	 * @param   string $lang The language tag.
 	 *
 	 * @since  2.0
 	 * @return string
 	 */
-	public static function setCurrent(string $lang) : string
+	public static function setCurrent(string $lang): string
 	{
 		// @todo check if language "exists"
 		self::$lang = $lang;
@@ -255,14 +238,22 @@ abstract class G11n
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public static function isDebug(): bool
+	{
+		return self::$debug;
+	}
+
+	/**
 	 * Try to translate a string.
 	 *
-	 * @param   string  $original    The string to translate.
-	 * @param   array   $parameters  Replacement parameters.
+	 * @param   string $original   The string to translate.
+	 * @param   array  $parameters Replacement parameters.
 	 *
 	 * @return string Translated string or original if not found.
 	 */
-	public static function translate(string $original, array $parameters = []) : string
+	public static function translate(string $original, array $parameters = []): string
 	{
 		if (self::$debug)
 		{
@@ -282,12 +273,12 @@ abstract class G11n
 	/**
 	 * Translation in debug mode.
 	 *
-	 * @param   string  $original    Original string to be translated
-	 * @param   array   $parameters  Replacement parameters.
+	 * @param   string $original   Original string to be translated
+	 * @param   array  $parameters Replacement parameters.
 	 *
 	 * @return string
 	 */
-	private static function debugTranslate(string $original, array $parameters) : string
+	private static function debugTranslate(string $original, array $parameters): string
 	{
 		$key = md5($original);
 
@@ -308,14 +299,14 @@ abstract class G11n
 	/**
 	 * Try to translate a plural string.
 	 *
-	 * @param   string   $singular    Singular form
-	 * @param   string   $plural      Plural form
-	 * @param   integer  $count       How many times..
-	 * @param   array    $parameters  Replacement parameters.
+	 * @param   string  $singular   Singular form
+	 * @param   string  $plural     Plural form
+	 * @param   integer $count      How many times..
+	 * @param   array   $parameters Replacement parameters.
 	 *
 	 * @return string
 	 */
-	public static function translatePlural(string $singular, string $plural, int $count, array $parameters) : string
+	public static function translatePlural(string $singular, string $plural, int $count, array $parameters): string
 	{
 		if (!self::$pluralFunction)
 		{
@@ -360,15 +351,15 @@ abstract class G11n
 	/**
 	 * Clean the storage device.
 	 *
-	 * @param   string       $extension    E.g. joomla, com_weblinks, com_easycreator etc.
-	 * @param   bool|string  $domain       Set true for administrator
-	 * @param   string       $inputType    The input type e.g. "ini" or "po"
-	 * @param   string       $storageType  The story type
+	 * @param   string      $extension   E.g. joomla, com_weblinks, com_easycreator etc.
+	 * @param   bool|string $domain      Set true for administrator
+	 * @param   string      $inputType   The input type e.g. "ini" or "po"
+	 * @param   string      $storageType The story type
 	 *
 	 * @throws G11nException
 	 * @return void
 	 */
-	public static function cleanStorage(string $extension, $domain = '', string $inputType = 'po', string $storageType = 'file_php') : void
+	public static function cleanStorage(string $extension, $domain = '', string $inputType = 'po', string $storageType = 'file_php'): void
 	{
 		if (!self::$lang)
 		{
@@ -388,7 +379,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	public static function setDebug(bool $debug) : void
+	public static function setDebug(bool $debug): void
 	{
 		self::$debug = $debug;
 	}
@@ -399,7 +390,7 @@ abstract class G11n
 	 * @since  2.0
 	 * @return array
 	 */
-	public static function getEvents() : array
+	public static function getEvents(): array
 	{
 		return self::$events;
 	}
@@ -410,8 +401,8 @@ abstract class G11n
 	 * You may use this function for manipulation of language files.
 	 * Parsers support parsing and generating language files.
 	 *
-	 * @param   string  $type  Parser type
-	 * @param   string  $name  Parser name
+	 * @param   string $type Parser type
+	 * @param   string $name Parser name
 	 *
 	 * @throws G11nException
 	 * @return \ElKuKu\G11n\Language\Parser\Code|\ElKuKu\G11n\Language\Parser\Language Parser of a specific type.
@@ -440,7 +431,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return Code
 	 */
-	public static function getCodeParser(string $type) : Code
+	public static function getCodeParser(string $type): Code
 	{
 		return self::getParser('code', $type);
 	}
@@ -457,7 +448,7 @@ abstract class G11n
 	 * @throws G11nException
 	 * @return Language
 	 */
-	public static function getLanguageParser(string $type) : Language
+	public static function getLanguageParser(string $type): Language
 	{
 		return self::getParser('language', $type);
 	}
@@ -465,11 +456,11 @@ abstract class G11n
 	/**
 	 * Set a plural function.
 	 *
-	 * @param   string  $pcrePluralForm  The PCRE plural form to be parsed.
+	 * @param   string $pcrePluralForm The PCRE plural form to be parsed.
 	 *
 	 * @return void
 	 */
-	protected static function setPluralFunction(string $pcrePluralForm) : void
+	protected static function setPluralFunction(string $pcrePluralForm): void
 	{
 		if (!$pcrePluralForm || ';' === $pcrePluralForm)
 		{
@@ -495,15 +486,14 @@ abstract class G11n
 
 		self::$pluralForms = $nplurals;
 
-		self::$pluralFunction = function ($n) use ($nplurals, $PHPexpression)
-		{
+		self::$pluralFunction = function ($n) use ($nplurals, $PHPexpression) {
 			// This is a foo line...
 			$plural = $n;
 
 			// Note: eval is evil...
 			eval('$plural = ' . $PHPexpression . ';');
 
-			return ($plural <= $nplurals ) ? $plural : $plural - 1;
+			return ($plural <= $nplurals) ? $plural : $plural - 1;
 		};
 
 		self::$pluralFunctionRaw = $expression;
@@ -518,9 +508,9 @@ abstract class G11n
 	 *
 	 * @since  2.1
 	 */
-	public static function getJavaScript() : string
+	public static function getJavaScript(): string
 	{
-		$js   = [];
+		$js = [];
 
 		$js[] = '/* JavaScript translations */';
 		$js[] = 'g11n.debug = \'' . self::$debug . '\';';
@@ -538,12 +528,12 @@ abstract class G11n
 	/**
 	 * Processes the final translation. Decoding and converting \n to <br /> if necessary.
 	 *
-	 * @param   string  $string      The string to process
-	 * @param   array   $parameters  Replacement parameters.
+	 * @param   string $string     The string to process
+	 * @param   array  $parameters Replacement parameters.
 	 *
 	 * @return string
 	 */
-	private static function process(string $string, array $parameters) : string
+	private static function process(string $string, array $parameters): string
 	{
 		$string = base64_decode($string);
 
@@ -560,7 +550,7 @@ abstract class G11n
 	 *
 	 * @return void
 	 */
-	private static function detectLanguage() : void
+	private static function detectLanguage(): void
 	{
 		// Get the environment language
 		$envLang = getenv('LANG');
@@ -598,13 +588,13 @@ abstract class G11n
 	/**
 	 * Record translated and untranslated strings.
 	 *
-	 * @param   string   $string  The string to record
-	 * @param   string   $mode    Parsing mode strict/legacy
-	 * @param   integer  $level   The level where the function has been called (A GUESS !)
+	 * @param   string  $string The string to record
+	 * @param   string  $mode   Parsing mode strict/legacy
+	 * @param   integer $level  The level where the function has been called (A GUESS !)
 	 *
 	 * @return void
 	 */
-	private static function recordTranslated(string $string, string $mode, int $level = 3) : void
+	private static function recordTranslated(string $string, string $mode, int $level = 3): void
 	{
 		$info           = new \stdClass;
 		$info->string   = $string;
@@ -639,11 +629,11 @@ abstract class G11n
 	 *
 	 * Accepts multiple arguments
 	 *
-	 * @param   array  $event  The event.
+	 * @param   array $event The event.
 	 *
 	 * @return void
 	 */
-	private static function logEvent(array $event) : void
+	private static function logEvent(array $event): void
 	{
 		$e = new \stdClass;
 
@@ -653,5 +643,13 @@ abstract class G11n
 		}
 
 		self::$events[] = $e;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getProcessedItems(): array
+	{
+		return self::$processedItems;
 	}
 }

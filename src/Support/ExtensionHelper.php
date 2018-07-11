@@ -191,6 +191,16 @@ abstract class ExtensionHelper
 	}
 
 	/**
+	 * Get registered domain paths.
+	 *
+	 * @return array
+	 */
+	public static function getDomainPaths(): array
+	{
+		return self::$domainPaths;
+	}
+
+	/**
 	 * Searches the system for language files.
 	 *
 	 * @param   string $lang      Language
@@ -267,6 +277,18 @@ abstract class ExtensionHelper
 	}
 
 	/**
+	 * Set the default domain path.
+	 *
+	 * @param string $path
+	 *
+	 * @return void
+	 */
+	public static function setDomainPath(string $path): void
+	{
+		self::addDomainPath('default', $path);
+	}
+
+	/**
 	 * Add a path to search for language files.
 	 *
 	 * @param   string  $domain  The domain name.
@@ -277,5 +299,33 @@ abstract class ExtensionHelper
 	public static function addDomainPath(string $domain, string $path) : void
 	{
 		self::$domainPaths[$domain] = $path;
+	}
+
+
+	/**
+	 * @param string $extension
+	 * @param string $domain
+	 *
+	 * @return array
+	 * @throws G11nException
+	 */
+	public static function getLanguages(string $extension, string $domain = 'default'): array
+	{
+		$root = self::getDomainPath($domain);
+		$path = self::getExtensionLanguagePath($extension);
+
+		$langs = [];
+
+		foreach (new \DirectoryIterator($root . '/' . $path) as $item)
+		{
+			if ($item->isDot())
+			{
+				continue;
+			}
+
+			$langs[] = $item->getFilename();
+		}
+
+		return $langs;
 	}
 }

@@ -24,7 +24,7 @@ abstract class Debugger
 	 */
 	public static function debugPrintTranslateds(bool $untranslatedOnly = false) : void
 	{
-		if (!G11n::get('debug'))
+		if (!G11n::isDebug())
 		{
 			echo 'Debugging is disabled<br />';
 
@@ -37,7 +37,7 @@ abstract class Debugger
 
 		echo '<h2 class="g11n-debug-table">' . $title . '</h2>';
 
-		$items = G11n::get('processedItems');
+		$items = G11n::getProcessedItems();
 
 		echo '<table class="g11n-debug-table">';
 		echo '<tr>';
@@ -169,7 +169,7 @@ abstract class Debugger
 	 */
 	public static function drawDesignTable() : void
 	{
-		$items = G11n::get('processedItems');
+		$items = G11n::getProcessedItems();
 		$file  = '';
 		$count = 0;
 
