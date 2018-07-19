@@ -9,7 +9,6 @@ namespace ElKuKu\G11n;
 use ElKuKu\G11n\Language\Parser\Code;
 use ElKuKu\G11n\Language\Parser\Language;
 use ElKuKu\G11n\Language\Storage;
-use ElKuKu\G11n\Support\ExtensionHelper;
 
 require_once __DIR__ . '/Language/methods.php';
 
@@ -91,6 +90,13 @@ abstract class G11n
 	 * @var string
 	 */
 	protected static $pluralFunctionJsStr = '';
+
+	/**
+	 * The pluralization function for Javascript as a raw string.
+	 *
+	 * @var string
+	 */
+	protected static $pluralFunctionJsStrRaw = '';
 
 	/**
 	 * This is for, well... debugging =;)
@@ -462,11 +468,6 @@ abstract class G11n
 	 */
 	protected static function setPluralFunction(string $pcrePluralForm): void
 	{
-		if (!$pcrePluralForm || ';' === $pcrePluralForm)
-		{
-			return;
-		}
-
 		if (preg_match("/nplurals\s*=\s*(\d+)\s*\;\s*plural\s*=\s*(.*?)\;+/", $pcrePluralForm, $matches))
 		{
 			$nplurals   = $matches[1];
@@ -499,6 +500,8 @@ abstract class G11n
 		self::$pluralFunctionRaw = $expression;
 
 		self::$pluralFunctionJsStr = "phpjs.create_function('n', '" . $jsFuncBody . "')";
+
+		self::$pluralFunctionJsStrRaw = $jsFuncBody;
 	}
 
 	/**
@@ -523,6 +526,25 @@ abstract class G11n
 		}
 
 		return implode("\n", $js);
+	}
+
+	/**
+	 * Get the JavaScript declaration in JSON format.
+	 *
+	 * @return  string
+	 *
+	 * @since  5.0.2
+	 */
+	public static function getJavaScriptJson(): string
+	{
+		$data = new \stdClass;
+
+		$data->debug = self::$debug;
+		$data->strings = self::$stringsJs;
+		$data->stringsPlural = self::$stringsJsPlural;
+		$data->pluralFunction = self::$pluralFunctionJsStrRaw;
+
+		return json_encode($data);
 	}
 
 	/**

@@ -151,7 +151,7 @@ abstract class Storage
 	 *
 	 * @return string pcre type PluralForms
 	 */
-	protected static function translatePluralForms(string $gettextPluralForms) : string
+	protected function translatePluralForms(string $gettextPluralForms) : string
 	{
 		$expr = $gettextPluralForms . ';';
 		$exprLen = \strlen($expr);
